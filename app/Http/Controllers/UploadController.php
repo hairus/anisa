@@ -6,12 +6,15 @@ use App\Imports\UploadsImport;
 use App\Jobs\UploadJobs;
 use App\Models\upload;
 use App\Models\User;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
+use Imtigger\LaravelJobStatus\JobStatus;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UploadController extends Controller
 {
+    use DispatchesJobs;
     /**
      * Display a listing of the resource.
      */
@@ -52,9 +55,22 @@ class UploadController extends Controller
         if ($cek) {
             upload::where('user_id', $user_id)->delete();
         }
-        $batch = Bus::batch([
-            new UploadJobs($user_id, $fileName)
-        ])->dispatch();
+
+        $job = new UploadJobs($user_id, $fileName);
+        $this->dispatch($job);
+        $jobStatusId = $job->getJobStatusId();
+
+        $jobStatus = JobStatus::where("id", $jobStatusId)->firstOrFail();
+
+        var_dump($jobStatus->job_id);
+        return $jobStatus;
+        // $batch = Bus::batch([
+        //     new UploadJobs($user_id, $fileName)
+        // ])->dispatch();
+
+        // for($x = 1; $x < 10; $x++){
+
+        // }
 
         // $import = new UploadsImport($user_id);
         // Excel::import($import, $path);
@@ -97,7 +113,7 @@ class UploadController extends Controller
         // Excel::import(new UploadsImport($user_id), $fileName);
         // unlink($path);
 
-        return $batch->id;
+        // return $batch->id;
     }
 
     /**
