@@ -1,0 +1,40 @@
+<?php
+
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EximController;
+use App\Http\Controllers\KabKotaController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RoleUserController;
+use App\Http\Controllers\SmasController;
+use App\Http\Controllers\SmpsController;
+use App\Http\Controllers\UploadController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
+|
+*/
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
+
+Route::resource('roles', RoleController::class)->middleware(['auth:sanctum', 'admin']);
+Route::resource('upload', UploadController::class)->middleware(['auth:sanctum', 'admin']);
+Route::resource('exim', EximController::class)->middleware('auth:sanctum');
+Route::resource('roleUsers', RoleUserController::class)->middleware('auth:sanctum');
+Route::resource('smps', SmpsController::class);
+Route::resource('smas', SmasController::class);
+Route::resource('kabs', KabKotaController::class);
+// Route::get('roleUsers1', [RoleUserController::class, 'index']);
+// Route::get('/download', [EximController::class, 'index'])->middleware('auth:sanctum');
