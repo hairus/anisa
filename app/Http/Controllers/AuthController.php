@@ -10,9 +10,11 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::attempt(['password' => $request->password, 'username' => $request->username])) {
 
             $user = Auth::user();
+
+//            $user = auth()->guard('api');
 
             $success['token'] =  $user->createToken('MyApp')->plainTextToken;
 

@@ -104,15 +104,15 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Nis</th>
-                                        <th>nilai</th>
+                                        <th>Rerata</th>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(siswa, index) in siswas" :key="siswa.id">
-                                            <td>{{ index + 1 }}</td>
-                                            <td>{{ siswa.name }}</td>
-                                            <td>{{ siswa.nis }}</td>
-                                            <td>{{ siswa.nilai }}</td>
-                                        </tr>
+                                    <tr v-for="(siswa, index) in siswas" :key="siswa.id">
+                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ siswa.name }}</td>
+                                        <td>{{ siswa.nisn }}</td>
+                                        <td>{{ siswa.nilai.nilai }}</td>
+                                    </tr>
                                     </tbody>
                                     total siswa = {{ total }}
                                 </table>
@@ -170,7 +170,11 @@ export default {
 
                 })
                 .catch(e => {
-                    this.errors = e.response.data['message']
+                    if(e.response.status == 403){
+                        this.errors = "tidak hak akses untuk anda";
+                    }else{
+                        this.errors = e.response.data['message']
+                    }
                 })
         },
         getData() {

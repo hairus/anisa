@@ -110,7 +110,7 @@
             <li class="nav-item">
                 <RouterLink class="nav-link" to="/op/home">
                     <span class="menu-title">
-                        Upload
+                        Home
                     </span>
                     <i class="mdi mdi-contacts menu-icon"></i>
                 </RouterLink>

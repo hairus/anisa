@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Imports\SiswaImport;
 use App\Imports\UploadsImport;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
@@ -35,12 +36,13 @@ class UploadJobs implements ShouldQueue
 
         $this->setProgressMax(1);
 
-        $gg = Excel::import(new UploadsImport($this->user_id), "public/excel/".$this->file);
+        Excel::import(new SiswaImport($this->user_id), "public/excel/".$this->file);
 
-        unlink('public/excel/'.$this->file);
+        // unlink('public/excel/'.$this->file);
 
         $this->setProgressNow(1);
+        $this->setInput(['user_id => '.$this->user_id, 'fileName =>'.$this->file]);
 
-        $this->setOutput(['total' => $gg, 'other' => 'parameter']);
+        $this->setOutput(['total' => "1 file", 'user_id' => $this->user_id]);
     }
 }

@@ -74,15 +74,18 @@
             </div>
             <div class="row">
                 <div class="col-6 grid-margin">
-                <man-sma/>
+                <man-sma :store="store"/>
                 </div>
                 <div class="col-6 grid-margin">
-                <man-smp/>
+                <man-smp :store="store"/>
                 </div>
             </div>
             <div class="row">
                 <div class="col-6 grid-margin">
                     <man-role :roles="roles"/>
+                </div>
+                <div class="col-6 grid-margin">
+                    <man-operator :store="store"/>
                 </div>
             </div>
         </div>
@@ -111,14 +114,21 @@ import { useAuthStore } from '../../store/';
 import manSmp from './manSmp/manSmp.vue'
 import manSma from './manSma/manSma.vue'
 import manRole from './manRole/manRole.vue'
+import manOperator from "./manOperator/manOperator.vue"
 
 const roles = ref();
 const errors = ref();
 const kabs = ref([]);
 const smas = ref([]);
+const store = useAuthStore();
 
 const getKabs = () => {
-    axios.get('/api/kabs')
+    axios.get('/api/kabs', {
+        headers: {
+            "accept": "application/json",
+            "Authorization": "Bearer " + store.token
+        }
+    })
     .then(res => {
         kabs.value = res.data.kabs;
         smas.value = res.data.smas;
@@ -135,7 +145,7 @@ const getRoles = () => {
     axios.get("/api/roles", {
                 headers: {
                     "accept": "application/json",
-                    "Authorization": "Bearer " + useAuthStore().token
+                    "Authorization": "Bearer " + store.token
                 }
             })
         .then(res => {

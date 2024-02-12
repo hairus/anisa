@@ -26,3 +26,5 @@ Route::get('/admin/{any}', [HomeController::class, 'index']);
 Route::get('/op/{any}', [HomeController::class, 'index']);
 // Route::get('/download', [EximController::class, 'index']);
 Route::get('/batch/{id}', [EximController::class, 'edit']);
+Route::get('/praktek', [HomeController::class, 'praktek'])->middleware(['auth', 'admin']);
+Route::get('/lgt', [HomeController::class, 'lgt'])->middleware(['auth:web', 'admin']);

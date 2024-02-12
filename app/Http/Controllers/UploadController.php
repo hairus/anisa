@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\siswas;
 use App\Imports\UploadsImport;
 use App\Jobs\UploadJobs;
+use App\Models\siswa;
 use App\Models\upload;
 use App\Models\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Bus;
 use Imtigger\LaravelJobStatus\JobStatus;
 use Maatwebsite\Excel\Facades\Excel;
@@ -20,7 +23,7 @@ class UploadController extends Controller
      */
     public function index()
     {
-        $upload = upload::where('user_id', auth()->user()->id)->paginate(5);
+        $upload = siswa::with('nilai')->where('user_id', auth()->user()->id)->paginate(5);
 
         return $upload;
     }
@@ -43,27 +46,44 @@ class UploadController extends Controller
             "file" => "required"
         ]);
         $file = $request->file('file');
+
         $fileName = time() . '.' . $file->getClientOriginalExtension();
+
         $path = $request->file->move(public_path('excel'), $fileName);
-        // $data = new Spreadsheet_Excel_Reader($path,false);
-        // dd($data);
 
         $user_id = auth()->user()->id;
 
-        $cek = upload::where('user_id', $user_id)->first();
+        $cek = siswa::where('user_id', $user_id)->first();
 
         if ($cek) {
-            upload::where('user_id', $user_id)->delete();
+            siswa::where('user_id', $user_id)->delete();
         }
+
+        // Excel::import(new siswas($user_id), $path);
+
 
         $job = new UploadJobs($user_id, $fileName);
         $this->dispatch($job);
         $jobStatusId = $job->getJobStatusId();
 
         $jobStatus = JobStatus::where("id", $jobStatusId)->firstOrFail();
+        // $simpan = JobStatus::setInput([
+        //    auth()->user()->id
+        // ]);
 
-        var_dump($jobStatus->job_id);
         return $jobStatus;
+
+
+
+
+
+
+
+
+
+
+        // Artisan::call('queue:work');
+        // return $jobStatus;
         // $batch = Bus::batch([
         //     new UploadJobs($user_id, $fileName)
         // ])->dispatch();

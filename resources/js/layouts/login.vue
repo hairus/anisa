@@ -12,7 +12,7 @@
                             <h6 class="font-weight-light">Analisi Nilai Sekolah Asal</h6>
                             <form class="pt-3" @submit.prevent="login">
                                 <div class="form-group">
-                                    <input type="email" v-model="email" class="form-control form-control-lg"
+                                    <input type="text" v-model="username" class="form-control form-control-lg"
                                         id="exampleInputEmail1" placeholder="Username" required>
                                 </div>
                                 <div class="form-group">
@@ -44,14 +44,14 @@ import { useAuthStore } from '../store/index';
 export default {
     data() {
         return {
-            email: "zhomenep@gmail.com",
+            username: "gg",
             password: "password"
         }
     },
     methods: {
         login() {
             axios.post('/api/login', {
-                "email": this.email,
+                "username": this.username,
                 "password": this.password
             })
                 .then(res => {

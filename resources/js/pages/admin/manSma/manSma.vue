@@ -38,7 +38,7 @@ import axios from 'axios';
 import Vue3Datatable from '@bhplugin/vue3-datatable';
 import '@bhplugin/vue3-datatable/dist/style.css';
 
-
+const props = defineProps(['store']);
 const loading = ref(true);
 const total_rows = ref(0);
 const pageSizeOptions = [5, 10, 20, 30, 50, 100];
@@ -64,12 +64,17 @@ let timer;
 
 const getSma = () => {
     loading.value = true;
-    axios.get('/api/smas?page=' + params.current_page + "&params=" + params.pagesize + "&search=" + params.search)
+    axios.get('/api/smas?page=' + params.current_page + "&params=" + params.pagesize + "&search=" + params.search, {
+        headers:{
+            "accept" : "application/json",
+            "Authorization": "Bearer " + props.store.token
+        }
+    })
         .then(res => {
             rows.value = res.data.data;
             total_rows.value = res.data.total;
-            params.current_page.value = res.data.to;
-            params.nextArrow = res.data.next_page_url;
+            params.current_page = res.data.to;
+            // params.nextArrow = res.data.next_page_url;
 
         })
     loading.value = false;
