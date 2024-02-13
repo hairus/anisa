@@ -72,7 +72,14 @@
                                         @change="handleUpload" id="validationCustom03" required>
                                 </div>
 
-                                <p v-if="errors">{{ errors }}</p>
+                                <p v-if="errors"></p>
+                                <div class="alert alert-danger" role="alert" v-if="errors">
+                                    <ul>
+                                        <li> Atasn Nama <b>{{ errors.values.name }}</b></li>
+                                        <li> {{ errors.attribute }} di baris {{ errors.row }}</li>
+                                    </ul>
+
+                                </div>
                                 <div class="alert alert-primary" role="alert" v-if="message">
                                     {{ message }}
                                 </div>
@@ -101,18 +108,18 @@
                                 </button>
                                 <table class="table table-hover">
                                     <thead>
-                                        <th>ID</th>
+                                        <th>No</th>
                                         <th>Name</th>
                                         <th>Nis</th>
                                         <th>Rerata</th>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="(siswa, index) in siswas" :key="siswa.id">
-                                        <td>{{ index + 1 }}</td>
-                                        <td>{{ siswa.name }}</td>
-                                        <td>{{ siswa.nisn }}</td>
-                                        <td>{{ siswa.nilai.nilai }}</td>
-                                    </tr>
+                                        <tr v-for="(siswa, index) in siswas" :key="siswa.id">
+                                            <td>{{ index + 1 }}</td>
+                                            <td>{{ siswa.name }}</td>
+                                            <td>{{ siswa.nisn }}</td>
+                                            <td>{{ siswa.nilai.nilai }}</td>
+                                        </tr>
                                     </tbody>
                                     total siswa = {{ total }}
                                 </table>
@@ -141,7 +148,9 @@ export default {
             loading: false,
             loading1: false,
             siswas: [],
-            total: ""
+            total: "",
+            attribute: "",
+            baris: ""
         }
     },
     methods: {
@@ -162,7 +171,7 @@ export default {
                 .then(res => {
                     this.loading = false
                     this.clear()
-                    this.message = "excel dalam antrian silakan di cek secara berkala"
+                    this.message = "Upload Berhasil"
                     setTimeout(() => {
                         this.message = ""
                     }, 10000);
@@ -170,9 +179,15 @@ export default {
 
                 })
                 .catch(e => {
-                    if(e.response.status == 403){
+                    if (e.response.status == 403) {
                         this.errors = "tidak hak akses untuk anda";
-                    }else{
+                    } else if (e.response.status == 402) {
+                        this.errors = e.response.data;
+                        this.loading = false
+                        this.$refs.fileupload.type = 'text';
+                        this.$refs.fileupload.type = 'file';
+                        this.file = "";
+                    } else {
                         this.errors = e.response.data['message']
                     }
                 })

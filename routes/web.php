@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EximController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\testerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,3 +29,5 @@ Route::get('/op/{any}', [HomeController::class, 'index']);
 Route::get('/batch/{id}', [EximController::class, 'edit']);
 Route::get('/praktek', [HomeController::class, 'praktek'])->middleware(['auth', 'admin']);
 Route::get('/lgt', [HomeController::class, 'lgt'])->middleware(['auth:web', 'admin']);
+Route::get('/uploads', [testerController::class, 'uploadgg']);
+Route::post('/store', [testerController::class, 'store']);

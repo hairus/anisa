@@ -56,7 +56,6 @@ export default {
             })
                 .then(res => {
                     if (res.data) {
-                        console.log(res.data.role)
                         if(res.data.role == 1){
                             this.$router.push('/admin/dashboard');
                         }else{

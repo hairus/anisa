@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NamaEvent;
+use App\Imports\SiswaImport;
 use App\Imports\siswas;
 use App\Imports\UploadsImport;
 use App\Jobs\UploadJobs;
+use App\Models\pesan;
 use App\Models\siswa;
 use App\Models\upload;
 use App\Models\User;
@@ -56,22 +59,44 @@ class UploadController extends Controller
         $cek = siswa::where('user_id', $user_id)->first();
 
         if ($cek) {
-            siswa::where('user_id', $user_id)->delete();
+            // siswa::where('user_id', $user_id)->delete();
+            siswa::where('user_id', auth()->user()->id)->delete();
+
+            pesan::where('user_id', auth()->user()->id)->delete();
         }
 
-        // Excel::import(new siswas($user_id), $path);
+
+        // if ($imports->failures()->isNotEmpty()) {
+        //     return $this->error($imports->failures(), 422);
+        // }
+
+        try {
+            $imports = new SiswaImport($user_id);
+            $imports->import($path);
+            return response()->json('success', 200);
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            foreach ($failures as $failure) {
+                $failure->row(); // row that went wrong
+                $failure->attribute(); // either heading key (if using heading row concern) or column index
+                $failure->errors(); // Actual error messages from Laravel validator
+                $failure->values(); // The values of the row that has failed.
+                siswa::where('user_id', auth()->user()->id)->delete();
+                return response()->json($failure, 402);
+            }
+        }
 
 
-        $job = new UploadJobs($user_id, $fileName);
-        $this->dispatch($job);
-        $jobStatusId = $job->getJobStatusId();
+        // $job = new UploadJobs($user_id, $fileName);
+        // $this->dispatch($job);
+        // $jobStatusId = $job->getJobStatusId();
 
-        $jobStatus = JobStatus::where("id", $jobStatusId)->firstOrFail();
-        // $simpan = JobStatus::setInput([
-        //    auth()->user()->id
-        // ]);
+        // $jobStatus = JobStatus::where("id", $jobStatusId)->firstOrFail();
+        // // $simpan = JobStatus::setInput([
+        // //    auth()->user()->id
+        // // ]);
 
-        return $jobStatus;
+        // return $jobStatus;
 
 
 
@@ -135,6 +160,7 @@ class UploadController extends Controller
 
         // return $batch->id;
     }
+
 
     /**
      * Display the specified resource.

@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\logImport;
+use App\Events\NamaEvent;
+use App\Events\transferExcecuted;
+use App\Listeners\importLog;
+use App\Listeners\NamaListener;
+use App\Listeners\SendNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        NamaEvent::class => [
+            NamaListener::class
         ],
     ];
 
