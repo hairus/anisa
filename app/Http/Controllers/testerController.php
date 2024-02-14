@@ -33,20 +33,21 @@ class testerController extends Controller
         $path = $request->file->move(public_path('excel'), $fileName);
 
         $user_id = auth()->user()->id;
-        try {
-            $imports = new SiswaImport($user_id);
-            $imports->import($path);
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
+        $imports = new SiswaImport($user_id);
+        $imports->import($path);
+        // try {
 
-            foreach ($failures as $failure) {
-                $failure->row(); // row that went wrong
-                $failure->attribute(); // either heading key (if using heading row concern) or column index
-                $failure->errors(); // Actual error messages from Laravel validator
-                $failure->values(); // The values of the row that has failed.
-                var_dump($failure);
-            }
-        }
+        // } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+        //     $failures = $e->failures();
+
+        //     foreach ($failures as $failure) {
+        //         $failure->row(); // row that went wrong
+        //         $failure->attribute(); // either heading key (if using heading row concern) or column index
+        //         $failure->errors(); // Actual error messages from Laravel validator
+        //         $failure->values(); // The values of the row that has failed.
+        //         var_dump($failure);
+        //     }
+        // }
 
 
         return back()->withStatus("excel success");

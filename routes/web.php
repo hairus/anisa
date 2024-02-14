@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EximController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PosangController;
 use App\Http\Controllers\testerController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,5 @@ Route::get('/praktek', [HomeController::class, 'praktek'])->middleware(['auth'])
 Route::get('/lgt', [HomeController::class, 'lgt'])->middleware(['auth:web']);
 Route::get('/uploads', [testerController::class, 'uploadgg']);
 Route::post('/store', [testerController::class, 'store']);
+Route::get('/tambah', [PosangController::class, 'tambah']);
+Route::get('/posang', [PosangController::class, 'posang']);

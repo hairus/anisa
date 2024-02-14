@@ -44,8 +44,7 @@ class UploadController extends Controller
      */
     public function store(Request $request)
     {
-        // include "./excel.php";
-        $validation = $request->validate([
+        $request->validate([
             "file" => "required"
         ]);
         $file = $request->file('file');
@@ -73,6 +72,7 @@ class UploadController extends Controller
         try {
             $imports = new SiswaImport($user_id);
             $imports->import($path);
+            unlink($path);
             return response()->json('success', 200);
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $failures = $e->failures();
@@ -81,6 +81,7 @@ class UploadController extends Controller
                 $failure->attribute(); // either heading key (if using heading row concern) or column index
                 $failure->errors(); // Actual error messages from Laravel validator
                 $failure->values(); // The values of the row that has failed.
+                unlink($path);
                 siswa::where('user_id', auth()->user()->id)->delete();
                 return response()->json($failure, 402);
             }

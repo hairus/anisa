@@ -76,7 +76,7 @@
                                 <div class="alert alert-danger" role="alert" v-if="errors">
                                     <ul>
                                         <li> Atasn Nama <b>{{ errors.values.name }}</b></li>
-                                        <li> {{ errors.attribute }} di baris {{ errors.row }}</li>
+                                        <li> <b>{{ errors.attribute }}</b> di baris <b>{{ errors.row }}</b></li>
                                     </ul>
 
                                 </div>
@@ -85,10 +85,6 @@
                                 </div>
 
                                 <button class="btn btn-sm btn-primary">Upload</button>
-                                <!-- <a href="/download" target="_blank">
-                                    <button class="btn btn-sm btn-danger" type="button" @click="download">Download</button>
-                                </a> -->
-
                             </form>
                         </div>
                     </div>
@@ -171,7 +167,7 @@ export default {
                 .then(res => {
                     this.loading = false
                     this.clear()
-                    this.message = "Upload Berhasil"
+                    this.message = "Upload Berhasil masuk dalam antrian silakan di cek secara berkala"
                     setTimeout(() => {
                         this.message = ""
                     }, 10000);
