@@ -38,5 +38,6 @@ Route::resource('smps', SmpsController::class)->middleware(['auth:sanctum', 'adm
 Route::resource('smas', SmasController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('kabs', KabKotaController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('users', UserController::class)->middleware(['auth:sanctum', 'admin']);
+Route::resource('op/cp', UserController::class)->middleware('auth:sanctum');
 // Route::get('roleUsers1', [RoleUserController::class, 'index']);
 // Route::get('/download', [EximController::class, 'index'])->middleware('auth:sanctum');

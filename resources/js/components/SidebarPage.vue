@@ -116,14 +116,21 @@
                 </RouterLink>
             </li>
             <li class="nav-item">
-                <RouterLink class="nav-link" to="/op/tables">
+                <RouterLink class="nav-link" to="/op/upload">
                     <span class="menu-title">
-                        Tables
+                        Upload
                     </span>
                     <i class="mdi mdi-contacts menu-icon"></i>
                 </RouterLink>
             </li>
-
+            <li class="nav-item">
+                <RouterLink class="nav-link" to="/op/cp">
+                    <span class="menu-title">
+                        Change Password
+                    </span>
+                    <i class="mdi mdi-contacts menu-icon"></i>
+                </RouterLink>
+            </li>
         </ul>
     </nav>
 </template>

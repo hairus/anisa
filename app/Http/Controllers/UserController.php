@@ -14,18 +14,18 @@ class UserController extends Controller
      */
     public function index()
     {
-        if($_GET['params'] && $_GET['search'] == "") {
+        if ($_GET['params'] && $_GET['search'] == "") {
             $users = User::with(['role' => function ($q) {
                 $q->with('roles');
             }])->paginate($_GET['params']);
             return $users;
-        }else if($_GET['search'] && $_GET['params']){
+        } else if ($_GET['search'] && $_GET['params']) {
             $users = User::with(['role' => function ($q) {
                 $q->with('roles');
-            }])->where('name' , 'LIKE', '%'.$_GET['search'].'%')
+            }])->where('name', 'LIKE', '%' . $_GET['search'] . '%')
                 ->paginate($_GET['params']);
             return $users;
-        }else{
+        } else {
             $users = User::with(['role' => function ($q) {
                 $q->with('roles');
             }])->paginate(2);
@@ -40,10 +40,10 @@ class UserController extends Controller
     public function create()
     {
         $sma = smas::all();
-        foreach ($sma as $data){
+        foreach ($sma as $data) {
             $sim = User::create([
                 "name" => $data->nm_sekolah,
-                "email" => $data->npsn.'@gmail.com',
+                "email" => $data->npsn . '@gmail.com',
                 "password" => bcrypt($data->npsn),
                 "username" => $data->npsn
             ]);
@@ -60,7 +60,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $up = User::where('id', auth()->user()->id)->first();
+        $up->update([
+            'password' => bcrypt($request->password),
+        ]);
+        return $up;
+
     }
 
     /**

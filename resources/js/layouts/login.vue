@@ -10,6 +10,9 @@
                             </div>
                             <h4>Anisa Jatim</h4>
                             <h6 class="font-weight-light">Analisi Nilai Sekolah Asal</h6>
+                            <div class="alert alert-danger" role="alert" v-if="errors">
+                                    {{ errors }}
+                                </div>
                             <form class="pt-3" @submit.prevent="login">
                                 <div class="form-group">
                                     <input type="text" v-model="username" class="form-control form-control-lg"
@@ -19,11 +22,13 @@
                                     <input type="password" v-model="password" class="form-control form-control-lg"
                                         id="exampleInputPassword1" placeholder="Password" required>
                                 </div>
+
                                 <div class="mt-3">
                                     <button type="submit"
                                         class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">Log
                                         In</button>
                                 </div>
+
                             </form>
                             <hr>
 
@@ -44,8 +49,9 @@ import { useAuthStore } from '../store/index';
 export default {
     data() {
         return {
-            username: "gg",
-            password: "password"
+            username: "",
+            password: "",
+            errors:""
         }
     },
     methods: {
@@ -62,6 +68,14 @@ export default {
                             this.$router.push('/op/home');
                         }
                         useAuthStore().isLogin(res.data['token'], res.data);
+                    }
+                })
+                .catch(e => {
+                    if(e.response.status === 500){
+                        this.errors = "username and password tidak cocok"
+                        setTimeout(() => {
+                           this.errors = ""
+                        }, 2000);
                     }
                 })
         }

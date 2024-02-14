@@ -9,6 +9,8 @@ import tablesPage from "../pages/tables.vue"
 import AboutPage from "../pages/about.vue"
 import Op from "../layouts/op.vue"
 import HomePage from "../pages/op/home.vue"
+import OpUpload from "../pages/op/upload/uploadPage.vue"
+import Cp from "../pages/op/cp/cp.vue"
 
 import { useAuthStore } from "../store/index.js"
 
@@ -43,15 +45,31 @@ const routes = [{
         component: Op,
         name: "op",
         children: [{
-            path: 'home',
-            component: HomePage,
-            name: "home"
-        }]
+                path: 'home',
+                component: HomePage,
+                name: "home"
+            },
+            {
+
+                name: "opUpload",
+                path: "upload",
+                component: OpUpload
+
+            },
+            {
+
+                name: "cp",
+                path: "cp",
+                component: Cp
+
+            },
+        ]
     },
     {
         path: '/:pathMatch(.*)*',
         component: notFound,
         name: ""
+
     },
 
 ]
