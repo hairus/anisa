@@ -63,9 +63,9 @@ export default {
                 .then(res => {
                     if (res.data) {
                         if(res.data.role == 1){
-                            this.$router.push('/admin/dashboard');
+                            this.$router.replace('/admin/dashboard');
                         }else{
-                            this.$router.push('/op/home');
+                            this.$router.replace('/op/home');
                         }
                         useAuthStore().isLogin(res.data['token'], res.data);
                     }
