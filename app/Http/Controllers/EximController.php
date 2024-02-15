@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SiswaExport;
 use App\Exports\UploadsExport;
 use App\Imports\UploadsImport;
 use Illuminate\Http\Request;
@@ -16,8 +17,9 @@ class EximController extends Controller
      */
     public function index()
     {
+        $user_id = auth()->user()->id;
 
-        return Excel::download(new UploadsExport, 'users.xlsx');
+        return Excel::download(new SiswaExport($user_id), 'users.xlsx');
     }
 
     /**

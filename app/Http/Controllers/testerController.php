@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UploadsExport;
 use App\Imports\SiswaImport;
 use App\Models\pesan;
 use App\Models\siswa;
@@ -51,5 +52,10 @@ class testerController extends Controller
 
 
         return back()->withStatus("excel success");
+    }
+
+    public  function download()
+    {
+        return Excel::download(new UploadsExport, 'users.xlsx');
     }
 }

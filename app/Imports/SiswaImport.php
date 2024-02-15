@@ -71,8 +71,8 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
         return [
             'nisn' => 'nisn tidak boleh kosong',
             "nilai" => "nilai tidak boleh kosong",
-            "npsn_sma" => "npsn smp tidak boleh kosong",
-            "npsn_smp" => "npsn sma tidak boleh kosong",
+            "npsn_smp" => "npsn smp tidak boleh kosong",
+            "npsn_sma" => "npsn sma tidak boleh kosong",
         ];
     }
 

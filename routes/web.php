@@ -31,6 +31,7 @@ Route::get('/batch/{id}', [EximController::class, 'edit']);
 Route::get('/praktek', [HomeController::class, 'praktek'])->middleware(['auth']);
 Route::get('/lgt', [HomeController::class, 'lgt'])->middleware(['auth:web']);
 Route::get('/uploads', [testerController::class, 'uploadgg']);
+Route::get('/download', [testerController::class, 'download']);
 Route::post('/store', [testerController::class, 'store']);
 Route::get('/tambah', [PosangController::class, 'tambah']);
 Route::get('/posang', [PosangController::class, 'posang']);

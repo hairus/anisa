@@ -17,5 +17,15 @@ class siswa extends Model
         return $this->hasOne(nilai::class);
     }
 
+    public  function smas()
+    {
+        return $this->belongsTo(smas::class, 'npsn_sma', 'npsn');
+    }
+
+    public  function smps()
+    {
+        return $this->belongsTo(smps::class, 'npsn_smp', 'npsn_smp');
+    }
+
 
 }

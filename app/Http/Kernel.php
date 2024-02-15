@@ -42,10 +42,10 @@ class Kernel extends HttpKernel
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             /* ini di masukkan agar auth di api bisa di konsum di web*/
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+//            \App\Http\Middleware\EncryptCookies::class,
+//            \Illuminate\Session\Middleware\StartSession::class,
+//            \App\Http\Middleware\VerifyCsrfToken::class,
+//            \Illuminate\Routing\Middleware\SubstituteBindings::class,
 
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         ],

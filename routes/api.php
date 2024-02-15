@@ -9,6 +9,7 @@ use App\Http\Controllers\SmasController;
 use App\Http\Controllers\SmpsController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SiswaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,13 +32,12 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::resource('roles', RoleController::class)->middleware(['auth:sanctum', 'admin']);
-Route::resource('upload', UploadController::class)->middleware(['auth:sanctum', 'admin']);
-Route::resource('exim', EximController::class)->middleware(['auth:sanctum', 'admin']);
+Route::resource('upload', UploadController::class)->middleware(['auth:sanctum', 'operator']);
+Route::resource('exim', EximController::class)->middleware(['auth:sanctum', 'operator']);
 Route::resource('roleUsers', RoleUserController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('smps', SmpsController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('smas', SmasController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('kabs', KabKotaController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('users', UserController::class)->middleware(['auth:sanctum', 'admin']);
-Route::resource('op/cp', UserController::class)->middleware('auth:sanctum');
-// Route::get('roleUsers1', [RoleUserController::class, 'index']);
-// Route::get('/download', [EximController::class, 'index'])->middleware('auth:sanctum');
+Route::resource('op/cp', UserController::class)->middleware(['auth:sanctum', 'operator']);
+Route::resource('op/siswa', SiswaController::class)->middleware(['auth:sanctum', 'operator']);

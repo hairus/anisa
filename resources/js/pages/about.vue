@@ -99,19 +99,23 @@
                                 <div class="spinner-border text-primary" role="status"></div>
                             </div>
                             <div class="table-responsive">
+                                <button class="btn btn-sm btn-info float-end" @click="download()">
+                                    <i class="mdi mdi-file"></i>
+                                </button>
                                 <button class="btn btn-sm btn-primary float-end" @click="getData()">
                                     <i class="mdi mdi-refresh"></i>
                                 </button>
+
                                 <table class="table table-hover">
                                     <thead>
-                                        <th>No</th>
-                                        <th>Name</th>
-                                        <th>Nis</th>
-                                        <th>Rerata</th>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>Nis</th>
+                                    <th>Rerata</th>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(siswa, index) in siswas" :key="siswa.id">
-                                            <td>{{ index + 1 }}</td>
+                                    <tr v-for="(siswa, index) in siswas" :key="siswa.id">
+                                        <td>{{ index + 1 }}</td>
                                             <td>{{ siswa.name }}</td>
                                             <td>{{ siswa.nisn }}</td>
                                             <td>{{ siswa.nilai.nilai }}</td>
@@ -204,6 +208,25 @@ export default {
                     })
             }, 0);
 
+        },
+        download() {
+            // console.log("kesini");
+            axios.get('/api/exim', {
+                responseType: 'blob',
+                headers:{
+                    Authorization : "Bearer "+useAuthStore().token
+                }
+            })
+                .then(response => {
+                    const url = URL.createObjectURL(new Blob([response.data], {
+                        type: 'application/vnd.ms-excel'
+                    }))
+                    const link = document.createElement('a')
+                    link.href = url
+                    link.setAttribute('download', "siswa.xlsx")
+                    document.body.appendChild(link)
+                    link.click()
+                })
         },
         clear() {
             this.$refs.fileupload.type = 'text';

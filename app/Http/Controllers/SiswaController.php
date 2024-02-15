@@ -12,7 +12,9 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        //
+        $siswas = siswa::with('nilai', 'smas', 'smps')->where('user_id', auth()->user()->id)->paginate(10);
+
+        return $siswas;
     }
 
     /**
