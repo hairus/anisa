@@ -41,17 +41,6 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
             "user_id" => $this->user_id,
             "batch_id" => $batch->id
         ]);
-        // $user = BatchUser::find($this->user_id);
-        // if($user){
-        //    $user->user_id = $this->user_id;
-        //    $user->batch_id = $batch->id;
-        //    $user->save();
-        // }else{
-        //     BatchUser::create([
-        //         "user_id" => $this->user_id,
-        //         "batch_id" => $batch->id
-        //     ]);
-        // }
     }
 
 

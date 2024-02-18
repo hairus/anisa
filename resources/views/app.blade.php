@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>ANISA JATIM</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="{{asset('/assets/vendors/mdi/css/materialdesignicons.min.css')}}">
-    <link rel="stylesheet" href="{{asset('/assets/vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/vendors/mdi/css/materialdesignicons.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('/assets/vendors/css/vendor.bundle.base.css')}}" type="text/css">
 
-    <link rel="stylesheet" href="{{asset('/assets/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/css/style.css')}}" type="text/css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('/assets/images/favicon.ico')}}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     @vite('resources/css/app.css')
   </head>
   <body>

@@ -31,22 +31,28 @@
                                 <div class="form-group">
                                     <label>File upload</label>
                                     <input type="file" name="file" ref="fileupload" class="form-control"
-                                           @change="handleUpload" id="validationCustom03" required>
+                                        @change="handleUpload" id="validationCustom03" required>
                                 </div>
-
-                                <p v-if="errors"></p>
                                 <div class="alert alert-danger" role="alert" v-if="errors">
                                     <ul>
                                         <li> Atasn Nama <b>{{ errors.values.name }}</b></li>
                                         <li><b>{{ errors.attribute }}</b> di baris <b>{{ errors.row }}</b></li>
                                     </ul>
-
                                 </div>
-                                <div class="alert alert-primary" role="alert" v-if="message">
+                                <div class="alert alert-danger col-6" role="alert" v-if="errors1">
+                                    <ul>
+                                        <li><b>{{ errors1 }}</b></li>
+                                    </ul>
+                                </div>
+                                <div class="alert alert-primary col-4" role="alert" v-if="message">
                                     {{ message }}
                                 </div>
-
-                                <button class="btn btn-sm btn-primary">Upload</button>
+                                <div v-if="batchMe.progress === 100 || batchMe.length === 0">
+                                    <button class="btn btn-sm btn-primary">Upload</button>
+                                </div>
+                                <div class="alert alert-success col-4" role="alert" v-else>
+                                    File excel dalam antrian...
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -68,26 +74,26 @@
                             </div>
                             <table class="table alert-primary text-black">
                                 <thead>
-                                <th>No</th>
-                                <th>NAMA</th>
-                                <th>NISN</th>
-                                <th>SMA</th>
-                                <th>SMP</th>
-                                <th>TINGKAT</th>
-                                <th>ROMBEL</th>
-                                <th>NILAI</th>
+                                    <th>No</th>
+                                    <th>NAMA</th>
+                                    <th>NISN</th>
+                                    <th>SMA</th>
+                                    <th>SMP</th>
+                                    <th>TINGKAT</th>
+                                    <th>ROMBEL</th>
+                                    <th>NILAI</th>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(siswa, index) in siswas" :key="index">
-                                    <td>{{ index + 1 }}</td>
-                                    <td>{{ siswa.name.toUpperCase() }}</td>
-                                    <td>{{ siswa.nisn ? siswa.nisn : "NISN TIDAK DI TEMUKAN" }}</td>
-                                    <td>{{ siswa.smas ? siswa.smas.nm_sekolah : "SEKOLAH TIDAK DI TEMUKAN" }}</td>
-                                    <td>{{ siswa.smps ? siswa.smps.nama_smp : "SEKOLAH TIDAK DI TEMUKAN" }}</td>
-                                    <td>{{ siswa.tingkat }}</td>
-                                    <td>{{ siswa.rombel }}</td>
-                                    <td>{{ siswa.nilai.nilai }}</td>
-                                </tr>
+                                    <tr v-for="(siswa, index) in siswas" :key="index">
+                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ siswa.name.toUpperCase() }}</td>
+                                        <td>{{ siswa.nisn ? siswa.nisn : "NISN TIDAK DI TEMUKAN" }}</td>
+                                        <td>{{ siswa.smas ? siswa.smas.nm_sekolah : "SEKOLAH TIDAK DI TEMUKAN" }}</td>
+                                        <td>{{ siswa.smps ? siswa.smps.nama_smp : "SEKOLAH TIDAK DI TEMUKAN" }}</td>
+                                        <td>{{ siswa.tingkat }}</td>
+                                        <td>{{ siswa.rombel }}</td>
+                                        <td>{{ siswa.nilai.nilai }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -100,28 +106,32 @@
 
 <script>
 import axios from 'axios';
-import {useAuthStore} from "@/store/index.js";
+import { useAuthStore } from "@/store/index.js";
 
 export default {
     data() {
         return {
             file: "",
             errors: "",
+            errors1: "",
             message: "",
             loading: false,
             loading1: false,
             siswas: [],
             total: "",
             attribute: "",
-            baris: ""
+            baris: "",
+            batchMe: [],
         }
     },
     methods: {
         handleUpload(e) {
             this.file = e.target.files[0]
+            this.errors1 = ""
         },
         submitFile() {
             this.loading = true
+            this.errors1 = ""
             let formData = new FormData();
             formData.append('file', this.file);
             axios.post('/api/upload', formData, {
@@ -135,6 +145,7 @@ export default {
                     this.loading = false
                     this.clear()
                     this.message = "Upload Berhasil di entri dalam antrian silakan di cek secara berkala"
+                    this.getBatch()
                     this.getData()
                     setTimeout(() => {
                         this.message = ""
@@ -148,6 +159,16 @@ export default {
                     } else if (e.response.status == 402) {
                         this.errors = e.response.data;
                         this.loading = false
+                        this.$refs.fileupload.type = 'text';
+                        this.$refs.fileupload.type = 'file';
+                        this.file = "";
+                    } else if (e.response.status == 422) {
+                        this.loading = false
+                        this.errors1 = "Maaf file tidak sesuai dengan format"
+                        setTimeout(() => {
+                            this.errors1 = ""
+                        }, 5000);
+
                         this.$refs.fileupload.type = 'text';
                         this.$refs.fileupload.type = 'file';
                         this.file = "";
@@ -169,9 +190,21 @@ export default {
                         this.loading1 = false
                         this.siswas = res.data.data
                         this.total = res.data.total
+                        this.getBatch()
                     })
             }, 0);
 
+        },
+        getBatch() {
+            axios.get("/api/upload/create", {
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": "Bearer " + useAuthStore().token
+                }
+            })
+                .then(res => {
+                    this.batchMe = res.data
+                })
         },
         download() {
             axios.get('/api/exim', {
@@ -200,6 +233,7 @@ export default {
     },
     mounted() {
         this.getData()
+        this.getBatch()
     }
 }
 </script>
