@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\kab_kota;
+use App\Models\siswa;
 use App\Models\smas;
+use App\Models\smps;
 use Illuminate\Http\Request;
 
 class KabKotaController extends Controller
@@ -13,12 +15,16 @@ class KabKotaController extends Controller
      */
     public function index()
     {
-        $kabs = kab_kota::all();
-        $smas = smas::all();
+        $kabs = kab_kota::select('id')->count();
+        $smas = smas::select('id')->count();
+        $smps = smps::select('id')->count();
+        $siswas = siswa::select('id')->count();
 
         return response()->json([
             'kabs' => $kabs,
-            "smas" => $smas
+            "smas" => $smas,
+            "smps" => $smps,
+            "siswas" => $siswas,
         ]);
     }
 

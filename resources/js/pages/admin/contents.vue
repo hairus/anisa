@@ -27,8 +27,8 @@
                             <h4 class="font-weight-normal mb-3">SMA/SMK SE JAWA TIMUR <i
                                     class="mdi mdi-chart-line mdi-24px float-right"></i>
                             </h4>
-                            <h2 class="mb-5">{{ kabs.length }} Kab/Kota</h2>
-                            <h6 class="card-text">JUMLAH SMA/SMK {{ smas.length }}</h6>
+                            <h2 class="mb-5">{{ kabs }} Kab/Kota</h2>
+                            <h6 class="card-text">JUMLAH SMA/SMK {{ smas }}</h6>
                         </div>
                     </div>
                 </div>
@@ -40,8 +40,8 @@
                             <h4 class="font-weight-normal mb-3">jUMLAH OPERATOR <i
                                     class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
                             </h4>
-                            <h2 class="mb-5">38</h2>
-                            <h6 class="card-text">Decreased by 10%</h6>
+                            <h2 class="mb-5">{{ smas }}</h2>
+                            <h6 class="card-text">Total by 100%</h6>
                         </div>
                     </div>
                 </div>
@@ -50,23 +50,23 @@
                         <div class="card-body">
                             <img src="../../../../public/assets/images/dashboard/circle.svg" class="card-img-absolute"
                                 alt="circle-image" />
-                            <h4 class="font-weight-normal mb-3">Visitors Online <i
+                            <h4 class="font-weight-normal mb-3">SMP-MTS <i
                                     class="mdi mdi-diamond mdi-24px float-right"></i>
                             </h4>
-                            <h2 class="mb-5">95,5741</h2>
-                            <h6 class="card-text">Increased by 5%</h6>
+                            <h2 class="mb-5">{{ smps }}</h2>
+                            <h6 class="card-text">Total  100%</h6>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3 stretch-card grid-margin">
-                    <div class="card bg-gradient-secondary card-img-holder text-white">
+                    <div class="card bg-gradient-dark card-img-holder text-white">
                         <div class="card-body">
                             <img src="../../../../public/assets/images/dashboard/circle.svg" class="card-img-absolute"
                                 alt="circle-image" />
-                            <h4 class="font-weight-normal mb-3">Visitors Online <i
-                                    class="mdi mdi-diamond mdi-24px float-right"></i>
+                            <h4 class="font-weight-normal mb-3">TOTAL SISWA UPLOAD <i
+                                    class="mdi mdi-account-check mdi-24px float-right"></i>
                             </h4>
-                            <h2 class="mb-5">95,5741</h2>
+                            <h2 class="mb-5">{{ siswas }}</h2>
                             <h6 class="card-text">Increased by 5%</h6>
                         </div>
                     </div>
@@ -74,23 +74,23 @@
             </div>
             <div class="row">
                 <div class="col-6 grid-margin">
-                <man-sma :store="store"/>
+                    <man-sma :store="store" />
                 </div>
                 <div class="col-6 grid-margin">
-                <man-smp :store="store"/>
+                    <man-smp :store="store" />
                 </div>
             </div>
             <div class="row">
                 <div class="col-6 grid-margin">
-                    <man-role :roles="roles"/>
+                    <man-role :roles="roles" />
                 </div>
                 <div class="col-6 grid-margin">
-                    <man-operator :store="store"/>
+                    <man-operator :store="store" />
                 </div>
             </div>
         </div>
         <!-- content-wrapper ends -->
-        <modal-add @role="simpan"  @message="clearMessage" :errors="errors" />
+        <modal-add @role="simpan" @message="clearMessage" :errors="errors" />
 
         <!-- partial:partials/_footer.html -->
         <footer class="footer">
@@ -107,7 +107,7 @@
 </template>
 <script setup>
 
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import axios from 'axios';
 import modalAdd from './modalAdd.vue';
 import { useAuthStore } from '../../store/';
@@ -121,6 +121,8 @@ const errors = ref();
 const kabs = ref([]);
 const smas = ref([]);
 const store = useAuthStore();
+const smps = ref('')
+const siswas = ref('')
 
 const getKabs = () => {
     axios.get('/api/kabs', {
@@ -129,10 +131,12 @@ const getKabs = () => {
             "Authorization": "Bearer " + store.token
         }
     })
-    .then(res => {
-        kabs.value = res.data.kabs;
-        smas.value = res.data.smas;
-    })
+        .then(res => {
+            kabs.value = res.data.kabs;
+            smas.value = res.data.smas;
+            smps.value = res.data.smps;
+            siswas.value = res.data.siswas;
+        })
 }
 
 
@@ -143,11 +147,11 @@ const ShowModal = () => {
 
 const getRoles = () => {
     axios.get("/api/roles", {
-                headers: {
-                    "accept": "application/json",
-                    "Authorization": "Bearer " + store.token
-                }
-            })
+        headers: {
+            "accept": "application/json",
+            "Authorization": "Bearer " + store.token
+        }
+    })
         .then(res => {
             roles.value = res.data
         })
@@ -155,36 +159,36 @@ const getRoles = () => {
 
 const del = (id) => {
     axios.delete("/api/roles/" + id, {
-                headers: {
-                    "accept": "application/json",
-                    "Authorization": "Bearer " + useAuthStore().token
-                }
-            })
-                .then(res => {
-                    getRoles()
-                })
+        headers: {
+            "accept": "application/json",
+            "Authorization": "Bearer " + useAuthStore().token
+        }
+    })
+        .then(res => {
+            getRoles()
+        })
 }
 
 const simpan = (role) => {
     axios.post('/api/roles', {
-                "role": role
-            }, {
-                headers: {
-                    "accept": "application/json",
-                    "Authorization": "Bearer " + useAuthStore().token
-                }
-            })
-                .then(() => {
-                    getRoles()
-                    hideModal()
-                })
+        "role": role
+    }, {
+        headers: {
+            "accept": "application/json",
+            "Authorization": "Bearer " + useAuthStore().token
+        }
+    })
+        .then(() => {
+            getRoles()
+            hideModal()
+        })
         .catch(e => {
             errors.value = e.response.data['message'];
         })
 }
 
 const hideModal = () => {
-   document.getElementById("Close").click();
+    document.getElementById("Close").click();
 }
 
 const clearMessage = () => {

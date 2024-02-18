@@ -37,6 +37,7 @@ import Vue3Datatable from '@bhplugin/vue3-datatable';
 import '@bhplugin/vue3-datatable/dist/style.css';
 
 const props = defineProps(['store'])
+const emits = defineEmits(['smps'])
 const loading = ref(true);
 const total_rows = ref(0);
 const pageSizeOptions = [5 ,10, 20, 30, 50, 100];
@@ -77,6 +78,9 @@ const getSmp = () => {
         loading.value = false;
 };
 
+const count = ()  => {
+    emits('smps', total_rows.value)
+}
 
 const filterUsers = () => {
     clearTimeout(timer);
@@ -108,6 +112,7 @@ const deleteUser = (user) => {
 
 onMounted(() => {
     getSmp()
+    count()
 });
 </script>
 
