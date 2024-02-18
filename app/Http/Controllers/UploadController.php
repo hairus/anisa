@@ -7,6 +7,7 @@ use App\Imports\SiswaImport;
 use App\Imports\siswas;
 use App\Imports\UploadsImport;
 use App\Jobs\UploadJobs;
+use App\Models\BatchUser;
 use App\Models\pesan;
 use App\Models\siswa;
 use App\Models\upload;
@@ -36,7 +37,10 @@ class UploadController extends Controller
      */
     public function create()
     {
-        //
+        $bath_user = BatchUser::where('user_id', auth()->user()->id)->orderBy('id', "DESC")->first();
+        $batchMe = Bus::findBatch($bath_user->batch_id);
+
+        return $batchMe;
     }
 
     /**
@@ -45,7 +49,7 @@ class UploadController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "file" => "required"
+            "file" => "required|mimes:xlsx"
         ]);
         $file = $request->file('file');
 
@@ -54,6 +58,8 @@ class UploadController extends Controller
         $path = $request->file->move(public_path('excel'), $fileName);
 
         $user_id = auth()->user()->id;
+
+        set_time_limit(0);
 
         $cek = siswa::where('user_id', $user_id)->first();
 
