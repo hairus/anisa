@@ -48,20 +48,21 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
     {
         return [
             "name" => ['required'],
-            "nisn" => ['required'],
-            "npsn_sma" => ['required'],
+            "nisn" => ['required', 'numeric'],
+            "npsn_sma" => ['required', 'numeric'],
             "npsn_smp" => ['required'],
-            "nilai" => ['required', 'max:100' ,'min:0'],
+            "nilai" => ['required','numeric', 'max:100' ,'min:0'],
         ];
     }
 
     public function customValidationAttributes()
     {
         return [
-            'nisn' => 'nisn tidak boleh kosong',
-            "nilai" => "nilai tidak boleh kosong",
-            "npsn_smp" => "npsn smp tidak boleh kosong",
-            "npsn_sma" => "npsn sma tidak boleh kosong",
+            'name' => 'Nama tidak boleh kosong',
+            'nisn' => 'nisn tidak boleh kosong / nisn harus angka ',
+            "nilai" => "nilai tidak boleh kosong / nilai maksimal 100 minimal 0",
+            "npsn_smp" => "npsn smp tidak boleh kosong / npsn smp harus angka",
+            "npsn_sma" => "npsn sma tidak boleh kosong / npsn sma harus angka",
         ];
     }
 
