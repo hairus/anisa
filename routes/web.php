@@ -5,7 +5,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PosangController;
 use App\Http\Controllers\testerController;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,14 +15,16 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// URL::forceSchema('https');
 
+// dd("kesini");
 Route::get('/', function(){
     return redirect('/login');
 });
-Route::get('/login', function () {
-    return view('App');
-});
 
+Route::get('/login', function(){
+    return view("app");
+});
 Route::get('/admin/{any}', [HomeController::class, 'index']);
 Route::get('/op/{any}', [HomeController::class, 'index']);
 // Route::get('/download', [EximController::class, 'index']);
@@ -35,3 +36,7 @@ Route::get('/download', [testerController::class, 'download']);
 Route::post('/store', [testerController::class, 'store']);
 Route::get('/tambah', [PosangController::class, 'tambah']);
 Route::get('/posang', [PosangController::class, 'posang']);
+Route::get('/listen', [PosangController::class, 'listen']);
+
+
+

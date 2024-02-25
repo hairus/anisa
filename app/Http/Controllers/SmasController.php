@@ -12,20 +12,27 @@ class SmasController extends Controller
      */
     public function index()
     {
+
         if($_GET['params'] && $_GET['search'] == ""){
-            $sma = smas::with('kabs')->paginate($_GET['params']);
+            $sma = smas::with('kabs')->with(['siswas' => function($q){
+                $q->select('npsn_sma');
+            }])->paginate($_GET['params']);
 
             return $sma;
         }else if($_GET['search'] && $_GET['params']){
 
-            $sma = smas::with('kabs')
+            $sma = smas::with('kabs')->with(['siswas' => function($q){
+                $q->select('npsn_sma');
+                }])
                 ->where('npsn', 'LIKE', '%'.$_GET['search'].'%')
                 ->orWhere("nm_sekolah", 'LIKE', '%'.$_GET['search'].'%')
                 ->paginate(10);
 
             return $sma;
         }else{
-            $sma = smas::with('kabs')->paginate(5);
+            $sma = smas::with('kabs')->with(['siswas' => function($q){
+                $q->select('npsn_sma');
+                }])->paginate(5);
 
             return $sma;
         }

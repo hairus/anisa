@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Imports\SiswaImport;
-use App\Jobs\PosangJob;
-use App\Models\pesan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Bus;
 
 class PosangController extends Controller
@@ -16,7 +15,7 @@ class PosangController extends Controller
         $jobs = [];
         $batch = null;
 
-        $import = new SiswaImport(1);
+        // $import = new SiswaImport(1);
 
         // $batch = Bus::batch($jobs)->dispatch();
 
@@ -31,5 +30,12 @@ class PosangController extends Controller
         }
 
         dd($batch->progress());
+    }
+
+    public function listen()
+    {
+        Artisan::call('queue:work', ['--tries=1']);
+
+        return back();
     }
 }

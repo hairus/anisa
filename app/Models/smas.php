@@ -14,4 +14,9 @@ class smas extends Model
     {
         return $this->belongsTo(kab_kota::class, 'kab_id');
     }
+
+    public function siswas()
+    {
+        return $this->hasMany(siswa::class, 'npsn_sma', 'npsn');
+    }
 }

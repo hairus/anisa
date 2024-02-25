@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="alert alert-danger" role="alert" v-if="errors">
                                     <ul>
-                                        <li> Atasn Nama <b>{{ errors.values.name }}</b></li>
+                                        <li> Atas Nama <b>{{ errors.values.name }}</b></li>
                                         <li><b>{{ errors.attribute }}</b> di baris <b>{{ errors.row }}</b></li>
                                     </ul>
                                 </div>
@@ -64,7 +64,7 @@
                         <div class="card-body">
                             <h4 class="card-title">Siswa</h4>
 
-                            <button class="btn btn-sm btn-primary mb-3" @click="getData()">
+                            <button class="btn btn-sm btn-primary mb-3" @click="getData()" v-show="show">
                                 <i class="mdi mdi-refresh"></i> Refresh Data Siswa
                             </button>
                             <div class="alert alert-primary col-3" v-if="siswas"> Total Siswa : {{ total }}
@@ -72,30 +72,32 @@
                             <div class="d-flex justify-content-start mb-3" v-if="loading1">
                                 <div class="spinner-border text-danger" role="status"></div>
                             </div>
-                            <table class="table alert-primary text-black">
-                                <thead>
+                            <div class="table-responsive" style="font-size: 12px">
+                                <table class="table alert-primary text-black">
+                                    <thead>
                                     <th>No</th>
                                     <th>NAMA</th>
                                     <th>NISN</th>
-                                    <th>SMA</th>
-                                    <th>SMP</th>
                                     <th>TINGKAT</th>
                                     <th>ROMBEL</th>
                                     <th>NILAI</th>
-                                </thead>
-                                <tbody>
+                                    <th>NPSN SMP</th>
+                                    <th>SMP</th>
+                                    </thead>
+                                    <tbody>
                                     <tr v-for="(siswa, index) in siswas" :key="index">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ siswa.name.toUpperCase() }}</td>
                                         <td>{{ siswa.nisn ? siswa.nisn : "NISN TIDAK DI TEMUKAN" }}</td>
-                                        <td>{{ siswa.smas ? siswa.smas.nm_sekolah : "SEKOLAH TIDAK DI TEMUKAN" }}</td>
-                                        <td>{{ siswa.smps ? siswa.smps.nama_smp : "SEKOLAH TIDAK DI TEMUKAN" }}</td>
                                         <td>{{ siswa.tingkat }}</td>
                                         <td>{{ siswa.rombel }}</td>
                                         <td>{{ siswa.nilai.nilai }}</td>
+                                        <td>{{ siswa.smps ? siswa.smps.npsn_smp : "SEKOLAH TIDAK DI TEMUKAN" }}</td>
+                                        <td>{{ siswa.smps ? siswa.smps.nama_smp : "SEKOLAH TIDAK DI TEMUKAN" }}</td>
                                     </tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -122,6 +124,7 @@ export default {
             attribute: "",
             baris: "",
             batchMe: [],
+            show: false
         }
     },
     methods: {
@@ -129,12 +132,12 @@ export default {
             this.file = e.target.files[0]
             this.errors1 = ""
         },
-        submitFile() {
+        async submitFile() {
             this.loading = true
             this.errors1 = ""
             let formData = new FormData();
             formData.append('file', this.file);
-            axios.post('/api/upload', formData, {
+            await axios.post('/api/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     "Accept": "application/json",
@@ -146,10 +149,10 @@ export default {
                     this.clear()
                     this.message = "Upload Berhasil di entri dalam antrian silakan di cek secara berkala"
                     this.getBatch()
-                    this.getData()
                     setTimeout(() => {
                         this.message = ""
                     }, 10000);
+                    this.getData()
 
 
                 })
@@ -191,6 +194,11 @@ export default {
                         this.siswas = res.data.data
                         this.total = res.data.total
                         this.getBatch()
+                        this.show = false
+                        setTimeout(() => {
+                            this.show = true
+                        }, 5000)
+
                     })
             }, 0);
 

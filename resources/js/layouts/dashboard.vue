@@ -53,7 +53,7 @@
 <script>
 import axios from "axios";
 import { useAuthStore } from '../store/index';
-import menuPage from "../components/sidebarpage.vue"
+import menuPage from "../components/SidebarPage.vue"
 // import contentPage from "../components/contents.vue"
 export default{
     methods :{

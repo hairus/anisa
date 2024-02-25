@@ -58,4 +58,9 @@ class testerController extends Controller
     {
         return Excel::download(new UploadsExport, 'users.xlsx');
     }
+
+    public  function apps() {
+        // dd("kesini");
+        return view('app');
+    }
 }

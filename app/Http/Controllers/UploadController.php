@@ -59,26 +59,25 @@ class UploadController extends Controller
 
         $user_id = auth()->user()->id;
 
+        $user_npsn = auth()->user()->username;
+
         set_time_limit(0);
 
         $cek = siswa::where('user_id', $user_id)->first();
 
         if ($cek) {
-            // siswa::where('user_id', $user_id)->delete();
+
             siswa::where('user_id', auth()->user()->id)->delete();
 
             pesan::where('user_id', auth()->user()->id)->delete();
         }
 
 
-        // if ($imports->failures()->isNotEmpty()) {
-        //     return $this->error($imports->failures(), 422);
-        // }
-
         try {
-            $imports = new SiswaImport($user_id);
+            $imports = new SiswaImport($user_id, $user_npsn);
             $imports->import($path);
             unlink($path);
+            // Artisan::call('queue:work', ['--tries=1']);
             return response()->json('success', 200);
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $failures = $e->failures();
