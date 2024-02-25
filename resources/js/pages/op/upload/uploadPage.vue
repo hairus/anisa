@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="alert alert-danger" role="alert" v-if="errors">
                                     <ul>
-                                        <li> Atasn Nama <b>{{ errors.values.name }}</b></li>
+                                        <li> Atas Nama <b>{{ errors.values.name }}</b></li>
                                         <li><b>{{ errors.attribute }}</b> di baris <b>{{ errors.row }}</b></li>
                                     </ul>
                                 </div>
@@ -132,12 +132,12 @@ export default {
             this.file = e.target.files[0]
             this.errors1 = ""
         },
-        submitFile() {
+        async submitFile() {
             this.loading = true
             this.errors1 = ""
             let formData = new FormData();
             formData.append('file', this.file);
-            axios.post('/api/upload', formData, {
+            await axios.post('/api/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     "Accept": "application/json",
@@ -149,10 +149,10 @@ export default {
                     this.clear()
                     this.message = "Upload Berhasil di entri dalam antrian silakan di cek secara berkala"
                     this.getBatch()
-                    this.getData()
                     setTimeout(() => {
                         this.message = ""
                     }, 10000);
+                    this.getData()
 
 
                 })

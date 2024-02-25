@@ -17,6 +17,9 @@
                     <template #nm_sekolah="data">
                         <button class="badge-info rounded p-2">{{ data.value.nm_sekolah }}</button>
                     </template>
+                    <template #siswa="data">
+                        <button class="badge-info rounded p-2">{{ data.value.siswas.length }}</button>
+                    </template>
                     <template #actions="data">
                         <div class="flex gap-4">
                             <button type="button" class="badge-gradient-success btn-sm m-1" @click="viewUser(data.value)"><i
@@ -56,6 +59,7 @@ const cols =
         { field: 'npsn', title: 'NPSN' },
         { field: 'nm_sekolah', title: 'NAMA' },
         { field: 'kode_un', title: 'KODE UN' },
+        { field: 'siswa', title: 'SISWA' },
         { field: 'kabs.kab_kota', title: 'Kab/Kota' },
         { field: 'actions', title: 'Actions' },
     ]) || [];

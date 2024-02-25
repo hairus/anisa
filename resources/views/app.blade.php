@@ -14,6 +14,7 @@
     <link rel="shortcut icon" href="{{asset('/assets/images/favicon.ico')}}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
     @vite('resources/css/app.css')
   </head>
   <body>
@@ -26,6 +27,7 @@
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
+    @vite('resources/js/app.js')
     <script src="{{asset('/assets/vendors/js/vendor.bundle.base.js')}}"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
@@ -41,6 +43,6 @@
     <script src="{{asset('/assets/js/dashboard.js')}}"></script>
     <script src="{{asset('/assets/js/todolist.js')}}"></script>
     <!-- End custom js for this page -->
-    @vite('resources/js/app.js')
+
   </body>
 </html>
