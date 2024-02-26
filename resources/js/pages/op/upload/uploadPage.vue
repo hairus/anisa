@@ -241,7 +241,7 @@ export default {
     },
     mounted() {
         this.getData()
-        this.getBatch()
+        // this.getBatch()
     }
 }
 </script>

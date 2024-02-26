@@ -9,7 +9,7 @@ class OpController extends Controller
 {
     public function getSiswa()
     {
-        $siswas = siswa::where('npsn_sma', auth()->user()->username)->count();
+        $siswas = siswa::select('id')->where('npsn_sma', auth()->user()->username)->count();
 
         return $siswas;
     }

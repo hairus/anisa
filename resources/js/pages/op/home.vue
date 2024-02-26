@@ -38,7 +38,8 @@
                             <h4 class="font-weight-normal mb-3">Jumlah Siswa <i
                                     class="mdi mdi-chart-line mdi-24px float-right"></i>
                             </h4>
-                            <h2 class="mb-5">JUMLAH SISWA {{ siswas }}</h2>
+                            <div class="spinner-border text-white" role="status" v-show="loading"></div>
+                            <h2 class="mb-5" v-if="loading === false">JUMLAH SISWA {{ siswas }}</h2>
                             <h6 class="card-text"></h6>
                         </div>
                     </div>
@@ -57,9 +58,11 @@ import { useAuthStore } from "@/store/index.js";
 
 const store = useAuthStore();
 const siswas = ref([]);
+const loading = ref(false)
 
-const getSIswa = () => {
-    axios.get('/api/op/getSiswa', {
+const getSIswa = async () => {
+    loading.value = true
+    await axios.get('/api/op/getSiswa', {
         headers: {
             "Accept": "application/json",
             "Authorization": "Bearer " + store.token
@@ -67,6 +70,7 @@ const getSIswa = () => {
     })
         .then(res => {
             siswas.value = res.data
+            loading.value = false
         })
 };
 
