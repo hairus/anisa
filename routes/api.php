@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EximController;
 use App\Http\Controllers\KabKotaController;
+use App\Http\Controllers\OpController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoleUserController;
 use App\Http\Controllers\SmasController;
@@ -39,5 +40,9 @@ Route::resource('smps', SmpsController::class)->middleware(['auth:sanctum', 'adm
 Route::resource('smas', SmasController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('kabs', KabKotaController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('users', UserController::class)->middleware(['auth:sanctum', 'admin']);
-Route::resource('op/cp', UserController::class)->middleware(['auth:sanctum', 'operator']);
-Route::resource('op/siswa', SiswaController::class)->middleware(['auth:sanctum', 'operator']);
+
+Route::group(['prefix' => 'op', 'middleware' => ['auth:sanctum', 'operator']], function(){
+    Route::resource('cp', UserController::class);
+    Route::resource('siswa', SiswaController::class);
+    Route::get('getSiswa',[OpController::class, 'getSiswa']);
+});

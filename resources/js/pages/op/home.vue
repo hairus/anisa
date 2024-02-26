@@ -11,7 +11,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item active" aria-current="page">
                             <span></span>Overview <i
-                            class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                                class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                         </li>
                     </ul>
                 </nav>
@@ -21,11 +21,11 @@
                     <div class="card bg-gradient-danger card-img-holder text-white">
                         <div class="card-body">
                             <img src="../../../../public/assets/images/dashboard/circle.svg" class="card-img-absolute"
-                                 alt="circle-image" />
+                                alt="circle-image" />
                             <h4 class="font-weight-normal mb-3">Sman 1 Sumenep <i
-                                class="mdi mdi-chart-line mdi-24px float-right"></i>
+                                    class="mdi mdi-chart-line mdi-24px float-right"></i>
                             </h4>
-                            <h2 class="mb-5"></h2>
+                            <h2 class="mb-5">1 Operator</h2>
                             <h6 class="card-text"></h6>
                         </div>
                     </div>
@@ -34,12 +34,12 @@
                     <div class="card bg-gradient-info card-img-holder text-white">
                         <div class="card-body">
                             <img src="../../../../public/assets/images/dashboard/circle.svg" class="card-img-absolute"
-                                 alt="circle-image" />
-                            <h4 class="font-weight-normal mb-3">Jumlah Siswa  <i
-                                class="mdi mdi-chart-line mdi-24px float-right"></i>
+                                alt="circle-image" />
+                            <h4 class="font-weight-normal mb-3">Jumlah Siswa <i
+                                    class="mdi mdi-chart-line mdi-24px float-right"></i>
                             </h4>
-                            <h2 class="mb-5">130 Kab/Kota</h2>
-                            <h6 class="card-text">JUMLAH SISWA 12.000</h6>
+                            <h2 class="mb-5">JUMLAH SISWA {{ siswas }}</h2>
+                            <h6 class="card-text"></h6>
                         </div>
                     </div>
                 </div>
@@ -49,9 +49,30 @@
 </template>
 
 <script setup>
+import axios from 'axios';
+import { ref, onMounted } from 'vue'
+import { useAuthStore } from "@/store/index.js";
 
+
+
+const store = useAuthStore();
+const siswas = ref([]);
+
+const getSIswa = () => {
+    axios.get('/api/op/getSiswa', {
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + store.token
+        }
+    })
+        .then(res => {
+            siswas.value = res.data
+        })
+};
+
+onMounted(() => {
+    getSIswa()
+});
 </script>
 
-<style>
-
-</style>
+<style></style>

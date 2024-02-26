@@ -5,14 +5,18 @@
                 <div class="row flex-grow">
                     <div class="col-lg-4 mx-auto">
                         <div class="auth-form-light text-left p-5">
-                            <div class="brand-logo">
-                                <img src="../../../public/assets/images/logo.svg">
+                            <div class="brand-logo d-flex mx-auto">
+                                <img src="../../../public/logo.png" class="mx-auto">
                             </div>
-                            <h4>Anisa Jatim</h4>
-                            <h6 class="font-weight-light">Analisi Nilai Sekolah Asal</h6>
+                            <div class="d-flex">
+                                <h2 class="mx-auto">ANISA JATIM</h2>
+                            </div>
+                            <div class="d-flex">
+                                <h6 class="font-weight-light mx-auto">ANALISIS NILAI SEKOLAH ASAL</h6>
+                            </div>
                             <div class="alert alert-danger" role="alert" v-if="errors">
-                                    {{ errors }}
-                                </div>
+                                {{ errors }}
+                            </div>
                             <form class="pt-3" @submit.prevent="login">
                                 <div class="form-group">
                                     <input type="text" v-model="username" class="form-control form-control-lg"
@@ -51,7 +55,7 @@ export default {
         return {
             username: "",
             password: "",
-            errors:""
+            errors: ""
         }
     },
     methods: {
@@ -62,19 +66,19 @@ export default {
             })
                 .then(res => {
                     if (res.data) {
-                        if(res.data.role == 1){
+                        if (res.data.role == 1) {
                             this.$router.replace('/admin/dashboard');
-                        }else{
+                        } else {
                             this.$router.replace('/op/home');
                         }
                         useAuthStore().isLogin(res.data['token'], res.data);
                     }
                 })
                 .catch(e => {
-                    if(e.response.status === 500){
+                    if (e.response.status === 500) {
                         this.errors = "username and password tidak cocok"
                         setTimeout(() => {
-                           this.errors = ""
+                            this.errors = ""
                         }, 2000);
                     }
                 })
@@ -91,4 +95,5 @@ export default {
     font-weight: 600;
     /* Horizontal centering */
     /* 100% tinggi viewport */
-}</style>
+}
+</style>
