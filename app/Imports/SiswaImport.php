@@ -4,25 +4,13 @@ namespace App\Imports;
 
 use App\Jobs\PosangJob;
 use App\Models\BatchUser;
-use App\Models\nilai;
-use App\Models\pesan;
-use App\Models\siswa;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToCollection;
-
 use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-
 use Maatwebsite\Excel\Concerns\WithValidation;
-use Maatwebsite\Excel\Validators\Failure;
-
-use function PHPUnit\Framework\isEmpty;
 
 class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithChunkReading
 {
@@ -59,7 +47,7 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
     {
         return [
             "name" => ['required'],
-            "tingkat" => ['required'],
+            "tingkat" => ['required', 'numeric', 'min:10', 'max:12'],
             "nisn" => ['required', 'numeric'],
             "npsn_smp" => ['required'],
             "nilai" => ['required','numeric', 'max:100' ,'min:0'],
@@ -70,7 +58,7 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
     {
         return [
             'name' => 'Nama tidak boleh kosong',
-            'tingkat' => 'Tingkat tidak boleh kosong',
+            'tingkat' => 'Tingkat tidak boleh kosong / tingkat harus angka contoh 10,11,12/ minimal kelas 10, maksimal kelas 12',
             'nisn' => 'nisn tidak boleh kosong / nisn harus angka ',
             "nilai" => "nilai tidak boleh kosong / nilai maksimal 100 minimal 0",
             "npsn_smp" => "npsn smp tidak boleh kosong / npsn smp harus angka",
@@ -87,13 +75,4 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
     {
         return 1000;
     }
-
-    // public function handle()
-    // {
-    //     $batch = BatchUser::where([
-    //         "user_id" => $this->user_id,
-    //     ])->orderBy('id', 'desc')->first();
-    //     $batch->finish = 1;
-    //     $batch->save();
-    // }
 }

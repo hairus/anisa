@@ -25,7 +25,10 @@
                                 <div class="spinner-border text-primary" role="status"></div>
                             </div>
                             <button class="btn btn-sm btn-success mt-4 mb-4" @click="download()">
-                                <i class="mdi mdi-file"></i> Download Excel
+                                <i class="mdi mdi-file"></i> Download Template
+                            </button>
+                            <button class="btn btn-sm btn-info mt-4 mb-4 ms-2" @click="downloadSmp()">
+                                <i class="mdi mdi-file"></i> Download Npsn SMP
                             </button>
                             <form @submit.prevent="submitFile()">
                                 <div class="form-group">
@@ -82,7 +85,6 @@
                                                 <option value="20">20</option>
                                                 <option value="50">50</option>
                                                 <option value="100">100</option>
-                                                <option value="all">all</option>
                                             </select>
                                         </div>
                                     </div>
@@ -269,6 +271,24 @@ export default {
                     link.click()
                 })
         },
+        downloadSmp(){
+            axios.get('/api/eximSmp/create', {
+                responseType: 'blob',
+                headers: {
+                    Authorization: "Bearer " + useAuthStore().token
+                }
+            })
+                .then(response => {
+                    const url = URL.createObjectURL(new Blob([response.data], {
+                        type: 'application/vnd.ms-excel'
+                    }))
+                    const link = document.createElement('a')
+                    link.href = url
+                    link.setAttribute('download', "smp.xlsx")
+                    document.body.appendChild(link)
+                    link.click()
+                })
+        },
         clear() {
             this.$refs.fileupload.type = 'text';
             this.$refs.fileupload.type = 'file';
@@ -279,7 +299,6 @@ export default {
     components: {
         Bootstrap5Pagination
     },
-
     mounted() {
         this.getData()
         this.getBatch()

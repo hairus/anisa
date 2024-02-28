@@ -12,6 +12,9 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 class SiswaExport implements WithHeadings, WithMapping, FromQuery
 {
     use Exportable;
+
+    public $user_id;
+
     public function __construct($user_id)
     {
         $this->user_id = $user_id;
@@ -22,7 +25,6 @@ class SiswaExport implements WithHeadings, WithMapping, FromQuery
         return[
             'name',
             'nisn',
-            'npsn_sma',
             'npsn_smp',
             'tingkat',
             'rombel',
@@ -35,7 +37,6 @@ class SiswaExport implements WithHeadings, WithMapping, FromQuery
         return[
             $student->name,
             $student->nisn,
-            $student->npsn_sma,
             $student->npsn_smp,
             $student->tingkat,
             $student->rombel,

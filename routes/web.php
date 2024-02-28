@@ -37,6 +37,7 @@ Route::post('/store', [testerController::class, 'store']);
 Route::get('/tambah', [PosangController::class, 'tambah']);
 Route::get('/posang', [PosangController::class, 'posang']);
 Route::get('/listen', [PosangController::class, 'listen']);
+Route::get('/generatePassword', [PosangController::class, 'generatePassword']);
 
 
 

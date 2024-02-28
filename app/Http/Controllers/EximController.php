@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\SiswaExport;
+use App\Exports\SmpsExport;
 use App\Exports\UploadsExport;
 use App\Imports\UploadsImport;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class EximController extends Controller
      */
     public function create()
     {
-        //
+        return Excel::download(new SmpsExport, 'smp.xlsx');
     }
 
     /**

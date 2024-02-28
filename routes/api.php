@@ -35,6 +35,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::resource('roles', RoleController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('upload', UploadController::class)->middleware(['auth:sanctum', 'operator']);
 Route::resource('exim', EximController::class)->middleware(['auth:sanctum', 'operator']);
+Route::resource('eximSmp', EximController::class)->middleware(['auth:sanctum', 'operator']);
 Route::resource('roleUsers', RoleUserController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('smps', SmpsController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('smas', SmasController::class)->middleware(['auth:sanctum', 'admin']);

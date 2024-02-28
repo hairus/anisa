@@ -22,20 +22,18 @@
                             </div>
                             <form class="pt-3" @submit.prevent="login">
                                 <div class="form-group">
-                                    <input type="text" v-model="username" class="form-control form-control-lg"
+                                    <input type="text" style="background-color: purple;" v-model="username" class="form-control form-control-lg"
                                         id="exampleInputEmail1" placeholder="Username" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" v-model="password" class="form-control form-control-lg"
+                                    <input type="password" v-model="password" style="background-color: purple;" class="form-control form-control-lg"
                                         id="exampleInputPassword1" placeholder="Password" required>
                                 </div>
-
                                 <div class="mt-3">
                                     <button type="submit"
                                         class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">Log
                                         In</button>
                                 </div>
-
                             </form>
                             <hr>
 

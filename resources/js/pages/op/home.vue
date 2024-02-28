@@ -38,7 +38,7 @@
                             <h4 class="font-weight-normal mb-3">Jumlah Siswa <i class="mdi mdi-chart-line mdi-24px float-right"></i>
                             </h4>
                             <div class="spinner-border text-white" role="status" v-show="loading"></div>
-                            <h2 class="mb-5" v-if="loading === false">JUMLAH SISWA 900</h2>
+                            <h2 class="mb-5" v-if="loading === false">Jumlah Siswa {{ siswas }}</h2>
                             <h6 class="card-text"></h6>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                 <div class="col-md-12">
                     <div class="card mt-10">
                         <div class="card-header">
-                            <h3 class="m-3">SMAN 1 SUMENEP</h3>
+                            <h3 class="m-3">{{ store.user.name }}</h3>
                         </div>
                         <div class="card-title">
                             <h5 class="ms-5 mt-5"> Status Finalisasi</h5>
@@ -91,10 +91,10 @@
                                 <tbody>
                                     <tr>
                                         <td>Data Siswa Dan Nilai</td>
-                                        <td>300</td>
-                                        <td>300</td>
-                                        <td>300</td>
-                                        <td>900</td>
+                                        <td>{{ kelas10 }}</td>
+                                        <td>{{ kelas11 }}</td>
+                                        <td>{{ kelas12 }}</td>
+                                        <td>{{ siswas }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -116,6 +116,9 @@ import { useAuthStore } from "@/store/index.js";
 const store = useAuthStore();
 const siswas = ref([]);
 const loading = ref(false)
+const kelas10 = ref()
+const kelas11 = ref()
+const kelas12 = ref()
 
 const getSIswa = async () => {
     loading.value = true
@@ -126,7 +129,10 @@ const getSIswa = async () => {
         }
     })
         .then(res => {
-            siswas.value = res.data
+            siswas.value = res.data.siswa
+            kelas10.value = res.data.kelas10
+            kelas11.value = res.data.kelas11
+            kelas12.value = res.data.kelas12
             loading.value = false
         })
 };
