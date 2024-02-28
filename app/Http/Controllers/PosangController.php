@@ -34,7 +34,7 @@ class PosangController extends Controller
 
     public function listen()
     {
-        Artisan::call('queue:work', ['--tries=1']);
+        Artisan::call('queue:work --daemon');
 
         return back();
     }
