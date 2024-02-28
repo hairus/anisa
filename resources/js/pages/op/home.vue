@@ -22,10 +22,10 @@
                         <div class="card-body">
                             <img src="../../../../public/assets/images/dashboard/circle.svg" class="card-img-absolute"
                                 alt="circle-image" />
-                            <h4 class="font-weight-normal mb-3">Sman 1 Sumenep <i
-                                    class="mdi mdi-chart-line mdi-24px float-right"></i>
+                            <h4 class="font-weight-normal mb-3">Status Finalisasi <i
+                                    class="mdi mdi-chart-line mdi-24px float-right"> </i>
                             </h4>
-                            <h2 class="mb-5">1 Operator</h2>
+                            <h2 class="mb-5">Belum</h2>
                             <h6 class="card-text"></h6>
                         </div>
                     </div>
@@ -35,11 +35,69 @@
                         <div class="card-body">
                             <img src="../../../../public/assets/images/dashboard/circle.svg" class="card-img-absolute"
                                 alt="circle-image" />
-                            <h4 class="font-weight-normal mb-3">Jumlah Siswa <i
-                                    class="mdi mdi-chart-line mdi-24px float-right"></i>
+                            <h4 class="font-weight-normal mb-3">Jumlah Siswa <i class="mdi mdi-chart-line mdi-24px float-right"></i>
                             </h4>
-                            <h2 class="mb-5">JUMLAH SISWA {{ siswas }}</h2>
+                            <div class="spinner-border text-white" role="status" v-show="loading"></div>
+                            <h2 class="mb-5" v-if="loading === false">JUMLAH SISWA 900</h2>
                             <h6 class="card-text"></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mt-10">
+                        <div class="card-header">
+                            <h3 class="m-3">SMAN 1 SUMENEP</h3>
+                        </div>
+                        <div class="card-title">
+                            <h5 class="ms-5 mt-5"> Status Finalisasi</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <th>Jenis Finalisasi</th>
+                                    <th>Keterangan</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Finalisasi Data</td>
+                                        <td class="text-danger">Belum</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card my-10">
+                        <div class="card-header">
+                            <h3 class="m-3">REKAP PENGISIAN ANISA JATIM</h3>
+                        </div>
+                        <div class="card-title">
+                            <h5 class="ms-5 mt-5">Status Finalisasi</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <th>Jenis Data</th>
+                                    <th>Kelas 10</th>
+                                    <th>Kelas 11</th>
+                                    <th>Kelas 12</th>
+                                    <th>Total</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Data Siswa Dan Nilai</td>
+                                        <td>300</td>
+                                        <td>300</td>
+                                        <td>300</td>
+                                        <td>900</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -57,9 +115,11 @@ import { useAuthStore } from "@/store/index.js";
 
 const store = useAuthStore();
 const siswas = ref([]);
+const loading = ref(false)
 
-const getSIswa = () => {
-    axios.get('/api/op/getSiswa', {
+const getSIswa = async () => {
+    loading.value = true
+    await axios.get('/api/op/getSiswa', {
         headers: {
             "Accept": "application/json",
             "Authorization": "Bearer " + store.token
@@ -67,6 +127,7 @@ const getSIswa = () => {
     })
         .then(res => {
             siswas.value = res.data
+            loading.value = false
         })
 };
 

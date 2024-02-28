@@ -67,7 +67,10 @@ class UploadController extends Controller
 
         if ($cek) {
 
-            siswa::where('user_id', auth()->user()->id)->delete();
+            siswa::where([
+                'user_id'=> auth()->user()->id,
+                "npsn_sma" => auth()->user()->username
+            ])->delete();
 
             pesan::where('user_id', auth()->user()->id)->delete();
         }

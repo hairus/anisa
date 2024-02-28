@@ -27,5 +27,19 @@ class siswa extends Model
         return $this->belongsTo(smps::class, 'npsn_smp', 'npsn_smp');
     }
 
+    public function scopeSearch($query, $term)
+    {
+        $term = "%$term%";
+
+        $query->where(function($query) use ($term){
+            $query->where('name', 'like', $term)
+            ->orWhere('nisn', 'like', $term)
+            ->orWhere('npsn_sma', 'like', $term)
+            ->orWhere('npsn_smp', 'like', $term)
+            ->orWherehas('nilai', function($query) use ($term){
+                $query->where('nilai', 'like', $term);
+            });
+        });
+    }
 
 }
