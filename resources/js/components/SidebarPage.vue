@@ -118,7 +118,15 @@
             <li class="nav-item">
                 <RouterLink class="nav-link" to="/op/upload">
                     <span class="menu-title">
-                        Upload
+                        Management Data
+                    </span>
+                    <i class="mdi mdi-contacts menu-icon"></i>
+                </RouterLink>
+            </li>
+            <li class="nav-item">
+                <RouterLink class="nav-link" to="/op/finalisasi">
+                    <span class="menu-title">
+                        Finalisasi
                     </span>
                     <i class="mdi mdi-contacts menu-icon"></i>
                 </RouterLink>

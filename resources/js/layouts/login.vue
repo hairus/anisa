@@ -12,7 +12,10 @@
                                 <h2 class="mx-auto">ANISA JATIM</h2>
                             </div>
                             <div class="d-flex">
-                                <h6 class="font-weight-light mx-auto">ANALISIS NILAI SEKOLAH ASAL</h6>
+                                <h6 class="font-weight-light mx-auto">APLIKASI NILAI SEKOLAH ASAL</h6>
+                            </div>
+                            <div class="d-flex">
+                                <h3 class="font-weight-light mx-auto">TIKP DISDIK JATIM</h3>
                             </div>
                             <div class="alert alert-danger" role="alert" v-if="errors">
                                 {{ errors }}

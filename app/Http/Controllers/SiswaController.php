@@ -2,19 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SiswaResource;
 use App\Models\siswa;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class SiswaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $siswas = siswa::with('nilai', 'smas', 'smps')->where('user_id', auth()->user()->id)->paginate(10);
+        $paginate = request('paginate', 10);
+        $search = request('q', '');
+        $siswa = siswa::with('smas', 'smps', 'nilai')->where('npsn_sma', auth()->user()->username)->search(trim($search))->paginate($paginate);
 
-        return $siswas;
+        $gg =  SiswaResource::collection($siswa);
+
+        return $gg;
     }
 
     /**

@@ -5,7 +5,7 @@
                 <h3 class="page-title">
                     <span class="page-title-icon bg-gradient-primary text-white me-2">
                         <i class="mdi mdi-home"></i>
-                    </span> Upload File
+                    </span> Management Data
                 </h3>
                 <nav aria-label="breadcrumb">
                     <ul class="breadcrumb">
@@ -20,7 +20,7 @@
                 <div class="col-12 grid-margin">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Testing Upload File</h4>
+
                             <div class="d-flex justify-content-center" v-if="loading">
                                 <div class="spinner-border text-primary" role="status"></div>
                             </div>
@@ -69,34 +69,59 @@
                             </button>
                             <div class="alert alert-primary col-3" v-if="siswas"> Total Siswa : {{ total }}
                             </div>
-                            <div class="d-flex justify-content-start mb-3" v-if="loading1">
+                            <div class="mb-3" v-if="loading1">
                                 <div class="spinner-border text-danger" role="status"></div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="d-flex justify-content-between col-12">
+                                    <div class="col-1 me-3 mt-3 mb-3">
+                                        <div class="form-group">
+                                            <select class="form-control text-black p-3" v-model="paginate"
+                                                style="background-color: #f0e2ff;">
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                                <option value="all">all</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control rounded-3 text-black" v-model.lazy="search"
+                                            style="background-color: #ded2eb;" placeholder="Jony Batu"
+                                            aria-label="Username">
+                                    </div>
+                                </div>
                             </div>
                             <div class="table-responsive" style="font-size: 12px">
                                 <table class="table alert-primary text-black">
                                     <thead>
-                                    <th>No</th>
-                                    <th>NAMA</th>
-                                    <th>NISN</th>
-                                    <th>TINGKAT</th>
-                                    <th>ROMBEL</th>
-                                    <th>NILAI</th>
-                                    <th>NPSN SMP</th>
-                                    <th>SMP</th>
+                                        <th>No</th>
+                                        <th>NAMA</th>
+                                        <th>NISN</th>
+                                        <th>TINGKAT</th>
+                                        <th>ROMBEL</th>
+                                        <th>NILAI</th>
+                                        <th>NPSN SMP</th>
+                                        <th>SMP</th>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="(siswa, index) in siswas" :key="index">
-                                        <td>{{ index + 1 }}</td>
-                                        <td>{{ siswa.name.toUpperCase() }}</td>
-                                        <td>{{ siswa.nisn ? siswa.nisn : "NISN TIDAK DI TEMUKAN" }}</td>
-                                        <td>{{ siswa.tingkat }}</td>
-                                        <td>{{ siswa.rombel }}</td>
-                                        <td>{{ siswa.nilai.nilai }}</td>
-                                        <td>{{ siswa.smps ? siswa.smps.npsn_smp : "SEKOLAH TIDAK DI TEMUKAN" }}</td>
-                                        <td>{{ siswa.smps ? siswa.smps.nama_smp : "SEKOLAH TIDAK DI TEMUKAN" }}</td>
-                                    </tr>
+                                        <tr v-for="(siswa, index) in siswas.data" :key="index">
+                                            <td>{{ index + 1 }}</td>
+                                            <td>{{ siswa.name.toUpperCase() }}</td>
+                                            <td>{{ siswa.nisn ? siswa.nisn : "NISN TIDAK DI TEMUKAN" }}</td>
+                                            <td>{{ siswa.tingkat }}</td>
+                                            <td>{{ siswa.rombel }}</td>
+                                            <td>{{ siswa.nilai }}</td>
+                                            <td>{{ siswa.smps ? siswa.npsn_smp : "SEKOLAH TIDAK DI TEMUKAN" }}</td>
+                                            <td>{{ siswa.smps ? siswa.smps : "SEKOLAH TIDAK DI TEMUKAN" }}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class=" d-flex justify-center items-center">
+                                <Bootstrap5Pagination :data="siswas" :limit=4 @pagination-change-page="getData"
+                                    class="mt-5" style="background-color: aqua;" />
                             </div>
                         </div>
                     </div>
@@ -109,6 +134,7 @@
 <script>
 import axios from 'axios';
 import { useAuthStore } from "@/store/index.js";
+import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 
 export default {
     data() {
@@ -124,7 +150,18 @@ export default {
             attribute: "",
             baris: "",
             batchMe: [],
-            show: false
+            show: false,
+            paginate: 10,
+            search: "",
+            currentPage: 1
+        }
+    },
+    watch: {
+        paginate: function (e) {
+            this.getData()
+        },
+        search: function (e) {
+            this.getData()
         }
     },
     methods: {
@@ -180,10 +217,10 @@ export default {
                     }
                 })
         },
-        getData() {
+        getData(page = 1) {
             this.loading1 = true
             setTimeout(() => {
-                axios.get('/api/op/siswa', {
+                axios.get('/api/op/siswa?page=' + page + '&paginate=' + this.paginate + '&q=' + this.search, {
                     headers: {
                         "Accept": "application/json",
                         "Authorization": "Bearer " + useAuthStore().token
@@ -191,9 +228,9 @@ export default {
                 })
                     .then(res => {
                         this.loading1 = false
-                        this.siswas = res.data.data
-                        this.total = res.data.total
-                        this.getBatch()
+                        this.siswas = res.data
+                        this.total = res.data.meta.total
+                        // this.getBatch()
                         this.show = false
                         setTimeout(() => {
                             this.show = true
@@ -239,9 +276,13 @@ export default {
             this.errors = "";
         },
     },
+    components: {
+        Bootstrap5Pagination
+    },
+
     mounted() {
         this.getData()
-        // this.getBatch()
+        this.getBatch()
     }
 }
 </script>
