@@ -1,7 +1,9 @@
 <template>
     <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <router-link class="navbar-brand brand-logo" to="/dashboard"><img src="../../../public/assets/images/logo.svg" alt="logo" /></router-link>
+          <router-link class="navbar-brand brand-logo" to="/dashboard">
+            <h1 class="text-black" style="font-weight: 400;">ANISA</h1>
+        </router-link>
           <router-link class="navbar-brand brand-logo-mini" to="/dashboard"><img src="../../../public/assets/images/logo-mini.svg" alt="logo" /></router-link>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
