@@ -63,6 +63,7 @@ class UserController extends Controller
         $up = User::where('id', auth()->user()->id)->first();
         $up->update([
             'password' => bcrypt($request->password),
+            'password_asli' => $request->password
         ]);
         return $up;
 

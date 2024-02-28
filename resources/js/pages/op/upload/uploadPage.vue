@@ -98,14 +98,38 @@
                             <div class="table-responsive" style="font-size: 12px">
                                 <table class="table alert-primary text-black">
                                     <thead>
-                                        <th>No</th>
-                                        <th>NAMA</th>
-                                        <th>NISN</th>
-                                        <th>TINGKAT</th>
-                                        <th>ROMBEL</th>
+                                        <th>
+                                            <a href="#" @click.prevent="change_sort('id')">No</a>
+                                            <span v-if="sort_direction == 'desc' && sort_field == 'id'">&uarr;</span>
+                                            <span v-if="sort_direction == 'asc' && sort_field == 'id'">&darr;</span>
+                                        </th>
+                                        <th>
+                                            <a href="#" @click.prevent="change_sort('name')">NAMA</a>
+                                            <span v-if="sort_direction == 'asc' && sort_field == 'name'">&uarr;</span>
+                                            <span v-if="sort_direction == 'desc' && sort_field == 'name'">&darr;</span>
+                                        </th>
+                                        <th>
+                                            <a href="#" @click.prevent="change_sort('nisn')">NISN</a>
+                                            <span v-if="sort_direction == 'asc' && sort_field == 'nisn'">&uarr;</span>
+                                            <span v-if="sort_direction == 'desc' && sort_field == 'nisn'">&darr;</span>
+                                        </th>
+                                        <th>
+                                            <a href="#" @click.prevent="change_sort('tingkat')">TINGKAT</a>
+                                            <span v-if="sort_direction == 'asc' && sort_field == 'tingkat'">&uarr;</span>
+                                            <span v-if="sort_direction == 'desc' && sort_field == 'tingkat'">&darr;</span>
+                                        </th>
+                                        <th>
+                                            <a href="#" @click.prevent="change_sort('rombel')">ROMBEL</a>
+                                            <span v-if="sort_direction == 'asc' && sort_field == 'rombel'">&uarr;</span>
+                                            <span v-if="sort_direction == 'desc' && sort_field == 'rombel'">&darr;</span>
+                                        </th>
                                         <th>NILAI</th>
-                                        <th>NPSN SMP</th>
-                                        <th>SMP</th>
+                                        <th>
+                                            NPSN SMP
+                                        </th>
+                                        <th>
+                                            SMP
+                                        </th>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(siswa, index) in siswas.data" :key="index">
@@ -122,8 +146,8 @@
                                 </table>
                             </div>
                             <div class=" d-flex justify-center items-center">
-                                <Bootstrap5Pagination :data="siswas" :limit=4 @pagination-change-page="getData"
-                                    class="mt-5" style="background-color: aqua;" />
+                                <Bootstrap5Pagination :data="siswas" :limit=4 @pagination-change-page="getData" class="mt-5"
+                                    style="background-color: aqua;" />
                             </div>
                         </div>
                     </div>
@@ -155,7 +179,9 @@ export default {
             show: false,
             paginate: 10,
             search: "",
-            currentPage: 1
+            currentPage: 1,
+            sort_direction: "asc",
+            sort_field: "id"
         }
     },
     watch: {
@@ -219,10 +245,23 @@ export default {
                     }
                 })
         },
+        change_sort(field){
+            this.sort_field = field
+            if(this.sort_field == field){
+                this.sort_direction = this.sort_direction == "asc" ? "desc" : "asc"
+            }else{
+                this.sort_field = field
+            }
+            this.getData()
+        },
         getData(page = 1) {
             this.loading1 = true
             setTimeout(() => {
-                axios.get('/api/op/siswa?page=' + page + '&paginate=' + this.paginate + '&q=' + this.search, {
+                axios.get('/api/op/siswa?page=' + page +
+                '&paginate=' + this.paginate +
+                '&q=' + this.search +
+                '&sort_direction=' + this.sort_direction +
+                '&sort_field=' + this.sort_field, {
                     headers: {
                         "Accept": "application/json",
                         "Authorization": "Bearer " + useAuthStore().token
@@ -271,7 +310,7 @@ export default {
                     link.click()
                 })
         },
-        downloadSmp(){
+        downloadSmp() {
             axios.get('/api/eximSmp/create', {
                 responseType: 'blob',
                 headers: {

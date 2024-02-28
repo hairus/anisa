@@ -12,11 +12,18 @@ class SiswaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
         $paginate = request('paginate', 10);
         $search = request('q', '');
-        $siswa = siswa::with('smas', 'smps', 'nilai')->where('npsn_sma', auth()->user()->username)->search(trim($search))->paginate($paginate);
+        $sort_direction = request('sort_direction', 'asc');
+        $sort_field = request('sort_field', 'id');
+
+        $siswa = siswa::with('smas', 'smps', 'nilai')
+        ->where('npsn_sma', auth()->user()->username)
+        ->search(trim($search))
+        ->orderBy($sort_field, $sort_direction)
+        ->paginate($paginate);
 
         $gg =  SiswaResource::collection($siswa);
 
