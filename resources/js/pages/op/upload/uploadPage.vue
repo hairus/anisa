@@ -146,7 +146,7 @@
                                 </table>
                             </div>
                             <div class=" d-flex justify-center items-center">
-                                <Bootstrap5Pagination :data="siswas" :limit=4 @pagination-change-page="getData" class="mt-5"
+                                <Bootstrap5Pagination :data="siswas" :limit=2 @pagination-change-page="getData" class="mt-5"
                                     style="background-color: aqua;" />
                             </div>
                         </div>
