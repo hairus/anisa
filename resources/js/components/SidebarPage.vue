@@ -95,11 +95,6 @@
         <ul class="nav" v-if="user.role == 2">
             <li class="nav-item nav-profile">
                 <a href="#" class="nav-link">
-                    <div class="nav-profile-image">
-                        <img src="../../../public/assets/images/faces/face1.jpg" alt="profile">
-                        <span class="login-status online"></span>
-                        <!--change to offline or busy as needed-->
-                    </div>
                     <div class="nav-profile-text d-flex flex-column">
                         <span class="font-weight-bold mb-2">{{ user.name.toUpperCase() }}</span>
                         <span class="text-secondary text-small">Operator</span>
