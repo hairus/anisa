@@ -15,6 +15,7 @@ class SiswaResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            "id" => $this->id,
             "name" => $this->name,
             "nisn" => $this->nisn,
             "npsn_sma" => $this->npsn_sma,
@@ -24,7 +25,7 @@ class SiswaResource extends JsonResource
             "tingkat" => $this->tingkat,
             "rombel" => $this->rombel,
             "smas" => $this->smas->nm_sekolah,
-            "smps" => $this->smps->nama_smp,
+            "smps" => $this->smps ? $this->smps->nama_smp : 'SEKOLAH TIDAK DI TEMUKAN',
             "nilai" => $this->nilai->nilai,
         ];
     }
