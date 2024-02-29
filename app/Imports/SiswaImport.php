@@ -33,7 +33,7 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
     {
         $jobs = [];
         foreach ($rows as $row) {
-            $jobs[] = new PosangJob($row['name'], $row['nisn'], $this->npsn, $row['npsn_smp'], $row['tingkat'], $row['rombel'], $row['nilai'], $this->user_id);
+            $jobs[] = new PosangJob($row['name'], $row['nisn'], $this->npsn, $row['npsn_smp'], $row['tingkat'], $row['rombel'], $row['nilai'], $this->user_id, $row['nama_smp']);
         }
         $batch = Bus::batch($jobs)->dispatch();
         BatchUser::create([
@@ -47,6 +47,7 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
     {
         return [
             "name" => ['required'],
+            "nama_smp" => ['required'],
             "tingkat" => ['required', 'numeric', 'min:10', 'max:12'],
             "nisn" => ['required', 'numeric'],
             "npsn_smp" => ['required'],
@@ -62,7 +63,7 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
             'nisn' => 'nisn tidak boleh kosong / nisn harus angka ',
             "nilai" => "nilai tidak boleh kosong / nilai maksimal 100 minimal 0",
             "npsn_smp" => "npsn smp tidak boleh kosong / npsn smp harus angka",
-            "npsn_sma" => "npsn sma tidak boleh kosong / npsn sma harus angka",
+            "nama_smp" => "nama smp tidak boleh kosong",
         ];
     }
 

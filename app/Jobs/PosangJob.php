@@ -23,9 +23,10 @@ class PosangJob implements ShouldQueue
      public  $rombel;
      public  $nilai;
      public $user_id;
+     public $nama_smp;
 
 
-    public function __construct($name, $nisn, $npsn_sma, $npsn_smp, $tingkat,$rombel, $nilai, $user_id)
+    public function __construct($name, $nisn, $npsn_sma, $npsn_smp, $tingkat,$rombel, $nilai, $user_id, $nama_smp)
     {
         $this->name = $name;
         $this->nisn = $nisn;
@@ -35,6 +36,7 @@ class PosangJob implements ShouldQueue
         $this->rombel = $rombel;
         $this->nilai = $nilai;
         $this->user_id = $user_id;
+        $this->nama_smp = $nama_smp;
     }
 
     /**
@@ -50,6 +52,7 @@ class PosangJob implements ShouldQueue
             "tingkat" => $this->tingkat,
             "rombel" => $this->rombel,
             "user_id" => $this->user_id,
+            "nama_smp" => $this->nama_smp,
         ])->nilai()->create([
             "npsn_sma" => $this->npsn_sma,
             "npsn_smp" => $this->npsn_smp,
