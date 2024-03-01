@@ -20,7 +20,7 @@
                 <div class="col-md-8">
                     <div class="card mt-10">
                         <div class="card-header">
-                            <h3 class="m-3">SMAN 1 SUMENEP</h3>
+                            <h3 class="m-3">{{store.user.name}}</h3>
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,6 @@
 </template>
 
 <script setup>
-
+import { useAuthStore } from "@/store/index.js";
+const store = useAuthStore();
 </script>
-
-<style lang="scss" scoped></style>
