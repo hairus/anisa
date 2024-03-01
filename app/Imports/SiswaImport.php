@@ -20,8 +20,6 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
     public $npsn;
 
 
-
-
     public function __construct($user_id, $npsn)
     {
         $this->user_id = $user_id;
@@ -51,7 +49,7 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
             "tingkat" => ['required', 'numeric', 'min:10', 'max:12'],
             "nisn" => ['required', 'numeric'],
             "npsn_smp" => ['required'],
-            "nilai" => ['required','numeric', 'max:100' ,'min:0'],
+            "nilai" => ['required'],
         ];
     }
 
