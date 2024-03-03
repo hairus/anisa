@@ -20,7 +20,7 @@
                 <div class="col-md-8">
                     <div class="card mt-10">
                         <div class="card-header">
-                            <h3 class="m-3">{{store.user.name}}</h3>
+                            <h3 class="m-3">{{ store.user.name }}</h3>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,8 @@
                                 yang benar. Apabila kemudian hari terdapat kesalahan maka sepenuhnya menjadi tanggung jawab
                                 saya
                             </p>
-                            <button class="btn btn-sm btn-primary">Finalisasi Data</button>
+                            <button class="btn btn-sm btn-primary" v-if="store.final == 1" disabled>Final</button>
+                            <button class="btn btn-sm btn-primary" v-else @click="finalisasi()">Finalisasi Data</button>
                         </div>
                     </div>
                 </div>
@@ -47,5 +48,20 @@
 
 <script setup>
 import { useAuthStore } from "@/store/index.js";
+import axios from "axios";
 const store = useAuthStore();
+
+const finalisasi = () => {
+    axios.post('/api/op/final', {
+        "rix": "rix"
+    }, {
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + useAuthStore().token
+        }
+    })
+    .then(res => {
+        store.final = res.data
+    })
+};
 </script>

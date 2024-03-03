@@ -24,18 +24,18 @@ class testerController extends Controller
     public function store(Request $request)
     {
         // dd(auth()->user()->id);
-        $validation = $request->validate([
-            "file" => "required"
-        ]);
-        $file = $request->file('file');
+        // $validation = $request->validate([
+        //     "file" => "required"
+        // ]);
+        // $file = $request->file('file');
 
-        $fileName = time() . '.' . $file->getClientOriginalExtension();
+        // $fileName = time() . '.' . $file->getClientOriginalExtension();
 
-        $path = $request->file->move(public_path('excel'), $fileName);
+        // $path = $request->file->move(public_path('excel'), $fileName);
 
-        $user_id = auth()->user()->id;
-        $imports = new SiswaImport($user_id);
-        $imports->import($path);
+        // $user_id = auth()->user()->id;
+        // $imports = new SiswaImport($user_id);
+        // $imports->import($path);
         // try {
 
         // } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {

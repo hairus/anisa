@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(role_user::class, 'user_id');
     }
+
+    public function finalisasi()
+    {
+        return $this->hasOne(sekolah_final::class);
+    }
 }

@@ -25,7 +25,8 @@
                             <h4 class="font-weight-normal mb-3">Status Finalisasi <i
                                     class="mdi mdi-chart-line mdi-24px float-right"> </i>
                             </h4>
-                            <h2 class="mb-5">Belum</h2>
+                            <h2 class="mb-5" v-if="store.final == 1">Sudah</h2>
+                            <h2 class="mb-5" v-else>Belum</h2>
                             <h6 class="card-text"></h6>
                         </div>
                     </div>
@@ -62,7 +63,8 @@
                                 <tbody>
                                     <tr>
                                         <td>Finalisasi Data</td>
-                                        <td class="text-danger">Belum</td>
+                                        <td class="text-success" v-if="store.final == 1">Sudah</td>
+                                        <td class="text-danger" v-else>Belum</td>
                                     </tr>
                                 </tbody>
                             </table>
