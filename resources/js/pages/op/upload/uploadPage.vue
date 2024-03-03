@@ -16,11 +16,10 @@
                     </ul>
                 </nav>
             </div>
-            <div class="row">
+            <div class="row" v-if="final != 1">
                 <div class="col-12 grid-margin">
                     <div class="card">
                         <div class="card-body">
-
                             <div class="d-flex justify-content-center" v-if="loading">
                                 <div class="spinner-border text-primary" role="status"></div>
                             </div>
@@ -181,7 +180,8 @@ export default {
             search: "",
             currentPage: 1,
             sort_direction: "asc",
-            sort_field: "id"
+            sort_field: "id",
+            final : useAuthStore().final
         }
     },
     watch: {

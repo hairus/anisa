@@ -7,7 +7,8 @@ export const useAuthStore = defineStore('auth', {
             token: "",
             loading: false,
             isAuth: false,
-            counter: 0
+            counter: 0,
+            final: false
         }
     },
     actions: {
@@ -15,6 +16,7 @@ export const useAuthStore = defineStore('auth', {
             this.isAuth = true;
             this.token = token;
             this.user = user
+            this.final = user.final;
         },
         isLogout() {
             this.isAuth = false;

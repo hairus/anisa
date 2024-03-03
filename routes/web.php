@@ -3,6 +3,7 @@
 use App\Http\Controllers\EximController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PosangController;
+use App\Http\Controllers\SekolahFinalController;
 use App\Http\Controllers\testerController;
 use Illuminate\Support\Facades\Route;
 /*
@@ -37,6 +38,7 @@ Route::post('/store', [testerController::class, 'store']);
 Route::get('/tambah', [PosangController::class, 'tambah']);
 Route::get('/posang', [PosangController::class, 'posang']);
 Route::get('/listen', [PosangController::class, 'listen']);
+Route::get('/final', [SekolahFinalController::class, 'index']);
 Route::get('/generatePassword', [PosangController::class, 'generatePassword']);
 
 

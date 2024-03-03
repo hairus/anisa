@@ -6,6 +6,7 @@ use App\Http\Controllers\KabKotaController;
 use App\Http\Controllers\OpController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoleUserController;
+use App\Http\Controllers\SekolahFinalController;
 use App\Http\Controllers\SmasController;
 use App\Http\Controllers\SmpsController;
 use App\Http\Controllers\UploadController;
@@ -45,5 +46,6 @@ Route::resource('users', UserController::class)->middleware(['auth:sanctum', 'ad
 Route::group(['prefix' => 'op', 'middleware' => ['auth:sanctum', 'operator']], function(){
     Route::resource('cp', UserController::class);
     Route::resource('siswa', SiswaController::class);
+    Route::resource('final', SekolahFinalController::class);
     Route::get('getSiswa',[OpController::class, 'getSiswa']);
 });

@@ -22,6 +22,8 @@ class AuthController extends Controller
 
             $success["role"] = $user->role->role_id;
 
+            $success["final"] = $user->finalisasi->final;
+
             return $success;
         } else {
 
