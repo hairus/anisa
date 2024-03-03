@@ -29,7 +29,7 @@
                 <div class="col-md-8 justify-center items-center d-flex">
                     <div class="card mt-10">
                         <div class="card-title">
-                            <h5 class="ms-5 mt-4">Finalisasi Data Siswa</h5>
+                            <h5 class="ms-5 mt-4">Finalisasi Data Siswa dan nilai</h5>
                         </div>
                         <div class="card-body">
                             <p>Saya adalah Kepala Sekolah, dengan ini meyatakan bahwa data yang saya masukkan adalah data
