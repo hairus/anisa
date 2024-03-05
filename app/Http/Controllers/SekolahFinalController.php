@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\sekolah_final;
+use App\Models\smas;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -39,17 +40,17 @@ class SekolahFinalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(sekolah_final $sekolah_final)
+    public function show(Request $request)
     {
-        //
+        return $request;
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(sekolah_final $sekolah_final)
+    public function edit(Request $request)
     {
-        //
+
     }
 
     /**
@@ -57,7 +58,13 @@ class SekolahFinalController extends Controller
      */
     public function update(Request $request, sekolah_final $sekolah_final)
     {
-        //
+
+        $sekolah = smas::find($request->id);
+        $user = User::where('username', $sekolah->npsn)->first();
+        $sekolah = sekolah_final::where('user_id', $user->id)->first();
+        $sekolah->final = 0;
+        $sekolah->save();
+        return $sekolah;
     }
 
     /**

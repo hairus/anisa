@@ -42,6 +42,7 @@ Route::resource('smps', SmpsController::class)->middleware(['auth:sanctum', 'adm
 Route::resource('smas', SmasController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('kabs', KabKotaController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('users', UserController::class)->middleware(['auth:sanctum', 'admin']);
+Route::resource('final', SekolahFinalController::class)->middleware(['auth:sanctum', 'admin']);
 
 Route::group(['prefix' => 'op', 'middleware' => ['auth:sanctum', 'operator']], function(){
     Route::resource('cp', UserController::class);

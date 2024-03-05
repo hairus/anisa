@@ -17,14 +17,23 @@
                     <template #nm_sekolah="data">
                         <button class="badge-info rounded p-2">{{ data.value.nm_sekolah }}</button>
                     </template>
+
                     <template #siswa="data">
                         <button class="badge-info rounded p-2">{{ data.value.siswas.length }}</button>
                     </template>
+
                     <template #actions="data">
                         <div class="flex gap-4">
-                            <button type="button" class="badge-gradient-success btn-sm m-1" @click="viewUser(data.value)"><i
-                                    class="mdi mdi-eye"></i></button>
-                            <button class="badge-gradient-danger btn-sm"><i class="mdi mdi-delete"></i></button>
+                            <button type="button" class="badge-gradient-success btn-sm m-1"
+                                @click="viewUser(data.value)">
+                                <i class="mdi mdi-eye"></i>
+                            </button>
+                            <button type="button" class="badge-gradient-info btn-sm m-1" @click="unlock(data.value)">
+                                <i class="mdi mdi-lock"></i>
+                            </button>
+                            <button class="badge-gradient-danger btn-sm">
+                                <i class="mdi mdi-delete"></i>
+                            </button>
                             <!-- <button type="button" class="btn btn-danger btn-sm"
                                 @click="deleteUser(data.value)">Delete</button> -->
                         </div>
@@ -69,8 +78,8 @@ let timer;
 const getSma = () => {
     loading.value = true;
     axios.get('/api/smas?page=' + params.current_page + "&params=" + params.pagesize + "&search=" + params.search, {
-        headers:{
-            "accept" : "application/json",
+        headers: {
+            "accept": "application/json",
             "Authorization": "Bearer " + props.store.token
         }
     })
@@ -103,6 +112,22 @@ const changeServer = (data) => {
         filterUsers();
     } else {
         getSma();
+    }
+}
+
+const unlock = (value) => {
+    if (confirm('apakah anda akan men Unclok finalisasi ' + value.nm_sekolah)) {
+        axios.put('/api/final/' + value.id, {
+            id: value.id
+        }, {
+            headers: {
+                "accept": "application/json",
+                "Authorization": "Bearer " + props.store.token
+            }
+        })
+            .then(res => {
+                alert("berhasil unlock")
+            })
     }
 }
 
