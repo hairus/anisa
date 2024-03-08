@@ -4,7 +4,7 @@
             <router-link class="navbar-brand brand-logo" to="#">
                 <h1 class="text-puprle" style="font-weight: 400;">ANISA</h1>
             </router-link>
-            <router-link class="navbar-brand brand-logo-mini" to="/dashboard">
+            <router-link class="navbar-brand brand-logo-mini" to="#">
                 <img src="../../../public/assets/images/logo-mini.svg" alt="logo" />
             </router-link>
         </div>

@@ -27,7 +27,7 @@
                                 <i class="mdi mdi-file"></i> Download Template
                             </button>
                             <button class="btn btn-sm btn-info mt-4 mb-4 ms-2" @click="downloadSmp()">
-                                <i class="mdi mdi-file"></i> Download Npsn SMP
+                                <i class="mdi mdi-file"></i> Download NPSN SMP/MTS
                             </button>
                             <form @submit.prevent="submitFile()">
                                 <div class="form-group">

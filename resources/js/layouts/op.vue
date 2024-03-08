@@ -1,10 +1,10 @@
 <template>
     <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <router-link class="navbar-brand brand-logo" to="/dashboard">
+          <router-link class="navbar-brand brand-logo" to="#">
             <h3 class="text-black" style="font-weight: 400;">ANISA JATIM</h3>
         </router-link>
-          <router-link class="navbar-brand brand-logo-mini" to="/dashboard"><img src="../../../public/assets/images/logo-mini.svg" alt="logo" /></router-link>
+          <router-link class="navbar-brand brand-logo-mini" to="#"><img src="../../../public/assets/images/logo-mini.svg" alt="logo" /></router-link>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
           <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
