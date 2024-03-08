@@ -17,6 +17,7 @@ class SmpsExport implements WithHeadings, WithMapping, FromQuery
         return[
             'npsn smp',
             'nama smp',
+            'kab kota',
             'jenjang',
         ];
     }
@@ -26,6 +27,7 @@ class SmpsExport implements WithHeadings, WithMapping, FromQuery
         return[
             $smps->npsn_smp,
             $smps->nama_smp,
+            $smps->kabs->kab_kota,
             $smps->jenjang,
         ];
     }

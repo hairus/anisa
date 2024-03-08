@@ -61,7 +61,7 @@ class UploadController extends Controller
 
         $user_npsn = auth()->user()->username;
 
-        set_time_limit(0);
+//        set_time_limit(0);
 
         $cek = siswa::where('user_id', $user_id)->first();
 
