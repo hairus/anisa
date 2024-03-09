@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Log;
 
 class PosangController extends Controller
 {
@@ -52,8 +53,9 @@ class PosangController extends Controller
 
     public function listen()
     {
-        Artisan::call('queue:work --daemon');
+//        Artisan::call('queue:work --daemon');
+    Log::info("tulis");
 
-        return back();
+        return "gg";
     }
 }

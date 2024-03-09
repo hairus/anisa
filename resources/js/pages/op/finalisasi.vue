@@ -36,21 +36,41 @@
                                 yang benar. Apabila kemudian hari terdapat kesalahan maka sepenuhnya menjadi tanggung jawab
                                 saya
                             </p>
-                            <button class="btn btn-sm btn-primary" v-if="store.final == 1" disabled>Final</button>
-                            <button class="btn btn-sm btn-primary" v-else @click="finalisasi()">Finalisasi Data</button>
+                            <div v-if="jumlah !== 0">
+                                    <button class="btn btn-danger" disabled>Maaf terdapat siswa nisn ganda {{jumlah}}</button>
+                            </div>
+                            <div v-else>
+                                <button class="btn btn-sm btn-primary" v-if="store.final == 1" disabled>Final</button>
+                                <button class="btn btn-sm btn-primary" v-else @click="finalisasi()">Finalisasi Data</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</template>
 
+</template>
 <script setup>
 import { useAuthStore } from "@/store/index.js";
 import axios from "axios";
+import {onMounted, ref} from "vue";
 const store = useAuthStore();
+const siswas = ref([]);
+const jumlah = ref()
 
+const getSiswa = () => {
+    axios.get('/api/op/residu',  {
+        headers: {
+            "accept": "application/json",
+            "Authorization": "Bearer " + store.token
+        }
+    })
+        .then(res => {
+            siswas.value = res.data.siswas
+            jumlah.value = res.data.count
+        })
+}
 const finalisasi = () => {
     axios.post('/api/op/final', {
         "rix": "rix"
@@ -64,4 +84,7 @@ const finalisasi = () => {
         store.final = res.data
     })
 };
+onMounted(() => {
+    getSiswa()
+})
 </script>

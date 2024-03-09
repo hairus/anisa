@@ -12,6 +12,7 @@ import HomePage from "../pages/op/home.vue"
 import OpUpload from "../pages/op/upload/uploadPage.vue"
 import finalisasi from "../pages/op/finalisasi.vue"
 import Cp from "../pages/op/cp/cp.vue"
+import Residu from "../pages/op/residu/residu.vue"
 
 import { useAuthStore } from "../store/index.js"
 
@@ -70,6 +71,12 @@ const routes = [{
                 path: "cp",
                 component: Cp
 
+            },
+            {
+
+                name: "residu",
+                path: "residu",
+                component: Residu
             },
         ]
     },

@@ -40,6 +40,7 @@ class UploadController extends Controller
         $bath_user = BatchUser::where('user_id', auth()->user()->id)->orderBy('id', "DESC")->first();
         $batchMe = Bus::findBatch($bath_user->batch_id);
 
+
         return $batchMe;
     }
 
@@ -61,7 +62,7 @@ class UploadController extends Controller
 
         $user_npsn = auth()->user()->username;
 
-        set_time_limit(0);
+//        set_time_limit(0);
 
         $cek = siswa::where('user_id', $user_id)->first();
 

@@ -29,12 +29,12 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
 
     public function collection(Collection $rows)
     {
-        $jobs = [];
+        $jobs1 = [];
         foreach ($rows as $row) {
-            $jobs[] = new PosangJob($row['name'], $row['nisn'], $this->npsn, $row['npsn_smp'], $row['tingkat'], $row['rombel'], $row['nilai'], $this->user_id, $row['nama_smp']);
+            $jobs1[] = new PosangJob($row['name'], $row['nisn'], $this->npsn, $row['npsn_smp'], $row['tingkat'], $row['rombel'], $row['nilai'], $this->user_id, $row['nama_smp']);
         }
-        $batch = Bus::batch($jobs)->dispatch();
-        BatchUser::create([
+        $batch = Bus::batch($jobs1)->dispatch();
+        $bu = BatchUser::create([
             "user_id" => $this->user_id,
             "batch_id" => $batch->id
         ]);
@@ -47,8 +47,8 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
             "name" => ['required'],
             "nama_smp" => ['required'],
             "tingkat" => ['required', 'numeric', 'min:10', 'max:12'],
-            "nisn" => ['required', 'numeric'],
-            "npsn_smp" => ['required'],
+            "nisn" => ['required', 'numeric', 'digits:10'],
+            "npsn_smp" => ['required', 'regex:/^[0-9A-Z](?:\d\D*){7}$/'],
             "nilai" => ['required', 'numeric', 'min:0', 'max:100'],
         ];
     }
@@ -58,10 +58,10 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
         return [
             'name' => 'Nama tidak boleh kosong',
             'tingkat' => 'Tingkat tidak boleh kosong / tingkat harus angka contoh 10,11,12/ minimal kelas 10, maksimal kelas 12',
-            'nisn' => 'nisn tidak boleh kosong / nisn harus angka ',
-            "nilai" => "nilai tidak boleh kosong / nilai maksimal 100 minimal 0",
-            "npsn_smp" => "npsn smp tidak boleh kosong / npsn smp harus angka",
-            "nama_smp" => "nama smp tidak boleh kosong",
+            'nisn' => 'Format NISN salah',
+            "nilai" => "Rerata nilai bernilai minimal 0 dan maksimal 100",
+            "npsn_smp" => "Format NPSN salah",
+            "nama_smp" => "Nama sekolah tidak boleh kosong",
         ];
     }
 

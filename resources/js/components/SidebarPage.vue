@@ -119,6 +119,14 @@
                 </RouterLink>
             </li>
             <li class="nav-item">
+                <RouterLink class="nav-link" to="/op/residu">
+                    <span class="menu-title">
+                        Residu
+                    </span>
+                    <i class="mdi mdi-contacts menu-icon"></i>
+                </RouterLink>
+            </li>
+            <li class="nav-item">
                 <RouterLink class="nav-link" to="/op/finalisasi">
                     <span class="menu-title">
                         Finalisasi
