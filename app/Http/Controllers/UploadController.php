@@ -52,6 +52,7 @@ class UploadController extends Controller
         $request->validate([
             "file" => "required|mimes:xlsx"
         ]);
+
         $file = $request->file('file');
 
         $fileName = time() . '.' . $file->getClientOriginalExtension();

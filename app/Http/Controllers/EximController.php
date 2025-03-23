@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\siswaDapodikExport;
 use App\Exports\SiswaExport;
 use App\Exports\SmpsExport;
 use App\Exports\UploadsExport;
 use App\Imports\UploadsImport;
+use App\Models\siswa;
+use App\Models\siswaDapodik;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
@@ -18,9 +21,20 @@ class EximController extends Controller
      */
     public function index()
     {
-        $user_id = auth()->user()->id;
+        $user = Auth::user();
+        $cek = siswa::where('user_id', auth()->id())->count();
+        // jika siswa di tabel siswa tidak ada maka di ambilkan dari siswadapodik
+        if($cek == 0){
+            $user_id = auth()->user()->username;
 
-        return Excel::download(new SiswaExport($user_id), 'users.xlsx');
+            return Excel::download(new siswaDapodikExport($user_id), 'siswa11.xlsx');
+        }else{
+            $user_id = auth()->id();
+
+            return Excel::download(new SiswaExport($user_id), 'users.xlsx');
+
+        }
+
     }
 
     /**

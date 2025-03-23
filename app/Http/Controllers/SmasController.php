@@ -18,7 +18,7 @@ class SmasController extends Controller
                 $q->select('npsn_sma');
             }])->paginate($_GET['params']);
 
-            return $sma;
+            return response()->json($sma, 200);
         }else if($_GET['search'] && $_GET['params']){
 
             $sma = smas::with('kabs','user')->with(['siswas' => function($q){
@@ -28,13 +28,13 @@ class SmasController extends Controller
                 ->orWhere("nm_sekolah", 'LIKE', '%'.$_GET['search'].'%')
                 ->paginate(10);
 
-            return $sma;
+            return response()->json($sma, 200);
         }else{
             $sma = smas::with('kabs', 'user')->with(['siswas' => function($q){
                 $q->select('npsn_sma');
                 }])->paginate(5);
 
-            return $sma;
+            return response()->json($sma, 200);
         }
 
     }

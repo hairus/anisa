@@ -73,5 +73,6 @@ class Kernel extends HttpKernel
         "admin" => \App\Http\Middleware\admin::class,
         "operator" => \App\Http\Middleware\operator::class,
         'cors' => \App\Http\Middleware\Cors::class,
+
     ];
 }

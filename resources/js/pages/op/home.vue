@@ -57,8 +57,10 @@
                         <div class="card-body">
                             <table class="table">
                                 <thead>
+                                <tr>
                                     <th>Jenis Finalisasi</th>
                                     <th>Keterangan</th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
@@ -84,11 +86,13 @@
                         <div class="card-body">
                             <table class="table">
                                 <thead>
+                                <tr>
                                     <th>Jenis Data</th>
                                     <th>Kelas 10</th>
                                     <th>Kelas 11</th>
                                     <th>Kelas 12</th>
                                     <th>Total</th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                     <tr>

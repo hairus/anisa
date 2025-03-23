@@ -37,15 +37,10 @@
                                 </div>
                                 <div class="alert alert-danger" role="alert" v-if="errors">
                                     <ul>
-                                        <li> Atas Nama <b>{{ errors.values.name }}</b></li>
-                                        <li><b>{{ errors.attribute }}</b> di baris <b>{{ errors.row }}</b></li>
+                                        <li> Atas Nama <b>{{ errors.values.name }} - {{ errors.attribute }}</b> pada file excel baris Ke-<b>{{ errors.row }}</b></li>
                                     </ul>
                                 </div>
-                                <div class="alert alert-danger col-6" role="alert" v-if="errors1">
-                                    <ul>
-                                        <li><b>{{ errors1 }}</b></li>
-                                    </ul>
-                                </div>
+
                                 <div class="alert alert-primary col-4" role="alert" v-if="message">
                                     {{ message }}
                                 </div>
@@ -97,6 +92,7 @@
                             <div class="table-responsive" style="font-size: 12px">
                                 <table class="table alert-primary text-black">
                                     <thead>
+                                    <tr>
                                         <th>
                                             <a href="#" @click.prevent="change_sort('id')">No</a>
                                             <span v-if="sort_direction == 'desc' && sort_field == 'id'">&uarr;</span>
@@ -129,6 +125,7 @@
                                         <th>
                                             SMP
                                         </th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(siswa, index) in siswas.data" :key="index">
@@ -271,7 +268,7 @@ export default {
                         this.loading1 = false
                         this.siswas = res.data
                         this.total = res.data.meta.total
-                        // this.getBatch()
+                        this.getBatch()
                         this.show = false
                         setTimeout(() => {
                             this.show = true

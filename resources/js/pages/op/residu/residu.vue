@@ -29,9 +29,13 @@
                             <div class="col-3 btn btn-danger mb-3 text-dark">
                                 NISN GANDA {{jumlah}}
                             </div>
+                            <div class="mb-3" v-if="isloading">
+                                <div class="spinner-border text-danger" role="status"></div>
+                            </div>
                             <div class="table table-responsive">
                                 <table class="table table-danger">
                                     <thead>
+                                    <tr>
                                     <th>No</th>
                                     <th>NAMA</th>
                                     <th>NISN</th>
@@ -40,6 +44,7 @@
                                     <th>NPSN SMP</th>
                                     <th>NAMA SMP</th>
                                     <th>NILAI</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     <tr v-for="(siswa, index) in siswas" :key="siswa.id">
@@ -68,11 +73,12 @@ import {onMounted, ref} from 'vue'
 import axios from 'axios';
 import { useAuthStore } from '../../../store';
 const store = useAuthStore();
+const isloading = ref(false)
 const siswas = ref([]);
 const jumlah = ref()
 const loading = ref(false)
 const getSiswa = () => {
-    loading.value = true
+    isloading.value = true
     axios.get('/api/op/residu',  {
         headers: {
             "accept": "application/json",
@@ -82,7 +88,7 @@ const getSiswa = () => {
         .then(res => {
             siswas.value = res.data.siswas
             jumlah.value = res.data.count
-            loading.value = false
+            isloading.value = false
         })
 }
 

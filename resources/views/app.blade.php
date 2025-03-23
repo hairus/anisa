@@ -13,7 +13,7 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('/assets/images/favicon.ico')}}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+   {{-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> --}}
 
     @vite('resources/css/app.css')
   </head>
