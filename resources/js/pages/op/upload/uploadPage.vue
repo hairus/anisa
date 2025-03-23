@@ -268,7 +268,7 @@ export default {
                         this.loading1 = false
                         this.siswas = res.data
                         this.total = res.data.meta.total
-                        // this.getBatch()
+                        this.getBatch()
                         this.show = false
                         setTimeout(() => {
                             this.show = true

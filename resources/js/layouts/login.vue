@@ -43,7 +43,7 @@
             </div>
             <!-- content-wrapper ends -->
         </div>
-        <p id="dindik">Pemprov Dindik Jatim Copyright © 2023-2024</p>
+        <p id="dindik">Pemprov Dindik Jatim Copyright © 2023-2025</p>
         <!-- page-body-wrapper ends -->
     </div>
 </template>

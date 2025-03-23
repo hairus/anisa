@@ -71,9 +71,4 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
     {
         return 1000;
     }
-
-    public function batchSize(): int
-    {
-        return 1000;
-    }
 }
