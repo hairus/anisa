@@ -10,7 +10,6 @@ class ResiduController extends Controller
     public function index()
     {
         $username = auth()->user()->username;
-//        dd($username);
         $query = DB::select('SELECT a.nisn,
                      a.name,
                      a.npsn_smp,
@@ -23,7 +22,7 @@ class ResiduController extends Controller
                 FROM siswas a
                    INNER JOIN (SELECT nisn
                                FROM   siswas
-                               GROUP  BY nisn,npsn_smp,npsn_sma
+                               GROUP  BY nisn,npsn_sma
                                HAVING COUNT(nisn) > 1) b
                            ON a.nisn = b.nisn
                         LEFT JOIN nilais c ON c.siswa_id = a.id

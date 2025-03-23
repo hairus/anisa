@@ -73,7 +73,6 @@ const routes = [{
 
             },
             {
-
                 name: "residu",
                 path: "residu",
                 component: Residu

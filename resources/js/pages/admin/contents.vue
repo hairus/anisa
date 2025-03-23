@@ -27,7 +27,7 @@
                             <h4 class="font-weight-normal mb-3">SMA/SMK SE JAWA TIMUR <i
                                     class="mdi mdi-chart-line mdi-24px float-right"></i>
                             </h4>
-                            <h2 class="mb-5">{{ kabs }} Kab/Kota</h2>
+                            <h2 class="mb-5">{{ kabs - 1 }} Kab/Kota</h2>
                             <h6 class="card-text">JUMLAH SMA/SMK {{ smas }}</h6>
                         </div>
                     </div>
@@ -73,6 +73,11 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-12 grid-margin">
+                    <kab :store="store" />
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-6 grid-margin">
                     <man-sma :store="store" />
                 </div>
@@ -86,6 +91,11 @@
                 </div>
                 <div class="col-6 grid-margin">
                     <man-operator :store="store" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <detail :store="store"/>
                 </div>
             </div>
         </div>
@@ -115,6 +125,8 @@ import manSmp from './manSmp/manSmp.vue'
 import manSma from './manSma/manSma.vue'
 import manRole from './manRole/manRole.vue'
 import manOperator from "./manOperator/manOperator.vue"
+import kab from "./manKab/kab.vue"
+import detail from "./detail/detail.vue"
 
 const roles = ref();
 const errors = ref();
@@ -138,7 +150,6 @@ const getKabs = () => {
             siswas.value = res.data.siswas;
         })
 }
-
 
 const ShowModal = () => {
     var myModal = new bootstrap.Modal(document.getElementById('myModal'))

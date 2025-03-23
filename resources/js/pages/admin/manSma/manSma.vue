@@ -70,6 +70,7 @@ const cols =
         { field: 'kode_un', title: 'KODE UN' },
         { field: 'siswa', title: 'SISWA' },
         { field: 'kabs.kab_kota', title: 'Kab/Kota' },
+        { field: 'user.password_asli', title: 'Password' },
         { field: 'actions', title: 'Actions' },
     ]) || [];
 

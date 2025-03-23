@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Exports\UploadsExport;
 use App\Imports\SiswaImport;
+use App\Models\kab_kota;
 use App\Models\pesan;
 use App\Models\siswa;
+use App\Models\smas;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Maatwebsite\Excel\Facades\Excel;
@@ -62,5 +64,16 @@ class testerController extends Controller
     public  function apps() {
         // dd("kesini");
         return view('app');
+    }
+
+    public function persen()
+    {
+        $kabs = kab_kota::with(['smas' => function ($q) {
+            $q->whereHas('siswas');
+        }])->with(['smaNo' => function ($y) {
+            $y->doesntHave('siswasNo');
+        }])->where('id', '<>', 99)->get();
+
+        return $kabs;
     }
 }

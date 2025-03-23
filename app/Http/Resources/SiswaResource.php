@@ -20,8 +20,6 @@ class SiswaResource extends JsonResource
             "nisn" => $this->nisn,
             "npsn_sma" => $this->npsn_sma,
             "npsn_smp" => $this->npsn_smp,
-            "npsn_smp" => $this->npsn_smp,
-            "tingkat" => $this->tingkat,
             "tingkat" => $this->tingkat,
             "rombel" => $this->rombel,
             "smas" => $this->smas->nm_sekolah,

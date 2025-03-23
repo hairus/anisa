@@ -41,6 +41,11 @@ Route::resource('roleUsers', RoleUserController::class)->middleware(['auth:sanct
 Route::resource('smps', SmpsController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('smas', SmasController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('kabs', KabKotaController::class)->middleware(['auth:sanctum', 'admin']);
+Route::get('kabs/belum/{id}', [KabKotaController::class, 'belum'])->middleware(['auth:sanctum', 'admin']);
+Route::get('kabs/getData/{id}', [KabKotaController::class, 'getData'])->middleware(['auth:sanctum', 'admin']);
+Route::get('kabs/sudah/{id}', [KabKotaController::class, 'sudah'])->middleware(['auth:sanctum', 'admin']);
+Route::get('kabs/final/{id}', [KabKotaController::class, 'final'])->middleware(['auth:sanctum', 'admin']);
+Route::get('kabs/nofinal/{id}', [KabKotaController::class, 'nofinal'])->middleware(['auth:sanctum', 'admin']);
 Route::resource('users', UserController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('final', SekolahFinalController::class)->middleware(['auth:sanctum', 'admin']);
 

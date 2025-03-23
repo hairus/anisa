@@ -19,4 +19,24 @@ class smas extends Model
     {
         return $this->hasMany(siswa::class, 'npsn_sma', 'npsn');
     }
+
+    public function dapodik()
+    {
+        return $this->hasOne(dapodik::class, 'npsn', 'npsn');
+    }
+
+    public  function siswasNo()
+    {
+        return $this->hasMany(siswa::class, 'npsn_sma', 'npsn');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'username', 'npsn');
+    }
+
+    public function finals()
+    {
+        return $this->hasOne(sekolah_final::class, 'npsn', 'npsn');
+    }
 }

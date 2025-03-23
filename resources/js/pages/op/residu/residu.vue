@@ -20,6 +20,9 @@
                 <div class="col-12 grid-margin">
                     <div class="card">
                         <div class="card-body">
+                            <div class="d-flex justify-content-center" v-if="loading">
+                                <div class="spinner-border text-danger" role="status"></div>
+                            </div>
                             <div class="card-title">
                                 RESIDU NISN GANDA
                             </div>
@@ -67,7 +70,9 @@ import { useAuthStore } from '../../../store';
 const store = useAuthStore();
 const siswas = ref([]);
 const jumlah = ref()
+const loading = ref(false)
 const getSiswa = () => {
+    loading.value = true
     axios.get('/api/op/residu',  {
         headers: {
             "accept": "application/json",
@@ -77,15 +82,9 @@ const getSiswa = () => {
         .then(res => {
             siswas.value = res.data.siswas
             jumlah.value = res.data.count
+            loading.value = false
         })
 }
-const toggleShow = () => {
-    show.value = !show.value
-}
-
-const toggleInput = () => {
-    inputType.value = (inputType.value === 'password') ? 'text' : 'password';
-};
 
 onMounted(() => {
     getSiswa()

@@ -32,7 +32,7 @@
     <!-- endinject -->
     <!-- Plugin js for this page -->
     <script src="{{asset('/assets/vendors/chart.js/Chart.min.js')}}"></script>
-    <script src="{{asset('/assets/js/jquery.cookie.js')}}" type="text/javascript')></script>
+    <script src="{{asset('/assets/js/jquery.cookie.js')}}" type="text/javascript")></script>
     <!-- End plugin js for this page -->
     <!-- inject:js -->
     <script src="{{asset('/assets/js/off-canvas.js')}}"></script>

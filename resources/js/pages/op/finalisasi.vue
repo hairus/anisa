@@ -28,6 +28,9 @@
             <div class="row d-flex">
                 <div class="col-md-8 justify-center items-center d-flex">
                     <div class="card mt-10">
+                        <div class="d-flex justify-content-center" v-if="loading">
+                            <div class="spinner-border text-primary mt-4" role="status"></div>
+                        </div>
                         <div class="card-title">
                             <h5 class="ms-5 mt-4">Finalisasi Data Siswa dan nilai</h5>
                         </div>
@@ -40,8 +43,11 @@
                                     <button class="btn btn-danger" disabled>Maaf terdapat siswa nisn ganda {{jumlah}}</button>
                             </div>
                             <div v-else>
-                                <button class="btn btn-sm btn-primary" v-if="store.final == 1" disabled>Final</button>
-                                <button class="btn btn-sm btn-primary" v-else @click="finalisasi()">Finalisasi Data</button>
+                                <button class="btn btn-sm btn-primary" v-if="store.final === 1" disabled>Final</button>
+                                <div v-else>
+                                    <button class="btn btn-sm btn-primary" v-if="jum === 0" disabled>jumlah Siswa 0</button>
+                                    <button class="btn btn-sm btn-primary" v-else @click="finalisasi()">Finalisasi Data</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -58,8 +64,11 @@ import {onMounted, ref} from "vue";
 const store = useAuthStore();
 const siswas = ref([]);
 const jumlah = ref()
+const jum = ref()
+const loading = ref(false)
 
 const getSiswa = () => {
+    loading.value = true
     axios.get('/api/op/residu',  {
         headers: {
             "accept": "application/json",
@@ -69,6 +78,7 @@ const getSiswa = () => {
         .then(res => {
             siswas.value = res.data.siswas
             jumlah.value = res.data.count
+            loading.value = false
         })
 }
 const finalisasi = () => {
@@ -87,7 +97,20 @@ const finalisasi = () => {
     }
 
 };
+
+const jumSIswa = async () => {
+    await axios.get('/api/op/getSiswa', {
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + store.token
+        }
+    })
+        .then(res => {
+            jum.value = res.data.siswa
+        })
+};
 onMounted(() => {
     getSiswa()
+    jumSIswa()
 })
 </script>

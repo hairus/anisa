@@ -30,7 +30,15 @@ Route::get('/admin/{any}', [HomeController::class, 'index']);
 Route::get('/op/{any}', [HomeController::class, 'index']);
 // Route::get('/download', [EximController::class, 'index']);
 Route::get('/batch/{id}', [EximController::class, 'edit']);
-Route::get('/praktek', [HomeController::class, 'praktek'])->middleware(['auth']);
+
+
+
+
+
+
+
+
+//Route::get('/praktek', [HomeController::class, 'praktek']);
 Route::get('/lgt', [HomeController::class, 'lgt'])->middleware(['auth:web']);
 Route::get('/uploads', [testerController::class, 'uploadgg']);
 Route::get('/download', [testerController::class, 'download']);
@@ -40,6 +48,7 @@ Route::get('/posang', [PosangController::class, 'posang']);
 Route::get('/listen', [PosangController::class, 'listen']);
 Route::get('/generatePassword', [PosangController::class, 'generatePassword']);
 Route::get('/final', [SekolahFinalController::class, 'index']);
+Route::get('/persen', [testerController::class, 'persen']);
 //Route::get('/residu', [\App\Http\Controllers\ResiduController::class, 'index']);
 
 
