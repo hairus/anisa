@@ -3,13 +3,13 @@
 namespace App\Exports;
 
 use App\Models\siswa;
+use App\Models\siswaDapodik;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class SiswaExport implements WithHeadings, WithMapping, FromQuery
+class siswaDapodikExport implements WithHeadings, WithMapping, FromQuery
 {
     use Exportable;
 
@@ -36,21 +36,21 @@ class SiswaExport implements WithHeadings, WithMapping, FromQuery
     public function map($student): array
     {
         return[
-            $student->name,
+            $student->nama,
             $student->nisn,
-            $student->npsn_smp,
-            $student->nama_smp,
+            $student->npsn_smp ? $student->npsn_smp : '-',
+            $student->sekolah_smp,
             $student->tingkat,
             $student->rombel,
-            $student->nilai->nilai,
+            $student->nilai ? $student->nilai->nilai : '0',
         ];
     }
 
     public function query()
     {
-        return siswa::with('nilai')->where('user_id',$this->user_id)
+        return siswaDapodik::where('npsn_sekolah_sekarang',$this->user_id)
             ->orderBy('tingkat')
             ->orderBy('rombel')
-            ->orderBy('name');
+            ->orderBy('nama');
     }
 }
