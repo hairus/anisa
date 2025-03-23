@@ -48,5 +48,6 @@ Route::group(['prefix' => 'op', 'middleware' => ['auth:sanctum', 'operator']], f
     Route::resource('cp', UserController::class);
     Route::resource('siswa', SiswaController::class);
     Route::resource('final', SekolahFinalController::class);
+    Route::resource('residu', \App\Http\Controllers\ResiduController::class);
     Route::get('getSiswa',[OpController::class, 'getSiswa']);
 });

@@ -52,19 +52,16 @@ import axios from "axios";
 const store = useAuthStore();
 
 const finalisasi = () => {
-    if (confirm("Apakah Anda akan melakukan finalisasi data ?")) {
-        axios.post('/api/op/final', {
-            "rix": "rix"
-        }, {
-            headers: {
-                "Accept": "application/json",
-                "Authorization": "Bearer " + useAuthStore().token
-            }
-        })
-            .then(res => {
-                store.final = res.data
-            })
-    }
-
+    axios.post('/api/op/final', {
+        "rix": "rix"
+    }, {
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + useAuthStore().token
+        }
+    })
+    .then(res => {
+        store.final = res.data
+    })
 };
 </script>

@@ -33,7 +33,6 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
         foreach ($rows as $row) {
             $jobs[] = new PosangJob($row['name'], $row['nisn'], $this->npsn, $row['npsn_smp'], $row['tingkat'], $row['rombel'], $row['nilai'], $this->user_id, $row['nama_smp']);
         }
-
         $batch = Bus::batch($jobs)->dispatch();
         BatchUser::create([
             "user_id" => $this->user_id,
@@ -48,8 +47,9 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
             "name" => ['required'],
             "nama_smp" => ['required'],
             "tingkat" => ['required', 'numeric', 'min:10', 'max:12'],
-            "nisn" => ['required', 'numeric'],
-            "npsn_smp" => ['required'],
+            "nisn" => ['required', 'numeric', 'regex:/^\d{10}$/'],
+            "rombel" => ['required'],
+            "npsn_smp" => ['required','regex:/^[1-9A-Z]\d{7}$/'],
             "nilai" => ['required', 'numeric', 'min:0', 'max:100'],
         ];
     }
@@ -59,10 +59,11 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
         return [
             'name' => 'Nama tidak boleh kosong',
             'tingkat' => 'Tingkat tidak boleh kosong / tingkat harus angka contoh 10,11,12/ minimal kelas 10, maksimal kelas 12',
-            'nisn' => 'nisn tidak boleh kosong / nisn harus angka ',
-            "nilai" => "nilai tidak boleh kosong / nilai maksimal 100 minimal 0",
-            "npsn_smp" => "npsn smp tidak boleh kosong / npsn smp harus angka",
-            "nama_smp" => "nama smp tidak boleh kosong",
+            'nisn' => 'Format nisn salah atau tidak boleh kosong',
+            "nilai" => "Nilai tidak boleh kosong / nilai maksimal 100 minimal 0",
+            "rombel" => "Rombel tidak boleh kosong",
+            "npsn_smp" => "Npsn smp salah atau tidak boleh kosong",
+            "nama_smp" => "Nama smp tidak boleh kosong",
         ];
     }
 

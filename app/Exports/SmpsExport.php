@@ -19,6 +19,7 @@ class SmpsExport implements WithHeadings, WithMapping, FromQuery
             'nama smp',
             'kab kota',
             'jenjang',
+            'kab kota'
         ];
     }
 
@@ -29,11 +30,12 @@ class SmpsExport implements WithHeadings, WithMapping, FromQuery
             $smps->nama_smp,
             $smps->kabs->kab_kota,
             $smps->jenjang,
+            $smps->kabs->kab_kota,
         ];
     }
 
     public function query()
     {
-        return smps::query();
+        return smps::where('kab_id', '<>', 99);
     }
 }

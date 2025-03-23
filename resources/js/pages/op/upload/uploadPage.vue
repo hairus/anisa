@@ -37,15 +37,10 @@
                                 </div>
                                 <div class="alert alert-danger" role="alert" v-if="errors">
                                     <ul>
-                                        <li> Atas Nama <b>{{ errors.values.name }}</b></li>
-                                        <li><b>{{ errors.attribute }}</b> di baris <b>{{ errors.row }}</b></li>
+                                        <li> Atas Nama <b>{{ errors.values.name }} - {{ errors.attribute }}</b> pada file excel baris Ke-<b>{{ errors.row }}</b></li>
                                     </ul>
                                 </div>
-                                <div class="alert alert-danger col-6" role="alert" v-if="errors1">
-                                    <ul>
-                                        <li><b>{{ errors1 }}</b></li>
-                                    </ul>
-                                </div>
+
                                 <div class="alert alert-primary col-4" role="alert" v-if="message">
                                     {{ message }}
                                 </div>

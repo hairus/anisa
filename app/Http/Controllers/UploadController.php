@@ -40,6 +40,7 @@ class UploadController extends Controller
         $bath_user = BatchUser::where('user_id', auth()->user()->id)->orderBy('id', "DESC")->first();
         $batchMe = Bus::findBatch($bath_user->batch_id);
 
+
         return $batchMe;
     }
 
@@ -51,6 +52,7 @@ class UploadController extends Controller
         $request->validate([
             "file" => "required|mimes:xlsx"
         ]);
+
         $file = $request->file('file');
 
         $fileName = time() . '.' . $file->getClientOriginalExtension();
