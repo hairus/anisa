@@ -97,6 +97,7 @@
                             <div class="table-responsive" style="font-size: 12px">
                                 <table class="table alert-primary text-black">
                                     <thead>
+                                    <tr>
                                         <th>
                                             <a href="#" @click.prevent="change_sort('id')">No</a>
                                             <span v-if="sort_direction == 'desc' && sort_field == 'id'">&uarr;</span>
@@ -129,6 +130,7 @@
                                         <th>
                                             SMP
                                         </th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(siswa, index) in siswas.data" :key="index">

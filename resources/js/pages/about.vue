@@ -108,10 +108,12 @@
 
                                 <table class="table table-hover">
                                     <thead>
-                                    <th>No</th>
-                                    <th>Name</th>
-                                    <th>Nis</th>
-                                    <th>Rerata</th>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>Nis</th>
+                                        <th>Rerata</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     <tr v-for="(siswa, index) in siswas" :key="siswa.id">

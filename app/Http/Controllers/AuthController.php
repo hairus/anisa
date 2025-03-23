@@ -14,8 +14,6 @@ class AuthController extends Controller
 
             $user = Auth::user();
 
-//            $user = auth()->guard('api');
-
             $success['token'] =  $user->createToken('MyApp')->plainTextToken;
 
             $success['name'] =  $user->name;
@@ -27,7 +25,7 @@ class AuthController extends Controller
             return $success;
         } else {
 
-            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
+            return response()->json(['error' => 'Unauthorised'], 401);
         }
     }
 

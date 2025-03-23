@@ -33,6 +33,7 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
         foreach ($rows as $row) {
             $jobs[] = new PosangJob($row['name'], $row['nisn'], $this->npsn, $row['npsn_smp'], $row['tingkat'], $row['rombel'], $row['nilai'], $this->user_id, $row['nama_smp']);
         }
+
         $batch = Bus::batch($jobs)->dispatch();
         BatchUser::create([
             "user_id" => $this->user_id,
