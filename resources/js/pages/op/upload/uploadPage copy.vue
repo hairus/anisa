@@ -22,7 +22,15 @@
 					</ul>
 				</nav>
 			</div>
-			<div
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<siswa-page :rows="siswas.data"/>
+					</div>
+				</div>
+			</div>
+            <hr>
+			<!-- <div
 				class="row"
 				v-if="final != 1">
 				<div class="col-12 grid-margin">
@@ -245,7 +253,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>

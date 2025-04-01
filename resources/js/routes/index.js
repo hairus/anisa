@@ -12,6 +12,7 @@ import HomePage from "../pages/op/home.vue"
 import OpUpload from "../pages/op/upload/uploadPage.vue"
 import finalisasi from "../pages/op/finalisasi.vue"
 import Cp from "../pages/op/cp/cp.vue"
+import SiswaPage from "../pages/op/siswa/siswaPage.vue"
 import Residu from "../pages/op/residu/residu.vue"
 
 import { useAuthStore } from "../store/index.js"
@@ -50,6 +51,13 @@ const routes = [{
                 path: 'home',
                 component: HomePage,
                 name: "home"
+            },
+            {
+
+                name: "opSiswa",
+                path: "siswa",
+                component: SiswaPage
+
             },
             {
 

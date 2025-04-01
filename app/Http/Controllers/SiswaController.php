@@ -20,10 +20,10 @@ class SiswaController extends Controller
         $sort_field = request('sort_field', 'id');
 
         $siswa = siswa::with('smas', 'smps', 'nilai')
-        ->where('npsn_sma', auth()->user()->username)
-        ->search(trim($search))
-        ->orderBy($sort_field, $sort_direction)
-        ->paginate($paginate);
+            ->where('npsn_sma', auth()->user()->username)
+            ->search(trim($search))
+            ->orderBy($sort_field, $sort_direction)
+            ->paginate($paginate);
 
         $gg =  SiswaResource::collection($siswa);
 

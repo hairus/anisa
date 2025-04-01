@@ -55,4 +55,8 @@ Route::group(['prefix' => 'op', 'middleware' => ['auth:sanctum', 'operator']], f
     Route::resource('final', SekolahFinalController::class);
     Route::resource('residu', \App\Http\Controllers\ResiduController::class);
     Route::get('getSiswa',[OpController::class, 'getSiswa']);
+    Route::get('getSiswas',[OpController::class, 'getsiswas']);
+    Route::post('saveSiswasDapodik',[OpController::class, 'saveSiswasDapodik']);
+    Route::delete('delSiswaDapodik/{id}',[OpController::class, 'delSiswaDapodik']);
+    Route::post('finalSiswa',[OpController::class, 'finalSiswa']);
 });

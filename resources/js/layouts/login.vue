@@ -54,8 +54,8 @@ import { useAuthStore } from '../store/index';
 export default {
     data() {
         return {
-            username: "",
-            password: "",
+            username: "20529954",
+            password: "10032010",
             errors: ""
         }
     },

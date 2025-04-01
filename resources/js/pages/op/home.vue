@@ -64,7 +64,12 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Finalisasi Data</td>
+                                        <td>Finalisasi Siswa</td>
+                                        <td class="text-success" v-if="store.user.finalSiswa == 1">Sudah</td>
+                                        <td class="text-danger" v-else>belum</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Finalisasi Sekolah</td>
                                         <td class="text-success" v-if="store.final == 1">Sudah</td>
                                         <td class="text-danger" v-else>Belum</td>
                                     </tr>
