@@ -150,15 +150,14 @@ class OpController extends Controller
      return response()->json([], 200);
     }
 
-//    public function final()
-//    {
-//        $final = sekolah_final::all();
-//        foreach ($final as $data){
-//            $sim = final_siswa::create([
-//                'user_id' => $data->user_id ? $data->user_id : "0",
-//                'kab_id' => $data->kab_id ? $data->kab_id : "0",
-//                "npsn" => $data->npsn ? $data->npsn : "0",
-//            ]);
-//        }
-//    }
+    public function updateSiswasDapodik(Request $request, $id)
+    {
+        $udpate = siswaDapodik::find($id);
+        $udpate->update([
+            'nama' => $request->form['name'],
+            'tingkat' => $request->form['tingkat'],
+            'rombel' => $request->form['rombel'],
+            'nisn' => $request->form['nisn'],
+        ]);
+    }
 }

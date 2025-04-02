@@ -59,4 +59,5 @@ Route::group(['prefix' => 'op', 'middleware' => ['auth:sanctum', 'operator']], f
     Route::post('saveSiswasDapodik',[OpController::class, 'saveSiswasDapodik']);
     Route::delete('delSiswaDapodik/{id}',[OpController::class, 'delSiswaDapodik']);
     Route::post('finalSiswa',[OpController::class, 'finalSiswa']);
+    Route::put('updateSiswasDapodik/{id}',[OpController::class, 'updateSiswasDapodik']);
 });

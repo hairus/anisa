@@ -8,7 +8,7 @@
 					<span class="page-title-icon bg-gradient-primary text-white me-2">
 						<i class="mdi mdi-home"></i>
 					</span>
-					Management Data
+					Management Nilai
 				</h3>
 				<nav aria-label="breadcrumb">
 					<ul class="breadcrumb">
@@ -22,230 +22,243 @@
 					</ul>
 				</nav>
 			</div>
-			<div
-				class="row"
-				v-if="final != 1">
-				<div class="col-12 grid-margin">
-					<div class="card">
-						<div class="card-body">
-							<div
-								class="d-flex justify-content-center"
-								v-if="loading">
-								<div
-									class="spinner-border text-primary"
-									role="status"></div>
-							</div>
-							<button
-								class="btn btn-sm btn-success mt-4 mb-4"
-								@click="download()">
-								<i class="mdi mdi-file"></i> Download Template
-							</button>
-							<button
-								class="btn btn-sm btn-info mt-4 mb-4 ms-2"
-								@click="downloadSmp()">
-								<i class="mdi mdi-file"></i> Download NPSN SMP/MTS
-							</button>
-							<form @submit.prevent="submitFile()">
-								<div class="form-group">
-									<label>File upload</label>
-									<input
-										type="file"
-										name="file"
-										ref="fileupload"
-										class="form-control"
-										@change="handleUpload"
-										id="validationCustom03"
-										required />
-								</div>
-								<div
-									class="alert alert-danger"
-									role="alert"
-									v-if="errors">
-									<ul>
-										<li>
-											Atas Nama
-											<b>{{ errors.values.name }} - {{ errors.attribute }}</b> pada file
-											excel baris Ke-<b>{{ errors.row }}</b>
-										</li>
-									</ul>
-								</div>
+            <div v-if="fs === true">
+                <div
+                    class="row"
+                    v-if="final != 1">
+                    <div class="col-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
+                                <div
+                                    class="d-flex justify-content-center"
+                                    v-if="loading">
+                                    <div
+                                        class="spinner-border text-primary"
+                                        role="status"></div>
+                                </div>
+                                <button
+                                    class="btn btn-sm btn-success mt-4 mb-4"
+                                    @click="download()">
+                                    <i class="mdi mdi-file"></i> Download Template
+                                </button>
+                                <button
+                                    class="btn btn-sm btn-info mt-4 mb-4 ms-2"
+                                    @click="downloadSmp()">
+                                    <i class="mdi mdi-file"></i> Download NPSN SMP/MTS
+                                </button>
+                                <form @submit.prevent="submitFile()">
+                                    <div class="form-group">
+                                        <label>File upload</label>
+                                        <input
+                                            type="file"
+                                            name="file"
+                                            ref="fileupload"
+                                            class="form-control"
+                                            @change="handleUpload"
+                                            id="validationCustom03"
+                                            required />
+                                    </div>
+                                    <div
+                                        class="alert alert-danger"
+                                        role="alert"
+                                        v-if="errors">
+                                        <ul>
+                                            <li>
+                                                Atas Nama
+                                                <b>{{ errors.values.name }} - {{ errors.attribute }}</b> pada file
+                                                excel baris Ke-<b>{{ errors.row }}</b>
+                                            </li>
+                                        </ul>
+                                    </div>
 
-								<div
-									class="alert alert-primary col-4"
-									role="alert"
-									v-if="message">
-									{{ message }}
-								</div>
-								<div v-if="batchMe.progress === 100 || batchMe.length === 0">
-									<button class="btn btn-sm btn-primary">Upload</button>
-								</div>
-								<div
-									class="alert alert-success col-4"
-									role="alert"
-									v-else>
-									File excel dalam antrian...
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 grid-margin">
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title">Siswa</h4>
+                                    <div
+                                        class="alert alert-primary col-4"
+                                        role="alert"
+                                        v-if="message">
+                                        {{ message }}
+                                    </div>
+                                    <div v-if="batchMe.progress === 100 || batchMe.length === 0">
+                                        <button class="btn btn-sm btn-primary">Upload</button>
+                                    </div>
+                                    <div
+                                        class="alert alert-success col-4"
+                                        role="alert"
+                                        v-else>
+                                        File excel dalam antrian...
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Siswa</h4>
 
-							<button
-								class="btn btn-sm btn-primary mb-3"
-								@click="getData()"
-								v-show="show">
-								<i class="mdi mdi-refresh"></i> Refresh Data Siswa
-							</button>
-							<div
-								class="alert alert-primary col-3"
-								v-if="siswas">
-								Total Siswa : {{ total }}
-							</div>
-							<div
-								class="mb-3"
-								v-if="loading1">
-								<div
-									class="spinner-border text-danger"
-									role="status"></div>
-							</div>
-							<div class="d-flex">
-								<div class="d-flex justify-content-between col-12">
-									<div class="col-1 me-3 mt-3 mb-3">
-										<div class="form-group">
-											<select
-												class="form-control text-black p-3"
-												v-model="paginate"
-												style="background-color: #f0e2ff">
-												<option value="10">10</option>
-												<option value="20">20</option>
-												<option value="50">50</option>
-												<option value="100">100</option>
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<input
-											type="text"
-											class="form-control rounded-3 text-black"
-											v-model.lazy="search"
-											style="background-color: #ded2eb"
-											placeholder="Jony Batu"
-											aria-label="Username" />
-									</div>
-								</div>
-							</div>
-							<div
-								class="table-responsive"
-								style="font-size: 12px">
-								<table class="table alert-primary text-black">
-									<thead>
-										<tr>
-											<th>
-												<a
-													href="#"
-													@click.prevent="change_sort('id')"
-													>No</a
-												>
-												<span v-if="sort_direction == 'desc' && sort_field == 'id'"
-													>&uarr;</span
-												>
-												<span v-if="sort_direction == 'asc' && sort_field == 'id'"
-													>&darr;</span
-												>
-											</th>
-											<th>
-												<a
-													href="#"
-													@click.prevent="change_sort('name')"
-													>NAMA</a
-												>
-												<span v-if="sort_direction == 'asc' && sort_field == 'name'"
-													>&uarr;</span
-												>
-												<span v-if="sort_direction == 'desc' && sort_field == 'name'"
-													>&darr;</span
-												>
-											</th>
-											<th>
-												<a
-													href="#"
-													@click.prevent="change_sort('nisn')"
-													>NISN</a
-												>
-												<span v-if="sort_direction == 'asc' && sort_field == 'nisn'"
-													>&uarr;</span
-												>
-												<span v-if="sort_direction == 'desc' && sort_field == 'nisn'"
-													>&darr;</span
-												>
-											</th>
-											<th>
-												<a
-													href="#"
-													@click.prevent="change_sort('tingkat')"
-													>TINGKAT</a
-												>
-												<span v-if="sort_direction == 'asc' && sort_field == 'tingkat'"
-													>&uarr;</span
-												>
-												<span v-if="sort_direction == 'desc' && sort_field == 'tingkat'"
-													>&darr;</span
-												>
-											</th>
-											<th>
-												<a
-													href="#"
-													@click.prevent="change_sort('rombel')"
-													>ROMBEL</a
-												>
-												<span v-if="sort_direction == 'asc' && sort_field == 'rombel'"
-													>&uarr;</span
-												>
-												<span v-if="sort_direction == 'desc' && sort_field == 'rombel'"
-													>&darr;</span
-												>
-											</th>
-											<th>NILAI</th>
-											<th>NPSN SMP</th>
-											<th>SMP</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr
-											v-for="(siswa, index) in siswas.data"
-											:key="index">
-											<td>{{ index + 1 }}</td>
-											<td>{{ siswa.name.toUpperCase() }}</td>
-											<td>{{ siswa.nisn ? siswa.nisn : 'NISN TIDAK DI TEMUKAN' }}</td>
-											<td>{{ siswa.tingkat }}</td>
-											<td>{{ siswa.rombel }}</td>
-											<td>{{ siswa.nilai }}</td>
-											<td>
-												{{ siswa.smps ? siswa.npsn_smp : 'SEKOLAH TIDAK DI TEMUKAN' }}
-											</td>
-											<td>{{ siswa.smps ? siswa.smps : 'SEKOLAH TIDAK DI TEMUKAN' }}</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							<div class="d-flex justify-center items-center">
-								<Bootstrap5Pagination
-									:data="siswas"
-									:limit="2"
-									@pagination-change-page="getData"
-									class="mt-5"
-									style="background-color: aqua" />
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                                <button
+                                    class="btn btn-sm btn-primary mb-3"
+                                    @click="getData()"
+                                    v-show="show">
+                                    <i class="mdi mdi-refresh"></i> Refresh Data Siswa
+                                </button>
+                                <div
+                                    class="alert alert-primary col-3"
+                                    v-if="siswas">
+                                    Total Siswa : {{ total }}
+                                </div>
+                                <div
+                                    class="mb-3"
+                                    v-if="loading1">
+                                    <div
+                                        class="spinner-border text-danger"
+                                        role="status"></div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="d-flex justify-content-between col-12">
+                                        <div class="col-1 me-3 mt-3 mb-3">
+                                            <div class="form-group">
+                                                <select
+                                                    class="form-control text-black p-3"
+                                                    v-model="paginate"
+                                                    style="background-color: #f0e2ff">
+                                                    <option value="10">10</option>
+                                                    <option value="20">20</option>
+                                                    <option value="50">50</option>
+                                                    <option value="100">100</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input
+                                                type="text"
+                                                class="form-control rounded-3 text-black"
+                                                v-model.lazy="search"
+                                                style="background-color: #ded2eb"
+                                                placeholder="Jony Batu"
+                                                aria-label="Username" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="table-responsive"
+                                    style="font-size: 12px">
+                                    <table class="table alert-primary text-black">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <a
+                                                        href="#"
+                                                        @click.prevent="change_sort('id')"
+                                                        >No</a
+                                                    >
+                                                    <span v-if="sort_direction == 'desc' && sort_field == 'id'"
+                                                        >&uarr;</span
+                                                    >
+                                                    <span v-if="sort_direction == 'asc' && sort_field == 'id'"
+                                                        >&darr;</span
+                                                    >
+                                                </th>
+                                                <th>
+                                                    <a
+                                                        href="#"
+                                                        @click.prevent="change_sort('name')"
+                                                        >NAMA</a
+                                                    >
+                                                    <span v-if="sort_direction == 'asc' && sort_field == 'name'"
+                                                        >&uarr;</span
+                                                    >
+                                                    <span v-if="sort_direction == 'desc' && sort_field == 'name'"
+                                                        >&darr;</span
+                                                    >
+                                                </th>
+                                                <th>
+                                                    <a
+                                                        href="#"
+                                                        @click.prevent="change_sort('nisn')"
+                                                        >NISN</a
+                                                    >
+                                                    <span v-if="sort_direction == 'asc' && sort_field == 'nisn'"
+                                                        >&uarr;</span
+                                                    >
+                                                    <span v-if="sort_direction == 'desc' && sort_field == 'nisn'"
+                                                        >&darr;</span
+                                                    >
+                                                </th>
+                                                <th>
+                                                    <a
+                                                        href="#"
+                                                        @click.prevent="change_sort('tingkat')"
+                                                        >TINGKAT</a
+                                                    >
+                                                    <span v-if="sort_direction == 'asc' && sort_field == 'tingkat'"
+                                                        >&uarr;</span
+                                                    >
+                                                    <span v-if="sort_direction == 'desc' && sort_field == 'tingkat'"
+                                                        >&darr;</span
+                                                    >
+                                                </th>
+                                                <th>
+                                                    <a
+                                                        href="#"
+                                                        @click.prevent="change_sort('rombel')"
+                                                        >ROMBEL</a
+                                                    >
+                                                    <span v-if="sort_direction == 'asc' && sort_field == 'rombel'"
+                                                        >&uarr;</span
+                                                    >
+                                                    <span v-if="sort_direction == 'desc' && sort_field == 'rombel'"
+                                                        >&darr;</span
+                                                    >
+                                                </th>
+                                                <th>NILAI</th>
+                                                <th>NPSN SMP</th>
+                                                <th>SMP</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr
+                                                v-for="(siswa, index) in siswas.data"
+                                                :key="index">
+                                                <td>{{ index + 1 }}</td>
+                                                <td>{{ siswa.name.toUpperCase() }}</td>
+                                                <td>{{ siswa.nisn ? siswa.nisn : 'NISN TIDAK DI TEMUKAN' }}</td>
+                                                <td>{{ siswa.tingkat }}</td>
+                                                <td>{{ siswa.rombel }}</td>
+                                                <td>{{ siswa.nilai }}</td>
+                                                <td>
+                                                    {{ siswa.smps ? siswa.npsn_smp : 'SEKOLAH TIDAK DI TEMUKAN' }}
+                                                </td>
+                                                <td>{{ siswa.smps ? siswa.smps : 'SEKOLAH TIDAK DI TEMUKAN' }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-flex justify-center items-center">
+                                    <Bootstrap5Pagination
+                                        :data="siswas"
+                                        :limit="2"
+                                        @pagination-change-page="getData"
+                                        class="mt-5"
+                                        style="background-color: aqua" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-else>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Silakan Melakukan finalisasi Siswa terlebih dahulu</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 		</div>
 	</div>
 </template>
@@ -277,6 +290,7 @@
 				sort_direction: 'asc',
 				sort_field: 'id',
 				final: useAuthStore().final,
+                fs : useAuthStore().fs
 			};
 		},
 		watch: {
