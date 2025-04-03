@@ -22,7 +22,7 @@
 					</ul>
 				</nav>
 			</div>
-            <div v-if="fs === true">
+            <div v-if="fs === 1">
                 <div
                     class="row"
                     v-if="final != 1">

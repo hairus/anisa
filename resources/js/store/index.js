@@ -26,9 +26,6 @@ export const useAuthStore = defineStore('auth', {
             this.user = "";
             localStorage.removeItem('auth')
         },
-        updateFinalSiswa(){
-            this.fs = true
-        }
     },
     persist: true,
 })

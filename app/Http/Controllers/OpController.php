@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\siswaDapodik as ResourcesSiswaDapodik;
 use App\Http\Resources\SiswaResource;
+use App\Jobs\InsertDataJob;
+use App\Models\AntrianSiswa;
 use App\Models\final_siswa;
 use App\Models\sekolah_final;
 use App\Models\siswa;
 use App\Models\siswaDapodik;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Yajra\DataTables\Facades\DataTables;
 
 class OpController extends Controller
@@ -117,37 +120,28 @@ class OpController extends Controller
 
     public function finalSiswa(Request $request)
     {
-        //copy seluruh siswadapodik ke table siswa
-        $siswas = siswaDapodik::where('npsn_sekolah_sekarang', auth()->user()->username)->get();
 
-        $cek = siswa::where('user_id', auth()->user()->id)->count();
-        if($cek > 0){
-            $delete = siswa::where('user_id', auth()->user()->id)->delete();
+        $user = auth()->user();
+        $jobStatus = AntrianSiswa::where('user_id', $user->id)->first();
+        if ($jobStatus && $jobStatus->selesai) {
+            return response()->json(['message' => 'Job is already processing for this user. Please wait.'], 429);
         }
-        foreach ($siswas as $data){
 
-            $sim = siswa::create([
-                "name" => $data->nama,
-                "nisn" => $data->nisn,
-                "npsn_sma" => auth()->user()->username,
-                "npsn_smp" => 0,
-                "tingkat" => $data->tingkat,
-                "rombel" => $data->rombel,
-                "user_id" => auth()->user()->id,
-                "nama_smp" => $data->sekolah_smp ? $data->sekolah_smp : "-",
-            ])->nilai()->create([
-                'nilai' => 0,
-                "npsn_smp" => 0,
-                "npsn_sma" => auth()->user()->username,
-            ]);
-        }
-     /** final siswa */
-        $final = final_siswa::where('user_id', auth()->user()->id)->first();
-        $final->update([
-            "final" => true
-        ]);
+        final_siswa::updateOrCreate(
+            ['user_id' => $user->id],
+            ['final' => true]
+        );
 
-     return response()->json([], 200);
+        AntrianSiswa::updateOrCreate(
+            ['user_id' => $user->id],
+            ['selesai' => true]
+        );
+
+        InsertDataJob::dispatch($user->id, $user->username);
+
+        $finalSiswa = $user->finalSIswa->final;
+        // Response sukses
+        return response()->json($finalSiswa, 200);
     }
 
     public function updateSiswasDapodik(Request $request, $id)

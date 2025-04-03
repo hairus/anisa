@@ -65,7 +65,7 @@
                                 <tbody>
                                     <tr>
                                         <td>Finalisasi Siswa</td>
-                                        <td class="text-success" v-if="store.fs === true">Sudah</td>
+                                        <td class="text-success" v-if="store.fs === 1">Sudah</td>
                                         <td class="text-danger" v-else>belum</td>
                                     </tr>
                                     <tr>

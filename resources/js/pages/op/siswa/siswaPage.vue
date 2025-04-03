@@ -363,8 +363,8 @@ const finalSiswa = async () => {
             Accept: 'application/json',
             Authorization: 'Bearer ' + store.token,
         },
-    }).then(() => {
-        store.updateFinalSiswa();
+    }).then((res) => {
+        store.fs = res.data;
     });
 };
 </script>
