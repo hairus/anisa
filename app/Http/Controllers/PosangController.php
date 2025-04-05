@@ -38,7 +38,7 @@ class PosangController extends Controller
     {
 
         set_time_limit(0);
-        $user = User::all();
+        $user = User::where('id', '<>',1)->get();
         foreach ($user as $data) {
             $length = 8;
             $randomletter = substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);

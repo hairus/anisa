@@ -38,7 +38,7 @@ Route::resource('upload', UploadController::class)->middleware(['auth:sanctum', 
 Route::resource('exim', EximController::class)->middleware(['auth:sanctum', 'operator']);
 Route::resource('eximSmp', EximController::class)->middleware(['auth:sanctum', 'operator']);
 Route::resource('roleUsers', RoleUserController::class)->middleware(['auth:sanctum', 'admin']);
-Route::resource('smps', SmpsController::class)->middleware(['auth:sanctum', 'admin']);
+Route::resource('smps', SmpsController::class)->middleware(['auth:sanctum', 'operator']);
 Route::resource('smas', SmasController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('kabs', KabKotaController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('users', UserController::class)->middleware(['auth:sanctum', 'admin']);
@@ -46,7 +46,8 @@ Route::resource('final', SekolahFinalController::class)->middleware(['auth:sanct
 
 Route::group(['prefix' => 'op', 'middleware' => ['auth:sanctum', 'operator']], function(){
     Route::resource('cp', UserController::class);
-    Route::resource('siswa', SiswaController::class);
+    Route::resource('smps', SmpsController::class);
+    Route::resource('siswa', SiswaController::class)->only(['index', 'destroy']);
     Route::resource('final', SekolahFinalController::class);
     Route::resource('residu', \App\Http\Controllers\ResiduController::class);
     Route::get('getSiswa',[OpController::class, 'getSiswa']);

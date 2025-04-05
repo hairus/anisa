@@ -35,7 +35,9 @@ class SmpsController extends Controller
      */
     public function create()
     {
-        //
+        $smps = smps::select('id','npsn_smp', 'nama_smp', 'kab_id')->get();
+
+        return response()->json($smps, 200);
     }
 
     /**

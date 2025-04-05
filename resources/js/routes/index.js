@@ -36,10 +36,11 @@ const routes = [{
                 name: "about"
             },
             {
-                path: 'tables',
-                component: tablesPage,
-                name: "table"
+                name: "residu",
+                path: "residu",
+                component: Residu
             },
+
         ]
     },
     {
@@ -71,6 +72,11 @@ const routes = [{
                 path: "cp",
                 component: Cp
 
+            },
+            {
+                name: "datatable-demo",
+                path: "datatable-demo",
+                component: () => import("../components/DataTable.vue")
             },
             {
 

@@ -34,8 +34,6 @@
                             <button class="badge-gradient-danger btn-sm">
                                 <i class="mdi mdi-delete"></i>
                             </button>
-                            <!-- <button type="button" class="btn btn-danger btn-sm"
-                                @click="deleteUser(data.value)">Delete</button> -->
                         </div>
                     </template>
                 </vue3-datatable>

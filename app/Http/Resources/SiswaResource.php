@@ -26,7 +26,7 @@ class SiswaResource extends JsonResource
             "rombel" => $this->rombel,
             "smas" => $this->smas->nm_sekolah,
             "smps" => $this->smps ? $this->smps->nama_smp : 'SEKOLAH TIDAK DI TEMUKAN',
-            "nilai" => $this->nilai->nilai,
+            "nilai" => $this->nilai ? $this->nilai->nilai : '0'
         ];
     }
 }
