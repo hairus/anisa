@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\sekolah_final;
-use App\Models\siswa;
-use App\Models\siswaDapodik;
 use App\Models\smas;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,29 +22,7 @@ class SekolahFinalController extends Controller
      */
     public function create()
     {
-        $user = auth()->user();
-        siswa::where([
-            'user_id' => $user->id
-        ])->delete();
-
-        $salin = siswaDapodik::where('npsn_sekolah_sekarang', $user->username)
-            ->orderBy('tingkat')
-            ->orderBy('rombel')
-            ->orderBy('nama')
-            ->get();
-        foreach ($salin as $s) {
-            $sim = siswa::create([
-                'name' => $s->nama,
-                'nisn' => $s->nisn,
-                'npsn_sma' => $user->username,
-                'tingkat' => $s->tingkat,
-                'rombel' => $s->rombel,
-                'nama_smp' => $s->sekolah_smp ? $s->sekolah_smp : '-',
-                'user_id' => $user->id
-            ]);
-        }
-
-        return response()->json([], 201);
+        //
     }
 
     /**
@@ -59,20 +35,6 @@ class SekolahFinalController extends Controller
             "final" => true
         ]);
         return $final;
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, sekolah_final $sekolah_final)
-    {
-
-        $sekolah = smas::find($request->id);
-        $user = User::where('username', $sekolah->npsn)->first();
-        $sekolah = sekolah_final::where('user_id', $user->id)->first();
-        $sekolah->final = 0;
-        $sekolah->save();
-        return $sekolah;
     }
 
     /**
@@ -89,6 +51,20 @@ class SekolahFinalController extends Controller
     public function edit(Request $request)
     {
 
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, sekolah_final $sekolah_final)
+    {
+
+        $sekolah = smas::find($request->id);
+        $user = User::where('username', $sekolah->npsn)->first();
+        $sekolah = sekolah_final::where('user_id', $user->id)->first();
+        $sekolah->final = 0;
+        $sekolah->save();
+        return $sekolah;
     }
 
     /**

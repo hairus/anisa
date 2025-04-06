@@ -14,14 +14,14 @@ class SmasController extends Controller
     {
 
         if($_GET['params'] && $_GET['search'] == ""){
-            $sma = smas::with('kabs')->with(['siswas' => function($q){
+            $sma = smas::with('kabs', 'user')->with(['siswas' => function($q){
                 $q->select('npsn_sma');
             }])->paginate($_GET['params']);
 
             return response()->json($sma, 200);
         }else if($_GET['search'] && $_GET['params']){
 
-            $sma = smas::with('kabs')->with(['siswas' => function($q){
+            $sma = smas::with('kabs','user')->with(['siswas' => function($q){
                 $q->select('npsn_sma');
                 }])
                 ->where('npsn', 'LIKE', '%'.$_GET['search'].'%')
@@ -30,7 +30,7 @@ class SmasController extends Controller
 
             return response()->json($sma, 200);
         }else{
-            $sma = smas::with('kabs')->with(['siswas' => function($q){
+            $sma = smas::with('kabs', 'user')->with(['siswas' => function($q){
                 $q->select('npsn_sma');
                 }])->paginate(5);
 

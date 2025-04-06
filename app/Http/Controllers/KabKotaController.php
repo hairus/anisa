@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\kab_kota;
+use App\Models\sekolah_final;
 use App\Models\siswa;
 use App\Models\smas;
 use App\Models\smps;
@@ -33,7 +34,13 @@ class KabKotaController extends Controller
      */
     public function create()
     {
-        //
+        $kabs = kab_kota::with(['smas' => function ($q) {
+            $q->whereHas('siswas');
+        }])->with(['smaNo' => function ($y) {
+            $y->doesntHave('siswasNo');
+        }])->with('finals', 'NoFinals')->where('id', '<>', 99)->get();
+
+        return $kabs;
     }
 
     /**
@@ -47,10 +54,42 @@ class KabKotaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(kab_kota $kab_kota)
+    public function belum($id)
     {
-        //
+        $kab_kota = smas::doesntHave('siswas')->where('kab_id', $id)->get();
+
+        return $kab_kota;
     }
+
+    public  function  sudah($id)
+    {
+        $kab_kota = smas::whereHas('siswas')->where('kab_id', $id)->get();
+
+        return $kab_kota;
+    }
+
+    public function final($id)
+    {
+        $kab_final = sekolah_final::where('kab_id', $id)->where('final', 1)->with('smas')->get();
+
+        return $kab_final;
+    }
+
+    public function nofinal($id)
+    {
+        $kab_final = sekolah_final::where('kab_id', $id)->where('final', 0)->with('smas')->get();
+
+        return $kab_final;
+    }
+
+
+    public  function getData($id)
+    {
+        $kabs = smas::where('kab_id', $id)->withCount('siswas')->with('dapodik')->with('finals', 'kabs')->get();
+
+        return $kabs;
+    }
+
 
     /**
      * Show the form for editing the specified resource.

@@ -8,7 +8,8 @@ export const useAuthStore = defineStore('auth', {
             loading: false,
             isAuth: false,
             counter: 0,
-            final: false
+            final: false,
+            fs:false
         }
     },
     actions: {
@@ -17,13 +18,14 @@ export const useAuthStore = defineStore('auth', {
             this.token = token;
             this.user = user
             this.final = user.final;
+            this.fs = user.finalSiswa;
         },
         isLogout() {
             this.isAuth = false;
             this.token = "";
             this.user = "";
             localStorage.removeItem('auth')
-        }
+        },
     },
     persist: true,
 })

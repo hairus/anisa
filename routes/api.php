@@ -38,17 +38,26 @@ Route::resource('upload', UploadController::class)->middleware(['auth:sanctum', 
 Route::resource('exim', EximController::class)->middleware(['auth:sanctum', 'operator']);
 Route::resource('eximSmp', EximController::class)->middleware(['auth:sanctum', 'operator']);
 Route::resource('roleUsers', RoleUserController::class)->middleware(['auth:sanctum', 'admin']);
-Route::resource('smps', SmpsController::class)->middleware(['auth:sanctum', 'operator']);
+Route::resource('smps', SmpsController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('smas', SmasController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('kabs', KabKotaController::class)->middleware(['auth:sanctum', 'admin']);
+Route::get('kabs/belum/{id}', [KabKotaController::class, 'belum'])->middleware(['auth:sanctum', 'admin']);
+Route::get('kabs/getData/{id}', [KabKotaController::class, 'getData'])->middleware(['auth:sanctum', 'admin']);
+Route::get('kabs/sudah/{id}', [KabKotaController::class, 'sudah'])->middleware(['auth:sanctum', 'admin']);
+Route::get('kabs/final/{id}', [KabKotaController::class, 'final'])->middleware(['auth:sanctum', 'admin']);
+Route::get('kabs/nofinal/{id}', [KabKotaController::class, 'nofinal'])->middleware(['auth:sanctum', 'admin']);
 Route::resource('users', UserController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('final', SekolahFinalController::class)->middleware(['auth:sanctum', 'admin']);
 
 Route::group(['prefix' => 'op', 'middleware' => ['auth:sanctum', 'operator']], function(){
     Route::resource('cp', UserController::class);
-    Route::resource('smps', SmpsController::class);
-    Route::resource('siswa', SiswaController::class)->only(['index', 'destroy']);
+    Route::resource('siswa', SiswaController::class);
     Route::resource('final', SekolahFinalController::class);
     Route::resource('residu', \App\Http\Controllers\ResiduController::class);
     Route::get('getSiswa',[OpController::class, 'getSiswa']);
+    Route::get('getSiswas',[OpController::class, 'getsiswas']);
+    Route::post('saveSiswasDapodik',[OpController::class, 'saveSiswasDapodik']);
+    Route::delete('delSiswaDapodik/{id}',[OpController::class, 'delSiswaDapodik']);
+    Route::post('finalSiswa',[OpController::class, 'finalSiswa']);
+    Route::put('updateSiswasDapodik/{id}',[OpController::class, 'updateSiswasDapodik']);
 });

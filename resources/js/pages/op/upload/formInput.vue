@@ -86,7 +86,7 @@ const final = async () => {
         }
     })
         .then(res => {
-            console.log(res.data)
+            // console.log(res.data)
         })
 }
 
@@ -119,7 +119,7 @@ const save = async () => {
         }
     })
         .then(res => {
-            console.log(res.data)
+            // console.log(res.data)
         })
 }
 onMounted(() => {

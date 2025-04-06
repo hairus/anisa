@@ -203,7 +203,7 @@
                                                     <a
                                                         href="#"
                                                         @click.prevent="change_sort('rombel')"
-                                                        >ROMBEL</a
+                                                        >Kelas</a
                                                     >
                                                     <span v-if="sort_direction == 'asc' && sort_field == 'rombel'"
                                                         >&uarr;</span

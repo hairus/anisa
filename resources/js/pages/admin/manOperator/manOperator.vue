@@ -99,7 +99,7 @@ const generateUser = () => {
         }
     })
         .then(res => {
-            console.log(res)
+
         })
 }
 

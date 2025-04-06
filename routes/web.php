@@ -38,7 +38,10 @@ Route::get('/op/{any}', [HomeController::class, 'index']);
 //Route::get('/tambah', [PosangController::class, 'tambah']);
 //Route::get('/posang', [PosangController::class, 'posang']);
 //Route::get('/listen', [PosangController::class, 'listen']);
-Route::get('/generatePassword', [PosangController::class, 'generatePassword']);
-Route::get('/api/siswa', [\App\Http\Controllers\SiswaController::class, 'index']);
+//Route::get('/generatePassword', [PosangController::class, 'generatePassword']);
 //Route::get('/final', [SekolahFinalController::class, 'index']);
 //Route::get('/residu', [\App\Http\Controllers\ResiduController::class, 'index']);
+//Route::get('final', [\App\Http\Controllers\OpController::class, 'final']);
+
+
+

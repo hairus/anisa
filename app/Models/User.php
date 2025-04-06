@@ -33,7 +33,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'password_asli'
     ];
 
     /**
@@ -49,6 +48,11 @@ class User extends Authenticatable
     public function role()
     {
         return $this->hasOne(role_user::class, 'user_id');
+    }
+
+    public function finalSIswa()
+    {
+        return $this->hasOne(final_siswa::class, 'user_id');
     }
 
     public function finalisasi()

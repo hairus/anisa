@@ -111,9 +111,17 @@
                 </RouterLink>
             </li>
             <li class="nav-item">
+                <RouterLink class="nav-link" to="/op/siswa">
+                    <span class="menu-title">
+                        Management Siswa
+                    </span>
+                    <i class="mdi mdi-contacts menu-icon"></i>
+                </RouterLink>
+            </li>
+            <li class="nav-item">
                 <RouterLink class="nav-link" to="/op/upload">
                     <span class="menu-title">
-                        Management Data
+                        Management Nilai
                     </span>
                     <i class="mdi mdi-contacts menu-icon"></i>
                 </RouterLink>

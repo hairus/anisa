@@ -37,10 +37,7 @@
                                     <button class="btn btn-gradient-success btn-rounded" @click="openAddModal">
                                         <i class="mdi mdi-plus"></i> Add
                                     </button>
-                                    <button class="mx-1 btn btn-gradient-danger btn-rounded" @click="finalSiswa">
-                                        <i class="mdi mdi-account-box-multiple"></i>
-                                        Finalisasi Siswa
-                                    </button>
+
                                 </div>
                             </div>
                             <vue3-datatable
@@ -292,7 +289,6 @@ const getUsers = async () => {
 const saveSiswa = () => {
     if (isEdit.value) {
         // Update existing siswa
-        console.log(formData.id)
         axios.put('/api/op/updateSiswasDapodik/' + formData.id, { form: formData }, {
             headers: {
                 Accept: 'application/json',
@@ -355,16 +351,5 @@ const filterUsers = () => {
     }, 300);
 };
 
-const finalSiswa = async () => {
-    await axios.post('/api/op/finalSiswa', {
-        user: user.value,
-    }, {
-        headers: {
-            Accept: 'application/json',
-            Authorization: 'Bearer ' + store.token,
-        },
-    }).then((res) => {
-        store.fs = res.data;
-    });
-};
+
 </script>

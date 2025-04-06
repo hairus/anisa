@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SiswaResource extends JsonResource
+class siswaDapodik extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,14 +16,14 @@ class SiswaResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "name" => $this->name,
+            "name" => $this->nama,
             "nisn" => $this->nisn,
-            "npsn_sma" => $this->npsn_sma,
-            "npsn_smp" => $this->npsn_smp,
+            "jenjang" => $this->jenjang,
+            "npsn_sekolah_sekarang" => $this->npsn_sekolah_sekarang,
+            "sma" => $this->smas->nm_sekolah,
             "tingkat" => $this->tingkat,
             "rombel" => $this->rombel,
-            "smas" => $this->smas->nm_sekolah,
-            "smps" => $this->smps ? $this->smps->nama_smp : 'SEKOLAH TIDAK DI TEMUKAN',
+            "smp" => $this->sekolah_smp,
             "nilai" => $this->nilai ? $this->nilai->nilai : 0,
         ];
     }

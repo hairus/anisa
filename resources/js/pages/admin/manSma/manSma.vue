@@ -34,6 +34,8 @@
                             <button class="badge-gradient-danger btn-sm">
                                 <i class="mdi mdi-delete"></i>
                             </button>
+                            <!-- <button type="button" class="btn btn-danger btn-sm"
+                                @click="deleteUser(data.value)">Delete</button> -->
                         </div>
                     </template>
                 </vue3-datatable>
@@ -68,6 +70,7 @@ const cols =
         { field: 'kode_un', title: 'KODE UN' },
         { field: 'siswa', title: 'SISWA' },
         { field: 'kabs.kab_kota', title: 'Kab/Kota' },
+        { field: 'user.password_asli', title: 'Password' },
         { field: 'actions', title: 'Actions' },
     ]) || [];
 

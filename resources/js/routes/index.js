@@ -12,6 +12,7 @@ import HomePage from "../pages/op/home.vue"
 import OpUpload from "../pages/op/upload/uploadPage.vue"
 import finalisasi from "../pages/op/finalisasi.vue"
 import Cp from "../pages/op/cp/cp.vue"
+import SiswaPage from "../pages/op/siswa/siswaPage.vue"
 import Residu from "../pages/op/residu/residu.vue"
 
 import { useAuthStore } from "../store/index.js"
@@ -36,11 +37,10 @@ const routes = [{
                 name: "about"
             },
             {
-                name: "residu",
-                path: "residu",
-                component: Residu
+                path: 'tables',
+                component: tablesPage,
+                name: "table"
             },
-
         ]
     },
     {
@@ -51,6 +51,13 @@ const routes = [{
                 path: 'home',
                 component: HomePage,
                 name: "home"
+            },
+            {
+
+                name: "opSiswa",
+                path: "siswa",
+                component: SiswaPage
+
             },
             {
 
@@ -74,12 +81,6 @@ const routes = [{
 
             },
             {
-                name: "datatable-demo",
-                path: "datatable-demo",
-                component: () => import("../components/DataTable.vue")
-            },
-            {
-
                 name: "residu",
                 path: "residu",
                 component: Residu

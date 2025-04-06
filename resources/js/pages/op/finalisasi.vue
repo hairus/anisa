@@ -35,18 +35,27 @@
                             <h5 class="ms-5 mt-4">Finalisasi Data Siswa dan nilai</h5>
                         </div>
                         <div class="card-body">
-                            <p>Saya adalah Kepala Sekolah, dengan ini meyatakan bahwa data yang saya masukkan adalah data
-                                yang benar. Apabila kemudian hari terdapat kesalahan maka sepenuhnya menjadi tanggung jawab
-                                saya
-                            </p>
-                            <div v-if="jumlah !== 0">
-                                    <button class="btn btn-danger" disabled>Maaf terdapat siswa nisn ganda {{jumlah}}</button>
-                            </div>
-                            <div v-else>
-                                <button class="btn btn-sm btn-primary" v-if="store.final === 1" disabled>Final</button>
+                            <div class="col">
+                                <p>Saya adalah Kepala Sekolah, dengan ini meyatakan bahwa data yang saya masukkan adalah data
+                                    yang benar. Apabila kemudian hari terdapat kesalahan maka sepenuhnya menjadi tanggung jawab
+                                    saya
+                                </p>
+                                <div v-if="jumlah !== 0">
+                                        <button class="btn btn-danger" disabled>Maaf terdapat siswa nisn ganda {{jumlah}}</button>
+                                </div>
                                 <div v-else>
-                                    <button class="btn btn-sm btn-primary" v-if="jum === 0" disabled>jumlah Siswa 0</button>
-                                    <button class="btn btn-sm btn-primary" v-else @click="finalisasi()">Finalisasi Data</button>
+
+                                    <button class="btn btn-sm btn-primary" v-if="store.final === 1" disabled>Final</button>
+                                    <div v-else>
+                                        <button class="btn btn-sm btn-primary" v-if="jum === 0" disabled>jumlah Siswa 0</button>
+                                        <button class="btn btn-sm btn-gradient-primary" v-else @click="finalisasi()">Finalisasi Data</button>
+                                        <button class="btn btn-sm btn-gradient-danger mx-lg-3" v-if="store.fs === 0" @click="finalSiswa()">
+                                            Finalisasi Siswa
+                                        </button>
+                                        <button class="btn btn-sm btn-gradient-success mx-lg-3" v-else disabled>
+                                            Finalisasi Siswa Selesai
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -109,6 +118,21 @@ const jumSIswa = async () => {
             jum.value = res.data.siswa
         })
 };
+
+const finalSiswa = async () => {
+    if(confirm("apakah anda yakin finalisasi siswa?")){
+        await axios.post('/api/op/finalSiswa',{}, {
+            headers: {
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + store.token,
+            },
+        }).then((res) => {
+            store.fs = res.data;
+        });
+    }
+
+};
+
 onMounted(() => {
     getSiswa()
     jumSIswa()
