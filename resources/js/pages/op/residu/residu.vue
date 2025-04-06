@@ -20,6 +20,9 @@
                 <div class="col-12 grid-margin">
                     <div class="card">
                         <div class="card-body">
+                            <div class="d-flex justify-content-center" v-if="loading">
+                                <div class="spinner-border text-danger" role="status"></div>
+                            </div>
                             <div class="card-title">
                                 RESIDU NISN GANDA
                             </div>
@@ -73,6 +76,7 @@ const store = useAuthStore();
 const isloading = ref(false)
 const siswas = ref([]);
 const jumlah = ref()
+const loading = ref(false)
 const getSiswa = () => {
     isloading.value = true
     axios.get('/api/op/residu',  {
@@ -87,13 +91,6 @@ const getSiswa = () => {
             isloading.value = false
         })
 }
-const toggleShow = () => {
-    show.value = !show.value
-}
-
-const toggleInput = () => {
-    inputType.value = (inputType.value === 'password') ? 'text' : 'password';
-};
 
 onMounted(() => {
     getSiswa()
