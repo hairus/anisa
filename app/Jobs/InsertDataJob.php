@@ -55,7 +55,6 @@ class InsertDataJob implements ShouldQueue
                 "npsn_sma" => $this->npsn,
             ]);
         }
-        AntrianSiswa::where('user_id', $this->user_id)->update(['selesai' => true]);
     }
     public function middleware()
     {
