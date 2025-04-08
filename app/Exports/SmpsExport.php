@@ -36,6 +36,6 @@ class SmpsExport implements WithHeadings, WithMapping, FromQuery
 
     public function query()
     {
-        return smps::where('kab_id', '<>', 99)->orderBy('kab_id', 'ASC')->orderBy('jenjang', 'DESC');
+        return smps::where('kab_id', '<>', 99);
     }
 }

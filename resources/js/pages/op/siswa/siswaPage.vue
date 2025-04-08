@@ -37,9 +37,8 @@
                                     <button class="btn btn-gradient-success btn-rounded" @click="openAddModal">
                                         <i class="mdi mdi-plus"></i> Add
                                     </button>
-                                    <button class="mx-1 btn btn-gradient-danger btn-rounded" @click="finalSiswa">
-                                        <i class="mdi mdi-account-box-multiple"></i>
-                                        Finalisasi Siswa
+                                    <button class="btn btn-gradient-primary btn-rounded" @click="downloadExcel">
+                                        <i class="mdi mdi-plus"></i> Download Master Siswa
                                     </button>
                                 </div>
                             </div>
@@ -252,10 +251,8 @@ const rows = ref(null);
 const cols = ref([
     { field: 'name', title: 'Nama' },
     { field: 'nisn', title: 'Nisn' },
-    { field: 'rombel', title: 'Kelas' },
+    { field: 'rombel', title: 'Rombel' },
     { field: 'tingkat', title: 'Tingkat' },
-    { field: 'sma', title: 'SMA' },
-    { field: 'npsn_sekolah_sekarang', title: 'NPSN' },
     { field: 'actions', title: store.fs === 0 ? 'Action' : '' },
 ]);
 
@@ -292,7 +289,6 @@ const getUsers = async () => {
 const saveSiswa = () => {
     if (isEdit.value) {
         // Update existing siswa
-        console.log(formData.id)
         axios.put('/api/op/updateSiswasDapodik/' + formData.id, { form: formData }, {
             headers: {
                 Accept: 'application/json',
@@ -323,6 +319,27 @@ const resetForm = () => {
     formData.tingkat = '';
 };
 
+const downloadExcel = async () => {
+    await axios
+        .get('/api/op/downloadExcel', {
+            responseType: 'blob',
+            headers: {
+                Authorization: 'Bearer ' + useAuthStore().token,
+            },
+        })
+        .then((response) => {
+            const url = URL.createObjectURL(
+                new Blob([response.data], {
+                    type: 'application/vnd.ms-excel',
+                })
+            );
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'master_siswa.xlsx');
+            document.body.appendChild(link);
+            link.click();
+        });
+}
 const deleteUser = (userdata) => {
     axios.delete('/api/op/delSiswaDapodik/' + userdata.id, {
         headers: {
@@ -355,16 +372,5 @@ const filterUsers = () => {
     }, 300);
 };
 
-const finalSiswa = async () => {
-    await axios.post('/api/op/finalSiswa', {
-        user: user.value,
-    }, {
-        headers: {
-            Accept: 'application/json',
-            Authorization: 'Bearer ' + store.token,
-        },
-    }).then((res) => {
-        store.fs = res.data;
-    });
-};
+
 </script>

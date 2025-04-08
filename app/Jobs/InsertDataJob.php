@@ -2,16 +2,14 @@
 
 namespace App\Jobs;
 
-use App\Models\AntrianSiswa;
+
 use App\Models\siswa;
 use App\Models\siswaDapodik;
-use App\Models\User; // Pastikan untuk mengimpor model yang sesuai
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Cache;
 
 class InsertDataJob implements ShouldQueue
 {

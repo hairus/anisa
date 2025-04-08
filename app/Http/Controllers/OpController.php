@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\masterSiswa;
+use App\Exports\siswaDapodikExport;
 use App\Http\Resources\siswaDapodik as ResourcesSiswaDapodik;
 use App\Http\Resources\SiswaResource;
 use App\Jobs\InsertDataJob;
 use App\Models\AntrianSiswa;
 use App\Models\final_siswa;
+use App\Models\nilai;
 use App\Models\sekolah_final;
 use App\Models\siswa;
 use App\Models\siswaDapodik;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class OpController extends Controller
@@ -61,11 +65,33 @@ class OpController extends Controller
             'tingkat'=> 12,
         ])->count();
 
+        $siswa_nilai =  siswa::select('npsn_sma', 'id')->with('nilai')->where([
+            'npsn_sma' => auth()->user()->username,
+        ])->count();
+
+        $nilai_x = siswa::select('npsn_sma', 'id')->with('nilai')->where([
+            'npsn_sma' => auth()->user()->username,
+            'tingkat' => 10
+        ])->count();
+        $nilai_xi = siswa::select('npsn_sma', 'id')->with('nilai')->where([
+            'npsn_sma' => auth()->user()->username,
+            'tingkat' => 11
+        ])->count();
+        $nilai_xii = siswa::select('npsn_sma', 'id')->with('nilai')->where([
+            'npsn_sma' => auth()->user()->username,
+            'tingkat' => 12
+        ])->count();
+
+
         return response()->json([
             "siswa" => $siswa,
             "kelas10" => $kelas_x,
             "kelas11" => $kelas_xi,
             "kelas12" => $kelas_xii,
+            'nilai10' => $nilai_x,
+            'nilai11' => $nilai_xi,
+            'nilai12' => $nilai_xii,
+            'siswa_nilai' => $siswa_nilai,
         ]);
 
 
@@ -153,5 +179,19 @@ class OpController extends Controller
             'rombel' => $request->form['rombel'],
             'nisn' => $request->form['nisn'],
         ]);
+    }
+
+    public function downloadExcel()
+    {
+        $user = auth()->user();
+
+        return Excel::download(new masterSiswa($user->username), 'master_data.xlsx');
+    }
+
+    public function cekNilai()
+    {
+        $siswa = nilai::where('npsn_sma', auth()->user()->username)->first();
+
+        return response()->json($siswa);
     }
 }

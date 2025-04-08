@@ -22,7 +22,7 @@ class smas extends Model
 
     public function dapodik()
     {
-        return $this->hasOne(dapodik::class, 'npsn', 'npsn');
+        return $this->hasMany(siswaDapodik::class, 'npsn_sekolah_sekarang', 'npsn');
     }
 
     public  function siswasNo()

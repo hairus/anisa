@@ -15,6 +15,10 @@ export default defineConfig({
         hmr:{
             host:'localhost'
         },
+    },
+    build: {
+        commonjsOptions: {
+            transformMixedEsModules: true
+        }
     }
 });
-

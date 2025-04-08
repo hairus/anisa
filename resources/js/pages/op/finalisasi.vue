@@ -17,8 +17,8 @@
                 </nav>
             </div>
             <div class="row">
-                <div class="col-md-8">
-                    <div class="card mt-10">
+                <div class="col-md-12">
+                    <div class="card mt-10 mb-10">
                         <div class="card-header">
                             <h3 class="m-3">{{ store.user.name }}</h3>
                         </div>
@@ -26,27 +26,50 @@
                 </div>
             </div>
             <div class="row d-flex">
-                <div class="col-md-8 justify-center items-center d-flex">
+                <div class="col-md-6 justify-center items-center d-flex">
                     <div class="card mt-10">
                         <div class="d-flex justify-content-center" v-if="loading">
                             <div class="spinner-border text-primary mt-4" role="status"></div>
                         </div>
                         <div class="card-title">
-                            <h5 class="ms-5 mt-4">Finalisasi Data Siswa dan nilai</h5>
+                            <h5 class="ms-5 mt-4">Finalisasi Data Siswa</h5>
                         </div>
                         <div class="card-body">
-                            <p>Saya adalah Kepala Sekolah, dengan ini meyatakan bahwa data yang saya masukkan adalah data
-                                yang benar. Apabila kemudian hari terdapat kesalahan maka sepenuhnya menjadi tanggung jawab
-                                saya
-                            </p>
-                            <div v-if="jumlah !== 0">
-                                    <button class="btn btn-danger" disabled>Maaf terdapat siswa nisn ganda {{jumlah}}</button>
+                            <div class="col">
+                                <p>Saya adalah Kepala Sekolah, dengan ini meyatakan bahwa data yang saya masukkan adalah data
+                                    yang benar. Apabila kemudian hari terdapat kesalahan maka sepenuhnya menjadi tanggung jawab
+                                    saya
+                                </p>
+                                    <button class="btn btn-sm btn-gradient-success" v-if="store.fs === 0" @click="finalSiswa()">Finalisasi Siswa</button>
+                                    <button class="btn btn-sm btn-gradient-success" v-else disabled>Finalisasi Siswa Selesai</button>
                             </div>
-                            <div v-else>
-                                <button class="btn btn-sm btn-primary" v-if="store.final === 1" disabled>Final</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 justify-center items-center d-flex" v-if="store.fs === 1">
+                    <div class="card mt-10">
+                        <div class="d-flex justify-content-center" v-if="loading">
+                            <div class="spinner-border text-primary mt-4" role="status"></div>
+                        </div>
+                        <div class="card-title">
+                            <h5 class="ms-5 mt-4">Finalisasi Nilai</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="col">
+                                <p>Saya adalah Kepala Sekolah, dengan ini meyatakan bahwa data yang saya masukkan adalah data
+                                    yang benar. Apabila kemudian hari terdapat kesalahan maka sepenuhnya menjadi tanggung jawab
+                                    saya
+                                </p>
+                                <div v-if="jumlah !== 0">
+                                    <button class="btn btn-danger" disabled>Maaf terdapat siswa nisn ganda {{jumlah}}</button>
+                                </div>
                                 <div v-else>
-                                    <button class="btn btn-sm btn-primary" v-if="jum === 0" disabled>jumlah Siswa 0</button>
-                                    <button class="btn btn-sm btn-primary" v-else @click="finalisasi()">Finalisasi Data</button>
+
+                                    <button class="btn btn-sm btn-primary" v-if="store.final === 1" disabled>Finalisasi Nilai Selesai</button>
+                                    <div v-else>
+                                        <button class="btn btn-sm btn-primary" v-if="jum === 0" disabled>jumlah Siswa 0</button>
+                                        <button class="btn btn-sm btn-gradient-primary" v-else @click="finalisasi()">Finalisasi Nilai</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -65,6 +88,7 @@ const store = useAuthStore();
 const siswas = ref([]);
 const jumlah = ref()
 const jum = ref()
+const nilai = ref(0)
 const loading = ref(false)
 
 const getSiswa = () => {
@@ -109,8 +133,35 @@ const jumSIswa = async () => {
             jum.value = res.data.siswa
         })
 };
+
+const finalSiswa = async () => {
+    if(confirm("apakah anda yakin finalisasi siswa?")){
+        await axios.post('/api/op/finalSiswa',{}, {
+            headers: {
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + store.token,
+            },
+        }).then((res) => {
+            store.fs = res.data;
+        });
+    }
+};
+
+const ceknilai = async () => {
+    await axios.get('/api/op/cekNilai', {
+        headers: {
+            Accept: 'application/json',
+            Authorization: 'Bearer ' + store.token,
+        }
+    })
+        .then(res => {
+            nilai.value = res.data
+        })
+}
+
 onMounted(() => {
     getSiswa()
     jumSIswa()
+    ceknilai()
 })
 </script>

@@ -85,6 +85,7 @@ class KabKotaController extends Controller
 
     public  function getData($id)
     {
+        ini_set('memory_limit', '256M');
         $kabs = smas::where('kab_id', $id)->withCount('siswas')->with('dapodik')->with('finals', 'kabs')->get();
 
         return $kabs;

@@ -28,6 +28,9 @@
                                 @click="viewUser(data.value)">
                                 <i class="mdi mdi-eye"></i>
                             </button>
+                            <button type="button" class="badge-gradient-primary btn-sm m-1" @click="unlockNilai(data.value)">
+                                <i class="mdi mdi-lock-clock"></i>
+                            </button>
                             <button type="button" class="badge-gradient-info btn-sm m-1" @click="unlock(data.value)">
                                 <i class="mdi mdi-lock"></i>
                             </button>
@@ -132,6 +135,20 @@ const unlock = (value) => {
     }
 }
 
+const unlockNilai = async (data) => {
+    if(confirm("apakah sekolah " +data.user.name + ' unlock Siswa?')){
+        await axios.get('/api/final/' + data.user.id, {
+            headers: {
+                "accept": "application/json",
+                "Authorization": "Bearer " + props.store.token
+            }
+        })
+            .then(res => {
+                alert('unlock berhasil')
+            })
+    }
+
+}
 const viewUser = (user) => {
     showModView(user)
 };

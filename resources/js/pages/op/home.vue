@@ -66,10 +66,10 @@
                                     <tr>
                                         <td>Finalisasi Siswa</td>
                                         <td class="text-success" v-if="store.fs === 1">Sudah</td>
-                                        <td class="text-danger" v-else>belum</td>
+                                        <td class="text-danger" v-else>Belum</td>
                                     </tr>
                                     <tr>
-                                        <td>Finalisasi Sekolah</td>
+                                        <td>Finalisasi Nilai</td>
                                         <td class="text-success" v-if="store.final == 1">Sudah</td>
                                         <td class="text-danger" v-else>Belum</td>
                                     </tr>
@@ -101,11 +101,18 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Data Siswa Dan Nilai</td>
+                                        <td>Data Siswa</td>
                                         <td>{{ kelas10 }}</td>
                                         <td>{{ kelas11 }}</td>
                                         <td>{{ kelas12 }}</td>
                                         <td>{{ siswas }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Data Nilai</td>
+                                        <td>{{ nilai10 }}</td>
+                                        <td>{{ nilai11 }}</td>
+                                        <td>{{ nilai12 }}</td>
+                                        <td>{{ siswa_nilai }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -130,6 +137,10 @@ const loading = ref(false)
 const kelas10 = ref()
 const kelas11 = ref()
 const kelas12 = ref()
+const nilai10 = ref()
+const nilai11 = ref()
+const nilai12 = ref()
+const siswa_nilai = ref()
 
 const getSIswa = async () => {
     loading.value = true
@@ -144,6 +155,10 @@ const getSIswa = async () => {
             kelas10.value = res.data.kelas10
             kelas11.value = res.data.kelas11
             kelas12.value = res.data.kelas12
+            nilai10.value = res.data.nilai10
+            nilai11.value = res.data.nilai11
+            nilai12.value = res.data.nilai12
+            siswa_nilai.value = res.data.siswa_nilai
             loading.value = false
         })
 };

@@ -136,7 +136,7 @@
                                                 class="form-control rounded-3 text-black"
                                                 v-model.lazy="search"
                                                 style="background-color: #ded2eb"
-                                                placeholder="Jony Batu"
+                                                placeholder=""
                                                 aria-label="Username" />
                                         </div>
                                     </div>
@@ -203,7 +203,7 @@
                                                     <a
                                                         href="#"
                                                         @click.prevent="change_sort('rombel')"
-                                                        >ROMBEL</a
+                                                        >Rombel</a
                                                     >
                                                     <span v-if="sort_direction == 'asc' && sort_field == 'rombel'"
                                                         >&uarr;</span
