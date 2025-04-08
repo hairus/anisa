@@ -59,4 +59,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(sekolah_final::class);
     }
+
+    public function antrian()
+    {
+        return $this->hasOne(AntrianSiswa::class, 'user_id');
+    }
 }

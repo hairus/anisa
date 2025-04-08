@@ -37,7 +37,9 @@
                                     <button class="btn btn-gradient-success btn-rounded" @click="openAddModal">
                                         <i class="mdi mdi-plus"></i> Add
                                     </button>
-
+                                    <button class="btn btn-gradient-primary btn-rounded" @click="downloadExcel">
+                                        <i class="mdi mdi-plus"></i> Download Master Siswa
+                                    </button>
                                 </div>
                             </div>
                             <vue3-datatable
@@ -249,10 +251,8 @@ const rows = ref(null);
 const cols = ref([
     { field: 'name', title: 'Nama' },
     { field: 'nisn', title: 'Nisn' },
-    { field: 'rombel', title: 'Kelas' },
+    { field: 'rombel', title: 'Rombel' },
     { field: 'tingkat', title: 'Tingkat' },
-    { field: 'sma', title: 'SMA' },
-    { field: 'npsn_sekolah_sekarang', title: 'NPSN' },
     { field: 'actions', title: store.fs === 0 ? 'Action' : '' },
 ]);
 
@@ -319,6 +319,27 @@ const resetForm = () => {
     formData.tingkat = '';
 };
 
+const downloadExcel = async () => {
+    await axios
+        .get('/api/op/downloadExcel', {
+            responseType: 'blob',
+            headers: {
+                Authorization: 'Bearer ' + useAuthStore().token,
+            },
+        })
+        .then((response) => {
+            const url = URL.createObjectURL(
+                new Blob([response.data], {
+                    type: 'application/vnd.ms-excel',
+                })
+            );
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'master_siswa.xlsx');
+            document.body.appendChild(link);
+            link.click();
+        });
+}
 const deleteUser = (userdata) => {
     axios.delete('/api/op/delSiswaDapodik/' + userdata.id, {
         headers: {

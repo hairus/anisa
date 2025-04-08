@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\sekolah_final;
+use App\Models\siswa;
 use App\Models\smas;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -40,9 +41,18 @@ class SekolahFinalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function show($id)
     {
-        return $request;
+        $user = User::find($id);
+        $siswas = siswa::where('user_id', $id)->delete();
+        $user->finalSiswa()->update([
+            "final" => false
+        ]);
+        $user->antrian()->update([
+            "selesai" => false
+        ]);
+
+        return response()->json('sukses update data', 200);
     }
 
     /**

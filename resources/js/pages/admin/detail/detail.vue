@@ -29,7 +29,7 @@
                     <tr v-for="sekolah in sekolahs" :key="sekolah.id">
                         <td>{{sekolah.kabs.kab_kota}}</td>
                         <td>{{sekolah.nm_sekolah}}</td>
-                        <td class="table-success" v-if="sekolah.dapodik">{{sekolah.dapodik.jum}}</td>
+                        <td class="table-success" v-if="sekolah.dapodik">{{sekolah.dapodik.length}}</td>
                         <td v-else>belum</td>
                         <td>{{sekolah.siswas_count}}</td>
                         <td>

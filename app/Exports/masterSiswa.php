@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class siswaDapodikExport implements WithHeadings, WithMapping, FromQuery
+class masterSiswa implements WithHeadings, WithMapping, FromQuery
 {
     use Exportable;
 
@@ -23,13 +23,11 @@ class siswaDapodikExport implements WithHeadings, WithMapping, FromQuery
     public function headings(): array
     {
         return[
-            'name',
+            'nama',
             'nisn',
-            'npsn_smp',
-            'nama_smp',
-            'tingkat',
             'rombel',
-            'nilai',
+            "tingkat",
+            'sekolah_smp'
         ];
     }
 
@@ -38,17 +36,15 @@ class siswaDapodikExport implements WithHeadings, WithMapping, FromQuery
         return[
             $student->nama,
             $student->nisn,
-            $student->npsn_smp ? $student->npsn_smp : '-',
-            $student->sekolah_smp,
-            $student->tingkat,
             $student->rombel,
-            $student->nilai ? $student->nilai->nilai : '0',
+            $student->tingkat,
+            $student->sekolah_smp ? $student->sekolah_smp : '-',
         ];
     }
 
     public function query()
     {
-        return siswa::where('npsn_sekolah_sekarang',$this->user_id)
+        return siswaDapodik::where('npsn_sekolah_sekarang',$this->user_id)
             ->orderBy('tingkat')
             ->orderBy('rombel')
             ->orderBy('nama');

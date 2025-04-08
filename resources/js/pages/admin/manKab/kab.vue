@@ -44,7 +44,7 @@
             </div>
             <Modal v-model:visible="isVisible" :title="'Sekolah'" :cancleButton="false">
                 <ul v-show="smas">
-                    <li v-for="sma in smas">{{sma.nm_sekolah}} - {{sma}}</li>
+                    <li v-for="sma in smas">{{sma.nm_sekolah}}</li>
                 </ul>
                 <ul v-show="kabFinal">
                     <li v-for="sekolah in kabFinal" :key="sekolah.id">{{sekolah.smas.nm_sekolah}}</li>
