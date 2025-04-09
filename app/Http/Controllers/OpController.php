@@ -23,6 +23,8 @@ class OpController extends Controller
 {
     public function getSiswa()
     {
+
+
         // $siswa = siswa::select('id')->where('npsn_sma', auth()->user()->username)->count();
 
         // $kelas_x = siswa::select('id', 'npsn_sma', 'tingkat')->where([
