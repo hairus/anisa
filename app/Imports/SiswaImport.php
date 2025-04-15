@@ -49,8 +49,8 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
             "tingkat" => ['required', 'numeric', 'min:10', 'max:12'],
             "nisn" => ['required', 'numeric', 'regex:/^\d{10}$/'],
             "rombel" => ['required'],
-            "npsn_smp" => ['required','regex:/^[1-9A-Z]\d{7}$/'],
-            "nilai" => ['required', 'numeric', 'min:0', 'max:100'],
+            "npsn_smp" => ['required','regex:/^([1-9A-Z]\d{7}|[1-9A-Z]LN\d{5})$/'],
+            "nilai" => ['required', 'numeric', 'min:1', 'max:100'],
         ];
     }
 
