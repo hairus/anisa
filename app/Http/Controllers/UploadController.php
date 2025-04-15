@@ -80,10 +80,10 @@ class UploadController extends Controller
 
 
         try {
-            $testimport = new insertJob($user_id, $user_npsn);
-            $testimport->import($path);
-//            $imports = new SiswaImport($user_id, $user_npsn);
-//            $imports->import($path);
+//            $testimport = new insertJob($user_id, $user_npsn);
+//            $testimport->import($path);
+            $imports = new SiswaImport($user_id, $user_npsn);
+            $imports->import($path);
             unlink($path);
             // Artisan::call('queue:work', ['--tries=1']);
             return response()->json('success', 200);

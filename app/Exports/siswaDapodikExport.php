@@ -48,7 +48,7 @@ class siswaDapodikExport implements WithHeadings, WithMapping, FromQuery
 
     public function query()
     {
-        return siswa::where('npsn_sekolah_sekarang',$this->user_id)
+        return siswaDapodik::where('npsn_sekolah_sekarang',$this->user_id)
             ->orderBy('tingkat')
             ->orderBy('rombel')
             ->orderBy('nama');

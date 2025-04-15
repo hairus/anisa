@@ -42,6 +42,7 @@ Route::get('/op/{any}', [HomeController::class, 'index']);
 //Route::get('/final', [SekolahFinalController::class, 'index']);
 //Route::get('/residu', [\App\Http\Controllers\ResiduController::class, 'index']);
 //Route::get('final', [\App\Http\Controllers\OpController::class, 'final']);
+Route::get('asdfasdfasdf', [HomeController::class, 'cobaJob']);
 
 
 

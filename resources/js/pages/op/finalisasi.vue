@@ -40,8 +40,14 @@
                                     yang benar. Apabila kemudian hari terdapat kesalahan maka sepenuhnya menjadi tanggung jawab
                                     saya
                                 </p>
+                                <div v-if="jumlah !== 0">
+                                    <button class="btn btn-danger" disabled>Maaf terdapat siswa nisn ganda {{jumlah}}</button>
+                                </div>
+                                <div v-else>
                                     <button class="btn btn-sm btn-gradient-success" v-if="store.fs === 0" @click="finalSiswa()">Finalisasi Siswa</button>
                                     <button class="btn btn-sm btn-gradient-success" v-else disabled>Finalisasi Siswa Selesai</button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -60,15 +66,21 @@
                                     yang benar. Apabila kemudian hari terdapat kesalahan maka sepenuhnya menjadi tanggung jawab
                                     saya
                                 </p>
-                                <div v-if="jumlah !== 0">
-                                    <button class="btn btn-danger" disabled>Maaf terdapat siswa nisn ganda {{jumlah}}</button>
+                                <div v-if="alladata.nilais === 0">
+                                    <button class="btn btn-danger" disabled>Maaf data nilai masih kosong</button>
+                                </div>
+                                <div v-else-if="alladata.nilai0 > 0">
+                                    <button class="btn btn-danger" disabled>Maaf terdapat siswa belum diberi nilai</button>
+                                </div>
+                                <div v-else-if="alladata.nilais !== alladata.siswasDapodik">
+                                    <button class="btn btn-danger" disabled>Maaf terdapat perbedaan jumlah data siswa dan data nilai</button>
                                 </div>
                                 <div v-else>
-
-                                    <button class="btn btn-sm btn-primary" v-if="store.final === 1" disabled>Finalisasi Nilai Selesai</button>
+                                    <div v-if="alladata.length > 0">
+                                        <button class="btn btn-sm btn-gradient-primary" @click="finalisasi()">Finalisasi Nilai</button>
+                                    </div>
                                     <div v-else>
-                                        <button class="btn btn-sm btn-primary" v-if="jum === 0" disabled>jumlah Siswa 0</button>
-                                        <button class="btn btn-sm btn-gradient-primary" v-else @click="finalisasi()">Finalisasi Nilai</button>
+                                        <button class="btn btn-sm btn-gradient-primary" disabled>Finalisasi Nilai</button>
                                     </div>
                                 </div>
                             </div>
@@ -90,6 +102,7 @@ const jumlah = ref()
 const jum = ref()
 const nilai = ref(0)
 const loading = ref(false)
+const alladata = ref([])
 
 const getSiswa = () => {
     loading.value = true
@@ -119,8 +132,19 @@ const finalisasi = () => {
                 store.final = res.data
             })
     }
-
 };
+
+const getData = async () => {
+    await axios.get('/api/op/residu/getdata',{
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + useAuthStore().token
+        }
+    })
+        .then(res => {
+            alladata.value = res.data
+        })
+}
 
 const jumSIswa = async () => {
     await axios.get('/api/op/getSiswa', {
@@ -163,5 +187,6 @@ onMounted(() => {
     getSiswa()
     jumSIswa()
     ceknilai()
+    getData()
 })
 </script>

@@ -84,7 +84,7 @@
                                         class="alert alert-success col-4"
                                         role="alert"
                                         v-else>
-                                        File excel dalam antrian...
+                                        File excel dalam antrian ke {{ antrian }} ...
                                     </div>
                                 </form>
                             </div>
@@ -290,7 +290,8 @@
 				sort_direction: 'asc',
 				sort_field: 'id',
 				final: useAuthStore().final,
-                fs : useAuthStore().fs
+                fs : useAuthStore().fs,
+                antrian: 0
 			};
 		},
 		watch: {
@@ -391,6 +392,7 @@
 							this.total = res.data.meta.total;
 							this.getBatch();
 							this.show = false;
+                            this.getAntrian();
 							setTimeout(() => {
 								this.show = true;
 							}, 5000);
@@ -451,6 +453,17 @@
 						link.click();
 					});
 			},
+            async getAntrian() {
+                axios
+                    .get('/api/op/getAntrian', {
+                        headers: {
+                            Authorization: 'Bearer ' + useAuthStore().token,
+                        },
+                    })
+                    .then(res => {
+                        this.antrian = res.data
+                    })
+            },
 			clear() {
 				this.$refs.fileupload.type = 'text';
 				this.$refs.fileupload.type = 'file';
@@ -465,6 +478,7 @@
 		mounted() {
 			this.getData();
 			this.getBatch();
+            this.getAntrian()
 		},
 	};
 </script>

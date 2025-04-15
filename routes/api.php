@@ -54,6 +54,7 @@ Route::group(['prefix' => 'op', 'middleware' => ['auth:sanctum', 'operator']], f
     Route::resource('siswa', SiswaController::class);
     Route::resource('final', SekolahFinalController::class);
     Route::resource('residu', \App\Http\Controllers\ResiduController::class);
+    Route::get('getAntrian', [OpController::class, 'getAntrian']);
     Route::get('getSiswa',[OpController::class, 'getSiswa']);
     Route::get('downloadExcel',[OpController::class, 'downloadExcel']);
     Route::get('getSiswas',[OpController::class, 'getsiswas']);

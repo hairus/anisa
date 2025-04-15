@@ -21,12 +21,12 @@ class EximController extends Controller
      */
     public function index()
     {
+
         $user = Auth::user();
         $cek = siswa::where('user_id', auth()->id())->count();
         // jika siswa di tabel siswa tidak ada maka di ambilkan dari siswadapodik
         if($cek == 0){
             $user_id = auth()->user()->username;
-
             return Excel::download(new siswaDapodikExport($user_id), 'siswa11.xlsx');
         }else{
             $user_id = auth()->id();

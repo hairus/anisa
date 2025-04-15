@@ -41,21 +41,15 @@
                                     <th>NISN</th>
                                     <th>ROMBEL</th>
                                     <th>TINGKAT</th>
-                                    <th>NPSN SMP</th>
-                                    <th>NAMA SMP</th>
-                                    <th>NILAI</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr v-for="(siswa, index) in siswas" :key="siswa.id">
                                         <td>{{ index + 1 }}</td>
-                                        <td>{{ siswa.name }}</td>
+                                        <td>{{ siswa.nama }}</td>
                                         <td>{{ siswa.nisn }}</td>
                                         <td>{{ siswa.rombel }}</td>
                                         <td>{{ siswa.tingkat }}</td>
-                                        <td>{{ siswa.npsn_smp }}</td>
-                                        <td>{{ siswa.nama_smp }}</td>
-                                        <td>{{ siswa.nilai }}</td>
                                     </tr>
                                     </tbody>
                                 </table>

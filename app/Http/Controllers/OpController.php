@@ -8,6 +8,7 @@ use App\Http\Resources\siswaDapodik as ResourcesSiswaDapodik;
 use App\Http\Resources\SiswaResource;
 use App\Jobs\InsertDataJob;
 use App\Models\AntrianSiswa;
+use App\Models\BatchUser;
 use App\Models\final_siswa;
 use App\Models\nilai;
 use App\Models\sekolah_final;
@@ -16,6 +17,7 @@ use App\Models\siswaDapodik;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -73,7 +75,7 @@ class OpController extends Controller
 
         $nilai_x = siswa::select('npsn_sma', 'id')->with('nilai')->where([
             'npsn_sma' => auth()->user()->username,
-            'tingkat' => 10
+            'tingkat' => 10,
         ])->count();
         $nilai_xi = siswa::select('npsn_sma', 'id')->with('nilai')->where([
             'npsn_sma' => auth()->user()->username,
@@ -115,6 +117,21 @@ class OpController extends Controller
 
         return ResourcesSiswaDapodik::collection($siswas);
 
+    }
+
+    public function getAntrian()
+    {
+        $baru = DB::select('SELECT
+            a.created_at
+        FROM
+            job_batches a
+            JOIN batch_users b ON a.id = b.batch_id
+            JOIN users c ON c.id = b.user_id
+            WHERE a.finished_at is NULL AND c.id ='. auth()->user()->id.' LIMIT 1');
+        $query = DB::select('SELECT * FROM job_batches where finished_at is null and created_at < '.$baru[0]->created_at);
+        $count = count($query);
+
+        return response()->json($count, 200);
     }
 
     public function saveSiswasDapodik(Request $request)
@@ -165,7 +182,7 @@ class OpController extends Controller
             ['selesai' => true]
         );
 
-        InsertDataJob::dispatch($user->id, $user->username);
+//        InsertDataJob::dispatch($user->id, $user->username);
 
         $finalSiswa = $user->finalSIswa->final;
         // Response sukses

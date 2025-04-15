@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BatchUser;
 use App\Models\sekolah_final;
 use App\Models\smas;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
 use function PHPSTORM_META\map;
 
 class HomeController extends Controller
@@ -37,5 +39,14 @@ class HomeController extends Controller
         auth()->logout();
 
         return "OK";
+    }
+
+    public function cobaJob()
+    {
+        $batch = BatchUser::where('user_id', 408)->orderby('created_at', 'DESC')->first();
+        $b = strtotime($batch->created_at);
+        $query = DB::select('SELECT * FROM job_batches where finished_at is null and created_at <= '.$b);
+        $count = count($query);
+        dd($count);
     }
 }
