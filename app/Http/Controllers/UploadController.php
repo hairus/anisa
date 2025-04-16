@@ -64,7 +64,7 @@ class UploadController extends Controller
 
         $user_npsn = auth()->user()->username;
 
-//        set_time_limit(0);
+//        set_time_limit(3000);
 
         $cek = siswa::where('user_id', $user_id)->first();
 
@@ -90,12 +90,15 @@ class UploadController extends Controller
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $failures = $e->failures();
             foreach ($failures as $failure) {
+                if($failure){
+                    siswa::where('user_id', auth()->user()->id)->delete();
+                }
                 $failure->row();
                 $failure->attribute();
                 $failure->errors();
                 $failure->values();
                 unlink($path);
-                siswa::where('user_id', auth()->user()->id)->delete();
+
                 return response()->json($failure, 402);
             }
         }

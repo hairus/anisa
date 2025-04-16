@@ -44,6 +44,10 @@ class PosangJob implements ShouldQueue
      */
     public function handle(): void
     {
+        if ($this->batch()->cancelled()) {
+            return;
+        }
+
         siswa::create([
             "name" => $this->name,
             "nisn" => $this->nisn,

@@ -127,7 +127,7 @@ class OpController extends Controller
             job_batches a
             JOIN batch_users b ON a.id = b.batch_id
             JOIN users c ON c.id = b.user_id
-            WHERE a.finished_at is NULL AND c.id ='. auth()->user()->id.' LIMIT 1');
+            WHERE a.cancelled_at is null AND a.finished_at is NULL AND c.id ='. auth()->user()->id.' LIMIT 1');
         $query = DB::select('SELECT * FROM job_batches where finished_at is null and created_at < '.$baru[0]->created_at);
         $count = count($query);
 

@@ -8,11 +8,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToCollection;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithChunkReading
+class SiswaImport implements WithHeadingRow, WithValidation, ToCollection
 {
     use Importable;
 
@@ -67,8 +66,4 @@ class SiswaImport implements WithHeadingRow, WithValidation, ToCollection, WithC
         ];
     }
 
-    public function chunkSize(): int
-    {
-        return 1000;
-    }
 }
