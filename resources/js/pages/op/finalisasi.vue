@@ -76,15 +76,15 @@
                                     <div v-else-if="alladata.nilai0 > 0">
                                         <button class="btn btn-danger" disabled>Maaf terdapat siswa belum diberi nilai</button>
                                     </div>
-                                    <!--                                <div v-else-if="alladata.nilais !== alladata.siswasDapodik">-->
-                                    <!--                                    <button class="btn btn-danger" disabled>Maaf terdapat perbedaan jumlah data siswa dan data nilai</button>-->
-                                    <!--                                </div>-->
+                                    <div v-else-if="alladata.nilais !== alladata.siswasDapodik">
+                                        <button class="btn btn-danger" disabled>Maaf terdapat perbedaan jumlah data siswa dan data nilai</button>
+                                    </div>
                                     <div v-else>
                                         <div v-if="alladata.nilais > 0">
                                             <button class="btn btn-sm btn-gradient-primary" @click="finalisasi()">Finalisasi Nilai</button>
                                         </div>
                                         <div v-else>
-                                            <button class="btn btn-sm btn-gradient-info" disabled>Finalisasi Nilai</button>
+                                            <div class="spinner-border text-primary mt-4" role="status"></div>
                                         </div>
                                     </div>
                                 </div>

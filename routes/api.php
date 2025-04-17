@@ -48,6 +48,7 @@ Route::get('kabs/final/{id}', [KabKotaController::class, 'final'])->middleware([
 Route::get('kabs/nofinal/{id}', [KabKotaController::class, 'nofinal'])->middleware(['auth:sanctum', 'admin']);
 Route::resource('users', UserController::class)->middleware(['auth:sanctum', 'admin']);
 Route::resource('final', SekolahFinalController::class)->middleware(['auth:sanctum', 'admin']);
+Route::get('allSiswa', [UserController::class, 'allSiswa'])->middleware(['auth:sanctum', 'admin']);
 
 Route::group(['prefix' => 'op', 'middleware' => ['auth:sanctum', 'operator']], function(){
     Route::resource('cp', UserController::class);

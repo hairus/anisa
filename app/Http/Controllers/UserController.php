@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\role_user;
+use App\Models\siswa;
+use App\Models\siswaDapodik;
 use App\Models\smas;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,6 +14,17 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public  function  allSiswa()
+    {
+        $siswadapodik = siswaDapodik::count();
+        $siswas = siswa::count();
+
+        return response()->json([
+            "siswadapodik" => $siswadapodik,
+            "siswas" => $siswas
+        ], 200);
+    }
     public function index()
     {
         if ($_GET['params'] && $_GET['search'] == "") {

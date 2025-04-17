@@ -52,6 +52,7 @@ class ResiduController extends Controller
                 FROM siswa_dapodiks a
                    INNER JOIN (SELECT nisn
                                FROM   siswa_dapodiks
+                               where npsn_sekolah_sekarang = '.$username.'
                                GROUP  BY nisn ,npsn_sekolah_sekarang
                                HAVING COUNT(nisn) > 1) b
                            ON a.nisn = b.nisn
@@ -63,6 +64,7 @@ class ResiduController extends Controller
             "count" => $count
         ]);
     }
+
 
     public function show()
     {

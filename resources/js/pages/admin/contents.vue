@@ -67,7 +67,8 @@
                                     class="mdi mdi-account-check mdi-24px float-right"></i>
                             </h4>
                             <h2 class="mb-5">{{ siswas }}</h2>
-                            <h6 class="card-text">Increased by 5%</h6>
+                            <h6 class="card-text">{{ (countSiswa / countDapo * 100).toFixed(2) }}%</h6>
+<!--                            {{ countDapo }} - {{ countSiswa }}-->
                         </div>
                     </div>
                 </div>
@@ -135,7 +136,14 @@ const smas = ref([]);
 const store = useAuthStore();
 const smps = ref('')
 const siswas = ref('')
+const countDapo = ref('');
+const countSiswa = ref('');
+const persennya = ref('');
 
+const persen = () => {
+    persennya.value = countDapo.value / countSiswa.value
+    return persennya;
+}
 const getKabs = () => {
     axios.get('/api/kabs', {
         headers: {
@@ -148,6 +156,19 @@ const getKabs = () => {
             smas.value = res.data.smas;
             smps.value = res.data.smps;
             siswas.value = res.data.siswas;
+        })
+}
+
+const getDatasSiswa  = async () => {
+    axios.get('/api/allSiswa',{
+        headers: {
+            "accept": "application/json",
+            "Authorization": "Bearer " + store.token
+        }
+    })
+        .then(res => {
+            countDapo.value = res.data.siswadapodik;
+            countSiswa.value = res.data.siswas;
         })
 }
 
@@ -209,6 +230,7 @@ const clearMessage = () => {
 onMounted(() => {
     getRoles()
     getKabs()
+    getDatasSiswa()
 })
 
 </script>
