@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card-body">
-            <button class="btn btn-sm btn-primary float-end" type="button" @click="ShowModal()">
+            <button class="btn btn-sm btn-primary float-end" type="button" @click="ShowModal">
                 <i class="mdi mdi-plus"></i>
             </button>
             <h4 class="card-title">Management SMP</h4>
@@ -18,14 +18,48 @@
                     </template>
                     <template #actions="data">
                         <div class="flex gap-4">
-                            <button type="button" class="badge-gradient-success btn-sm m-1" @click="viewUser(data.value)"><i class="mdi mdi-eye"></i></button>
-                            <button class="badge-gradient-danger btn-sm"><i class="mdi mdi-delete"></i></button>
-                            <!-- <button type="button" class="btn btn-danger btn-sm"
-                                @click="deleteUser(data.value)">Delete</button> -->
+                            <button class="badge-gradient-danger btn-sm" @click="delSmp(data)"><i class="mdi mdi-delete"></i></button>
                         </div>
                     </template>
                 </vue3-datatable>
             </div>
+<!--            modal -->
+            <Modal v-model:visible="visible" title="Add SMP" :okButton="{text: 'Save', onclick: saveSmp, loading: false}">
+                <div class="modal-body">
+                    <form action="">
+                        <div class="form-group">
+                            <label for="">NPSN SMP</label>
+                            <input type="text" v-model="form.npsn" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">NAMA SMP</label>
+                            <input type="text" class="form-control" v-model="form.smp">
+                        </div>
+                        <div class="form-group">
+                            <label for="">KODE UN</label>
+                            <input type="text" class="form-control" v-model="form.kodeUn">
+                        </div>
+                        <div class="form-group">
+                            <label for="">KAB KOTA</label>
+                            <select class="form-control" v-model="form.kab_id">
+                                <option v-for="kab in kabs" :key="kab.id" :value="kab.id">{{ kab.kab_kota }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Jenjang</label>
+                            <select class="form-control" v-model="form.jenjang">
+                                <option value="SMP">SMP</option>
+                                <option value="MTs">MTs</option>
+                                <option value="Ponpes">Ponpes</option>
+                                <option value="PKMB">PKMB</option>
+                                <option value="SMPTK">SMPTK</option>
+                                <option value="SLB">SLB</option>
+                                <option value="SMPLB">SMPLB</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </Modal>
         </div>
     </div>
 </template>
@@ -35,6 +69,7 @@ import { ref, onMounted, reactive } from 'vue'
 import axios from 'axios';
 import Vue3Datatable from '@bhplugin/vue3-datatable';
 import '@bhplugin/vue3-datatable/dist/style.css';
+import {Modal} from 'usemodal-vue3';
 
 const props = defineProps(['store'])
 const emits = defineEmits(['smps'])
@@ -47,7 +82,79 @@ const params = reactive({
     search: '',
     column_filters: [],
 });
+
 const rows = ref(null);
+
+const form = ref({
+    npsn:null,
+    smp:null,
+    kodeUn:null,
+    kab_id:null,
+    jenjang:null
+})
+
+
+
+let visible = ref(false);
+const ShowModal = () => {
+    visible.value = true
+}
+
+const kabs = ref([]);
+
+const saveSmp = async () => {
+    await axios.post('/api/smps', {
+        form:form.value
+    }, {
+        headers:{
+            "accept" : "application/json",
+            "Authorization": "Bearer " + props.store.token
+        }
+    })
+        .then(() => {
+            resetForm();
+            visible.value = false
+            getSmp()
+        })
+}
+
+const resetForm = () => {
+    form.value = {
+        npsn:null,
+        smp:null,
+        kodeUn:null,
+        kab_id:null,
+        jenjang:null
+    }
+}
+
+const delSmp = async (data) => {
+    if(confirm("apakah anda Yakin Menghapus SMP ?")){
+        await axios.delete('/api/smps/'+data.value.id, {
+            headers:{
+                "accept" : "application/json",
+                "Authorization": "Bearer " + props.store.token
+            }
+        })
+            .then(res => {
+                getSmp()
+            })
+    }
+
+}
+
+const getKabs = async () => {
+    await axios.get('/api/kabs', {
+        headers:{
+            "accept" : "application/json",
+            "Authorization": "Bearer " + props.store.token
+        }
+    })
+        .then(res => {
+            kabs.value = res.data.kabs1
+        })
+}
+
 
 const cols =
     ref([
@@ -113,6 +220,7 @@ const deleteUser = (user) => {
 onMounted(() => {
     getSmp()
     count()
+    getKabs()
 });
 </script>
 

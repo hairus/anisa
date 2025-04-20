@@ -43,15 +43,12 @@ class SmpsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($request, [
-            "kode_un" => "required|unique:smps,kode_un",
-            "npsn_smp" => "required|unique:smps,npsn_smp"
-        ]);
         $sim = smps::create([
-            "kode_un" => $request->kode_un,
-            "npsn_smp" => $request->npsn_smp,
-            "nama_smp" => $request->nama_smp,
-            "kab_id" => $request->kab_id,
+            "kode_un" => $request->form["kodeUn"],
+            "npsn_smp" => $request->form["npsn"],
+            "nama_smp" => $request->form["smp"],
+            "kab_id" => $request->form["kab_id"],
+            "jenjang" => $request->form["jenjang"]
 
         ]);
 

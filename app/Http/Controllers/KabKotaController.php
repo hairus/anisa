@@ -20,12 +20,14 @@ class KabKotaController extends Controller
         $smas = smas::select('id')->count();
         $smps = smps::select('id')->count();
         $siswas = siswa::select('id')->count();
+        $kabs1 = kab_kota::select('id', 'kab_kota')->get();
 
         return response()->json([
             'kabs' => $kabs,
             "smas" => $smas,
             "smps" => $smps,
             "siswas" => $siswas,
+            "kabs1" => $kabs1,
         ]);
     }
 
